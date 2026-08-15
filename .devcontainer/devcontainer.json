@@ -1,0 +1,38 @@
+{
+  "name": "Connect IQ Dev (${localWorkspaceFolderBasename})",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "args": {
+      "USERNAME": "${localEnv:USER}",
+      "USER_UID": "1000",
+      "USER_GID": "1000"
+    }
+  },
+  "runArgs": [
+    "--network=host",
+    // Derived from the workspace folder name so this same .devcontainer can be
+    // copied into any Connect IQ project without colliding on the container name.
+    "--name=connectiq-dev-${localWorkspaceFolderBasename}"
+  ],
+  "containerEnv": {
+    "DISPLAY": "${localEnv:DISPLAY}",
+    "CIQ_HOME": "/home/${localEnv:USER}/.Garmin/ConnectIQ"
+  },
+  "mounts": [
+    "source=/tmp/.X11-unix,target=/tmp/.X11-unix,type=bind",
+    "source=${localEnv:HOME}/.Garmin,target=/home/${localEnv:USER}/.Garmin,type=bind",
+    "source=${localEnv:HOME}/connectiq-sdk-manager,target=/home/${localEnv:USER}/connectiq-sdk-manager,type=bind"
+  ],
+  "remoteUser": "${localEnv:USER}",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "garmin.monkey-c"
+      ],
+      "settings": {
+        "monkeyC.developerKeyPath": "/home/${localEnv:USER}/.Garmin/ConnectIQ/developer_key"
+      }
+    }
+  },
+  "postStartCommand": "echo \"/home/${localEnv:USER}/connectiq-sdk-manager/bin/sdkmanager\" > \"/home/${localEnv:USER}/.Garmin/ConnectIQ/sdkmanager-location.cfg\" && SDK_BIN=\"$CIQ_HOME/Sdks/$(ls $CIQ_HOME/Sdks 2>/dev/null | grep connectiq-sdk | head -1)/bin\" && mkdir -p ~/.local/bin && find \"$SDK_BIN\" -maxdepth 1 -type f -executable -exec ln -sf {} ~/.local/bin/ \\; && echo \"Dev container ready. SDK tools linked from $SDK_BIN into ~/.local/bin. SDK Manager at /home/${localEnv:USER}/connectiq-sdk-manager/bin/sdkmanager\""
+}

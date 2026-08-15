@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<debugInfo>
+    <manifest filename="/workspaces/ViDataFace/manifest.xml"/>
+    <pcToLineNum>
+        <entry filename="/workspaces/ViDataFace/source/ViDataFaceApp.mc" id="1" lineNum="5" parent="globals/ViDataFaceApp" pc="268435460" symbol="&lt;init&gt;"/>
+        <entry filename="/workspaces/ViDataFace/source/ViDataFaceApp.mc" id="2" lineNum="31" parent="globals" pc="268435472" symbol="getApp"/>
+        <entry filename="/workspaces/ViDataFace/source/ViDataFaceApp.mc" id="2" lineNum="32" parent="globals" pc="268435482" symbol="getApp"/>
+        <entry filename="/workspaces/ViDataFace/source/ViDataFaceBackground.mc" id="3" lineNum="6" parent="globals/Background" pc="268435493" symbol="&lt;init&gt;"/>
+        <entry filename="/workspaces/ViDataFace/bin/gen/006-B4575-00/source/Rez.mcgen" id="4" lineNum="7" parent="globals/Rez" pc="268435505" symbol="&lt;init&gt;"/>
+        <entry filename="/workspaces/ViDataFace/source/ViDataFaceView.mc" id="5" lineNum="8" parent="globals/ViDataFaceView" pc="268435525" symbol="&lt;init&gt;"/>
+        <entry filename="/workspaces/ViDataFace/source/ViDataFaceApp.mc" id="6" lineNum="12" parent="globals/ViDataFaceApp" pc="268435537" symbol="onStart"/>
+        <entry filename="/workspaces/ViDataFace/source/ViDataFaceApp.mc" id="7" lineNum="25" parent="globals/ViDataFaceApp" pc="268435540" symbol="onSettingsChanged"/>
+        <entry filename="/workspaces/ViDataFace/source/ViDataFaceApp.mc" id="7" lineNum="26" parent="globals/ViDataFaceApp" pc="268435542" symbol="onSettingsChanged"/>
+        <entry filename="/workspaces/ViDataFace/source/ViDataFaceApp.mc" id="8" lineNum="20" parent="globals/ViDataFaceApp" pc="268435554" symbol="getInitialView"/>
+        <entry filename="/workspaces/ViDataFace/source/ViDataFaceApp.mc" id="8" lineNum="21" parent="globals/ViDataFaceApp" pc="268435556" symbol="getInitialView"/>
+        <entry filename="/workspaces/ViDataFace/source/ViDataFaceApp.mc" id="9" lineNum="7" parent="globals/ViDataFaceApp" pc="268435582" symbol="initialize"/>
+        <entry filename="/workspaces/ViDataFace/source/ViDataFaceApp.mc" id="9" lineNum="8" parent="globals/ViDataFaceApp" pc="268435584" symbol="initialize"/>
+        <entry filename="/workspaces/ViDataFace/source/ViDataFaceApp.mc" id="10" lineNum="16" parent="globals/ViDataFaceApp" pc="268435597" symbol="onStop"/>
+        <entry filename="/workspaces/ViDataFace/source/ViDataFaceBackground.mc" id="11" lineNum="8" parent="globals/Background" pc="268435600" symbol="initialize"/>
+        <entry filename="/workspaces/ViDataFace/source/ViDataFaceBackground.mc" id="11" lineNum="9" parent="globals/Background" pc="268435603" symbol="initialize"/>
+        <entry filename="/workspaces/ViDataFace/source/ViDataFaceBackground.mc" id="11" lineNum="13" parent="globals/Background" pc="268435621" symbol="initialize"/>
+        <entry filename="/workspaces/ViDataFace/source/ViDataFaceBackground.mc" id="12" lineNum="16" parent="globals/Background" pc="268435638" symbol="draw"/>
+        <entry filename="/workspaces/ViDataFace/source/ViDataFaceBackground.mc" id="12" lineNum="18" parent="globals/Background" pc="268435640" symbol="draw"/>
+        <entry filename="/workspaces/ViDataFace/source/ViDataFaceBackground.mc" id="12" lineNum="19" parent="globals/Background" pc="268435671" symbol="draw"/>
+        <entry filename="/workspaces/ViDataFace/source/ViDataFaceView.mc" id="14" lineNum="25" parent="globals/ViDataFaceView" pc="268435680" symbol="onShow"/>
+        <entry filename="/workspaces/ViDataFace/source/ViDataFaceView.mc" id="14" lineNum="26" parent="globals/ViDataFaceView" pc="268435682" symbol="onShow"/>
+        <entry filename="/workspaces/ViDataFace/source/ViDataFaceView.mc" id="14" lineNum="27" parent="globals/ViDataFaceView" pc="268435711" symbol="onShow"/>
+        <entry filename="/workspaces/ViDataFace/source/ViDataFaceView.mc" id="15" lineNum="18" parent="globals/ViDataFaceView" pc="268435743" symbol="onLayout"/>
+        <entry filename="/workspaces/ViDataFace/source/ViDataFaceView.mc" id="15" lineNum="19" parent="globals/ViDataFaceView" pc="268435745" symbol="onLayout"/>
+        <entry filename="/workspaces/ViDataFace/source/ViDataFaceView.mc" id="16" lineNum="30" parent="globals/ViDataFaceView" pc="268435779" symbol="&lt;globals/ViDataFaceView/&lt;&gt;onFontTimer&gt;"/>
+        <entry filename="/workspaces/ViDataFace/source/ViDataFaceView.mc" id="16" lineNum="31" parent="globals/ViDataFaceView" pc="268435781" symbol="&lt;globals/ViDataFaceView/&lt;&gt;onFontTimer&gt;"/>
+        <entry filename="/workspaces/ViDataFace/source/ViDataFaceView.mc" id="16" lineNum="32" parent="globals/ViDataFaceView" pc="268435808" symbol="&lt;globals/ViDataFaceView/&lt;&gt;onFontTimer&gt;"/>
+        <entry filename="/workspaces/ViDataFace/source/ViDataFaceView.mc" id="18" lineNum="46" parent="globals/ViDataFaceView" pc="268435820" symbol="&lt;globals/ViDataFaceView/&lt;&gt;drawFontSupportTest&gt;"/>
+        <entry filename="/workspaces/ViDataFace/source/ViDataFaceView.mc" id="18" lineNum="47" parent="globals/ViDataFaceView" pc="268435823" symbol="&lt;globals/ViDataFaceView/&lt;&gt;drawFontSupportTest&gt;"/>
+        <entry filename="/workspaces/ViDataFace/source/ViDataFaceView.mc" id="18" lineNum="48" parent="globals/ViDataFaceView" pc="268435840" symbol="&lt;globals/ViDataFaceView/&lt;&gt;drawFontSupportTest&gt;"/>
+        <entry filename="/workspaces/ViDataFace/source/ViDataFaceView.mc" id="18" lineNum="49" parent="globals/ViDataFaceView" pc="268435878" symbol="&lt;globals/ViDataFaceView/&lt;&gt;drawFontSupportTest&gt;"/>
+        <entry filename="/workspaces/ViDataFace/source/ViDataFaceView.mc" id="18" lineNum="50" parent="globals/ViDataFaceView" pc="268435884" symbol="&lt;globals/ViDataFaceView/&lt;&gt;drawFontSupportTest&gt;"/>
+        <entry filename="/workspaces/ViDataFace/source/ViDataFaceView.mc" id="18" lineNum="53" parent="globals/ViDataFaceView" pc="268435890" symbol="&lt;globals/ViDataFaceView/&lt;&gt;drawFontSupportTest&gt;"/>
+        <entry filename="/workspaces/ViDataFace/source/ViDataFaceView.mc" id="18" lineNum="54" parent="globals/ViDataFaceView" pc="268435903" symbol="&lt;globals/ViDataFaceView/&lt;&gt;drawFontSupportTest&gt;"/>
+        <entry filename="/workspaces/ViDataFace/source/ViDataFaceView.mc" id="18" lineNum="55" parent="globals/ViDataFaceView" pc="268435938" symbol="&lt;globals/ViDataFaceView/&lt;&gt;drawFontSupportTest&gt;"/>
+        <entry filename="/workspaces/ViDataFace/source/ViDataFaceView.mc" id="18" lineNum="57" parent="globals/ViDataFaceView" pc="268435959" symbol="&lt;globals/ViDataFaceView/&lt;&gt;drawFontSupportTest&gt;"/>
+        <entry filename="/workspaces/ViDataFace/source/ViDataFaceView.mc" id="18" lineNum="58" parent="globals/ViDataFaceView" pc="268435968" symbol="&lt;globals/ViDataFaceView/&lt;&gt;drawFontSupportTest&gt;"/>
+        <entry filename="/workspaces/ViDataFace/source/ViDataFaceView.mc" id="18" lineNum="60" parent="globals/ViDataFaceView" pc="268435977" symbol="&lt;globals/ViDataFaceView/&lt;&gt;drawFontSupportTest&gt;"/>
+        <entry filename="/workspaces/ViDataFace/source/ViDataFaceView.mc" id="18" lineNum="63" parent="globals/ViDataFaceView" pc="268436015" symbol="&lt;globals/ViDataFaceView/&lt;&gt;drawFontSupportTest&gt;"/>
+        <entry filename="/workspaces/ViDataFace/source/ViDataFaceView.mc" id="18" lineNum="64" parent="globals/ViDataFaceView" pc="268436030" symbol="&lt;globals/ViDataFaceView/&lt;&gt;drawFontSupportTest&gt;"/>
+        <entry filename="/workspaces/ViDataFace/source/ViDataFaceView.mc" id="19" lineNum="13" parent="globals/ViDataFaceView" pc="268436060" symbol="initialize"/>
+        <entry filename="/workspaces/ViDataFace/source/ViDataFaceView.mc" id="19" lineNum="14" parent="globals/ViDataFaceView" pc="268436062" symbol="initialize"/>
+        <entry filename="/workspaces/ViDataFace/source/ViDataFaceView.mc" id="20" lineNum="101" parent="globals/ViDataFaceView" pc="268436075" symbol="onHide"/>
+        <entry filename="/workspaces/ViDataFace/source/ViDataFaceView.mc" id="20" lineNum="102" parent="globals/ViDataFaceView" pc="268436077" symbol="onHide"/>
+        <entry filename="/workspaces/ViDataFace/source/ViDataFaceView.mc" id="20" lineNum="103" parent="globals/ViDataFaceView" pc="268436086" symbol="onHide"/>
+        <entry filename="/workspaces/ViDataFace/source/ViDataFaceView.mc" id="20" lineNum="104" parent="globals/ViDataFaceView" pc="268436098" symbol="onHide"/>
+        <entry filename="/workspaces/ViDataFace/source/ViDataFaceView.mc" id="21" lineNum="69" parent="globals/ViDataFaceView" pc="268436110" symbol="onUpdate"/>
+        <entry filename="/workspaces/ViDataFace/source/ViDataFaceView.mc" id="21" lineNum="71" parent="globals/ViDataFaceView" pc="268436113" symbol="onUpdate"/>
+        <entry filename="/workspaces/ViDataFace/source/ViDataFaceView.mc" id="21" lineNum="72" parent="globals/ViDataFaceView" pc="268436120" symbol="onUpdate"/>
+        <entry filename="/workspaces/ViDataFace/source/ViDataFaceView.mc" id="21" lineNum="73" parent="globals/ViDataFaceView" pc="268436132" symbol="onUpdate"/>
+        <entry filename="/workspaces/ViDataFace/source/ViDataFaceView.mc" id="21" lineNum="74" parent="globals/ViDataFaceView" pc="268436140" symbol="onUpdate"/>
+        <entry filename="/workspaces/ViDataFace/source/ViDataFaceView.mc" id="21" lineNum="75" parent="globals/ViDataFaceView" pc="268436159" symbol="onUpdate"/>
+        <entry filename="/workspaces/ViDataFace/source/ViDataFaceView.mc" id="21" lineNum="76" parent="globals/ViDataFaceView" pc="268436167" symbol="onUpdate"/>
+        <entry filename="/workspaces/ViDataFace/source/ViDataFaceView.mc" id="21" lineNum="79" parent="globals/ViDataFaceView" pc="268436180" symbol="onUpdate"/>
+        <entry filename="/workspaces/ViDataFace/source/ViDataFaceView.mc" id="21" lineNum="80" parent="globals/ViDataFaceView" pc="268436200" symbol="onUpdate"/>
+        <entry filename="/workspaces/ViDataFace/source/ViDataFaceView.mc" id="21" lineNum="81" parent="globals/ViDataFaceView" pc="268436207" symbol="onUpdate"/>
+        <entry filename="/workspaces/ViDataFace/source/ViDataFaceView.mc" id="21" lineNum="84" parent="globals/ViDataFaceView" pc="268436226" symbol="onUpdate"/>
+        <entry filename="/workspaces/ViDataFace/source/ViDataFaceView.mc" id="21" lineNum="87" parent="globals/ViDataFaceView" pc="268436273" symbol="onUpdate"/>
+        <entry filename="/workspaces/ViDataFace/source/ViDataFaceView.mc" id="21" lineNum="88" parent="globals/ViDataFaceView" pc="268436297" symbol="onUpdate"/>
+        <entry filename="/workspaces/ViDataFace/source/ViDataFaceView.mc" id="21" lineNum="89" parent="globals/ViDataFaceView" pc="268436324" symbol="onUpdate"/>
+        <entry filename="/workspaces/ViDataFace/source/ViDataFaceView.mc" id="21" lineNum="95" parent="globals/ViDataFaceView" pc="268436336" symbol="onUpdate"/>
+        <entry filename="/workspaces/ViDataFace/bin/gen/006-B4575-00/source/Rez.mcgen" id="22" lineNum="13" parent="globals/Rez/Layouts" pc="268436357" symbol="WatchFace"/>
+        <entry filename="/workspaces/ViDataFace/bin/gen/006-B4575-00/source/Rez.mcgen" id="22" lineNum="14" parent="globals/Rez/Layouts" pc="268436368" symbol="WatchFace"/>
+        <entry filename="/workspaces/ViDataFace/bin/gen/006-B4575-00/source/Rez.mcgen" id="22" lineNum="16" parent="globals/Rez/Layouts" pc="268436392" symbol="WatchFace"/>
+        <entry filename="/workspaces/ViDataFace/bin/gen/006-B4575-00/source/Rez.mcgen" id="22" lineNum="18" parent="globals/Rez/Layouts" pc="268436508" symbol="WatchFace"/>
+    </pcToLineNum>
+    <symbolTable>
+        <entry id="8388639" module="true" symbol="Graphics"/>
+        <entry id="8388632" method="true" symbol="&lt;init&gt;"/>
+        <entry id="8389683" method="true" symbol="onSettingsChanged"/>
+        <entry field="true" id="21" symbol="ColorRed"/>
+        <entry field="true" id="24" symbol="MilitaryFormatTitle"/>
+        <entry field="true" id="8388611" module="true" symbol="Toybox"/>
+        <entry field="true" id="18" symbol="ColorBlue"/>
+        <entry field="true" id="8388782" method="true" symbol="size"/>
+        <entry field="true" id="15" symbol="AppName"/>
+        <entry id="5" module="true" symbol="globals/Rez/Strings"/>
+        <entry id="13" method="true" symbol="&lt;globals/ViDataFaceView/&lt;&gt;onFontTimer&gt;"/>
+        <entry id="8388648" module="true" symbol="WatchUi"/>
+        <entry id="2" module="true" symbol="globals/Rez"/>
+        <entry id="8389124" method="true" symbol="onUpdate"/>
+        <entry id="8389375" method="true" object="true" symbol="WatchFace"/>
+        <entry field="true" id="8389065" symbol="locY"/>
+        <entry field="true" id="8389064" symbol="locX"/>
+        <entry id="8388771" module="true" object="true" symbol="Drawables"/>
+        <entry id="8389348" symbol="font"/>
+        <entry id="8389275" method="true" symbol="getApp"/>
+        <entry field="true" id="19" symbol="ColorDarkGray"/>
+        <entry id="4" module="true" symbol="globals/Rez/Layouts"/>
+        <entry id="9" symbol="&lt;globals/ViDataFaceView/&lt;&gt;ALL_FACE_NAMES&gt;"/>
+        <entry id="8389122" method="true" symbol="onLayout"/>
+        <entry id="8389376" method="true" symbol="onEnterSleep"/>
+        <entry field="true" id="8389063" symbol="identifier"/>
+        <entry id="8389349" symbol="justification"/>
+        <entry field="true" id="22" symbol="ColorWhite"/>
+        <entry field="true" id="17" symbol="ColorBlack"/>
+        <entry id="3" module="true" symbol="globals/Rez/Drawables"/>
+        <entry id="6" object="true" symbol="ViDataFaceApp"/>
+        <entry id="25" symbol="onFontTimer"/>
+        <entry id="8389377" method="true" symbol="onExitSleep"/>
+        <entry id="8388644" module="true" symbol="System"/>
+        <entry id="8388769" module="true" object="true" symbol="Rez"/>
+        <entry id="8392219" symbol="face"/>
+        <entry id="8388640" module="true" symbol="Lang"/>
+        <entry id="8389068" method="true" symbol="draw"/>
+        <entry field="true" id="14" symbol="LauncherIcon"/>
+        <entry id="8388610" symbol="statics"/>
+        <entry id="8389123" method="true" symbol="onShow"/>
+        <entry id="8389350" module="true" symbol="globals"/>
+        <entry field="true" id="16" symbol="BackgroundColorTitle"/>
+        <entry field="true" id="10" symbol="&lt;globals/ViDataFaceView/&lt;&gt;_fontIndex&gt;"/>
+        <entry id="8388770" module="true" object="true" symbol="Strings"/>
+        <entry id="8390146" module="true" object="true" symbol="Background"/>
+        <entry id="8388702" method="true" symbol="initialize"/>
+        <entry id="8389279" method="true" symbol="onStart"/>
+        <entry field="true" id="20" symbol="ColorLightGray"/>
+        <entry id="8389280" method="true" symbol="getInitialView"/>
+        <entry id="8389281" method="true" symbol="onStop"/>
+        <entry field="true" id="8389347" symbol="color"/>
+        <entry id="12" method="true" symbol="&lt;globals/ViDataFaceView/&lt;&gt;drawFontSupportTest&gt;"/>
+        <entry field="true" id="11" symbol="&lt;globals/ViDataFaceView/&lt;&gt;_fontTimer&gt;"/>
+        <entry id="7" object="true" symbol="ViDataFaceView"/>
+        <entry field="true" id="23" symbol="ForegroundColorTitle"/>
+        <entry id="8388646" module="true" object="true" symbol="Timer"/>
+        <entry id="8" module="true" symbol="Layouts"/>
+        <entry id="8389125" method="true" symbol="onHide"/>
+        <entry id="8388635" module="true" symbol="Application"/>
+    </symbolTable>
+    <localVars>
+        <entry endPc="268435636" name="dictionary" stackId="1" startPc="268435603"/>
+        <entry arg="true" endPc="268435679" name="dc" stackId="1" startPc="268435638"/>
+        <entry arg="true" endPc="268435778" name="dc" stackId="1" startPc="268435743"/>
+        <entry arg="true" endPc="268436059" name="dc" stackId="1" startPc="268435820"/>
+        <entry endPc="268436058" name="labelFont" stackId="2" startPc="268435823"/>
+        <entry endPc="268436058" name="name" stackId="3" startPc="268435823"/>
+        <entry endPc="268436058" name="vf" stackId="4" startPc="268435823"/>
+        <entry endPc="268436058" name="status" stackId="5" startPc="268435823"/>
+        <entry endPc="268436058" name="width" stackId="6" startPc="268435823"/>
+        <entry endPc="268436058" name="height" stackId="7" startPc="268435823"/>
+        <entry endPc="268436058" name="testFont" stackId="8" startPc="268435823"/>
+        <entry arg="true" endPc="268436356" name="dc" stackId="1" startPc="268436110"/>
+        <entry endPc="268436355" name="timeFormat" stackId="2" startPc="268436113"/>
+        <entry endPc="268436355" name="clockTime" stackId="3" startPc="268436113"/>
+        <entry endPc="268436355" name="hours" stackId="4" startPc="268436113"/>
+        <entry endPc="268436355" name="timeString" stackId="5" startPc="268436113"/>
+        <entry endPc="268436355" name="view" stackId="6" startPc="268436113"/>
+        <entry arg="true" endPc="268436522" name="dc" stackId="1" startPc="268436357"/>
+        <entry endPc="268436522" name="rez_cmp_local_custom_drawable_11939594661139614796" stackId="2" startPc="268436368"/>
+        <entry endPc="268436522" name="rez_cmp_local_text_TimeLabel" stackId="3" startPc="268436368"/>
+    </localVars>
+    <deviceInfo deviceVersion="6ba91403eda5c30a6644610fa0938a238f4167f3" partNumber="006-B4575-00"/>
+    <annotations>
+        <annotationEntry annotation="initialized" class="Strings" module="globals/Rez" symbol="MilitaryFormatTitle"/>
+        <annotationEntry annotation="initialized" class="Drawables" module="globals/Rez" symbol="LauncherIcon"/>
+        <annotationEntry annotation="initialized" class="Strings" module="globals/Rez" symbol="BackgroundColorTitle"/>
+        <annotationEntry annotation="initialized" class="Strings" module="globals/Rez" symbol="ColorRed"/>
+        <annotationEntry annotation="initialized" class="Strings" module="globals/Rez" symbol="ColorDarkGray"/>
+        <annotationEntry annotation="initialized" class="Strings" module="globals/Rez" symbol="ColorWhite"/>
+        <annotationEntry annotation="initialized" class="Strings" module="globals/Rez" symbol="ForegroundColorTitle"/>
+        <annotationEntry annotation="initialized" class="Strings" module="globals/Rez" symbol="ColorLightGray"/>
+        <annotationEntry annotation="initialized" class="Strings" module="globals/Rez" symbol="AppName"/>
+        <annotationEntry annotation="initialized" class="Strings" module="globals/Rez" symbol="ColorBlue"/>
+        <annotationEntry annotation="initialized" class="Strings" module="globals/Rez" symbol="ColorBlack"/>
+    </annotations>
+    <dataEntryOffsetMappings>
+        <dataEntry label="globals" offset="58" parentId="" symbolId="globals" type="module"/>
+        <dataEntry label="globals/ViDataFaceApp" offset="134" parentId="globals" symbolId="ViDataFaceApp" type="class"/>
+        <dataEntry label="globals/Background" offset="214" parentId="globals" symbolId="Background" type="class"/>
+        <dataEntry label="globals/Rez" offset="267" parentId="globals" symbolId="Rez" type="module"/>
+        <dataEntry label="globals/ViDataFaceView" offset="320" parentId="globals" symbolId="ViDataFaceView" type="class"/>
+        <dataEntry label="globals/Rez/Drawables" offset="463" parentId="Rez" symbolId="Drawables" type="module"/>
+        <dataEntry label="globals/Rez/Layouts" offset="498" parentId="Rez" symbolId="Layouts" type="module"/>
+        <dataEntry label="globals/Rez/Strings" offset="533" parentId="Rez" symbolId="Strings" type="module"/>
+    </dataEntryOffsetMappings>
+    <functions>
+        <functionEntry accessMode="public" endPc="268435471" name="&lt;init&gt;" parent="ViDataFaceApp" startPc="268435460">
+            <documentation/>
+        </functionEntry>
+        <functionEntry accessMode="public" endPc="268435492" name="getApp" startPc="268435472">
+            <documentation/>
+        </functionEntry>
+        <functionEntry accessMode="public" endPc="268435504" name="&lt;init&gt;" parent="Background" startPc="268435493">
+            <documentation/>
+        </functionEntry>
+        <functionEntry accessMode="public" endPc="268435524" name="&lt;init&gt;" parent="Rez" startPc="268435505">
+            <documentation/>
+        </functionEntry>
+        <functionEntry accessMode="public" endPc="268435536" name="&lt;init&gt;" parent="ViDataFaceView" startPc="268435525">
+            <documentation/>
+        </functionEntry>
+        <functionEntry accessMode="public" endPc="268435539" name="onStart" parent="ViDataFaceApp" startPc="268435537">
+            <param id="state"/>
+            <documentation/>
+        </functionEntry>
+        <functionEntry accessMode="public" endPc="268435553" name="onSettingsChanged" parent="ViDataFaceApp" startPc="268435540">
+            <documentation/>
+        </functionEntry>
+        <functionEntry accessMode="public" endPc="268435581" name="getInitialView" parent="ViDataFaceApp" startPc="268435554">
+            <documentation/>
+        </functionEntry>
+        <functionEntry accessMode="public" endPc="268435596" name="initialize" parent="ViDataFaceApp" startPc="268435582">
+            <documentation/>
+        </functionEntry>
+        <functionEntry accessMode="public" endPc="268435599" name="onStop" parent="ViDataFaceApp" startPc="268435597">
+            <param id="state"/>
+            <documentation/>
+        </functionEntry>
+        <functionEntry accessMode="public" endPc="268435637" name="initialize" parent="Background" startPc="268435600">
+            <documentation/>
+        </functionEntry>
+        <functionEntry accessMode="public" endPc="268435679" name="draw" parent="Background" startPc="268435638">
+            <param id="dc"/>
+            <documentation/>
+        </functionEntry>
+        <functionEntry accessMode="public" name="&lt;init&gt;" parent="Drawables">
+            <documentation/>
+        </functionEntry>
+        <functionEntry accessMode="public" name="&lt;init&gt;" parent="Layouts">
+            <documentation/>
+        </functionEntry>
+        <functionEntry accessMode="public" name="&lt;init&gt;" parent="Strings">
+            <documentation/>
+        </functionEntry>
+        <functionEntry accessMode="public" name="onExitSleep" parent="ViDataFaceView">
+            <documentation/>
+        </functionEntry>
+        <functionEntry accessMode="public" endPc="268435742" name="onShow" parent="ViDataFaceView" startPc="268435680">
+            <documentation/>
+        </functionEntry>
+        <functionEntry accessMode="public" endPc="268435778" name="onLayout" parent="ViDataFaceView" startPc="268435743">
+            <param id="dc"/>
+            <documentation/>
+        </functionEntry>
+        <functionEntry accessMode="private" endPc="268435819" name="&lt;globals/ViDataFaceView/&lt;&gt;onFontTimer&gt;" parent="ViDataFaceView" startPc="268435779">
+            <documentation/>
+        </functionEntry>
+        <functionEntry accessMode="public" name="onEnterSleep" parent="ViDataFaceView">
+            <documentation/>
+        </functionEntry>
+        <functionEntry accessMode="private" endPc="268436059" name="&lt;globals/ViDataFaceView/&lt;&gt;drawFontSupportTest&gt;" parent="ViDataFaceView" startPc="268435820">
+            <param id="dc"/>
+            <documentation/>
+        </functionEntry>
+        <functionEntry accessMode="public" endPc="268436074" name="initialize" parent="ViDataFaceView" startPc="268436060">
+            <documentation/>
+        </functionEntry>
+        <functionEntry accessMode="public" endPc="268436109" name="onHide" parent="ViDataFaceView" startPc="268436075">
+            <documentation/>
+        </functionEntry>
+        <functionEntry accessMode="public" endPc="268436356" name="onUpdate" parent="ViDataFaceView" startPc="268436110">
+            <param id="dc"/>
+            <documentation/>
+        </functionEntry>
+        <functionEntry accessMode="public" endPc="268436522" name="WatchFace" parent="Layouts" startPc="268436357">
+            <param id="dc"/>
+            <documentation/>
+        </functionEntry>
+    </functions>
+</debugInfo>

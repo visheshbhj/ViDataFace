@@ -1,0 +1,634 @@
+[ @file = "/workspaces/ViDataFace/source/ViDataFaceView.mc"; @line = 1; @symbol_importdef<0> = [Toybox,1,7,13]; @symbol_importdef<1> = [Application,1,14,25]; ]
+import Toybox.Application;
+[ @file = "/workspaces/ViDataFace/source/ViDataFaceView.mc"; @line = 2; @symbol_importdef<0> = [Toybox,2,7,13]; @symbol_importdef<1> = [Graphics,2,14,22]; ]
+import Toybox.Graphics;
+[ @file = "/workspaces/ViDataFace/source/ViDataFaceView.mc"; @line = 3; @symbol_importdef<0> = [Toybox,3,7,13]; @symbol_importdef<1> = [Lang,3,14,18]; ]
+import Toybox.Lang;
+[ @file = "/workspaces/ViDataFace/source/ViDataFaceView.mc"; @line = 4; @symbol_importdef<0> = [Toybox,4,7,13]; @symbol_importdef<1> = [System,4,14,20]; ]
+import Toybox.System;
+[ @file = "/workspaces/ViDataFace/source/ViDataFaceView.mc"; @line = 5; @symbol_importdef<0> = [Toybox,5,7,13]; @symbol_importdef<1> = [Timer,5,14,19]; ]
+import Toybox.Timer;
+[ @file = "/workspaces/ViDataFace/source/ViDataFaceView.mc"; @line = 6; @symbol_importdef<0> = [Toybox,6,7,13]; @symbol_importdef<1> = [WatchUi,6,14,21]; ]
+import Toybox.WatchUi;
+[ @file = "/workspaces/ViDataFace/source/ViDataFaceView.mc"; @line = 8; @symbol_classdef = [ViDataFaceView,8,6,20]; @symbol_extends<0> = [WatchUi,8,29,36]; @symbol_extends<1> = [WatchFace,8,37,46]; ]
+class ViDataFaceView extends WatchUi.WatchFace {
+    [ @file = "/workspaces/ViDataFace/source/ViDataFaceView.mc"; @line = 8; ]
+    <init> {
+[ "/workspaces/ViDataFace/source/ViDataFaceView.mc" 35 18 ]
+        %tmp.1 = newa 27;
+        %tmp.2 = "BionicBold";
+        %tmp.3 = dup %tmp.1;
+        %tmp.4 = aputv %tmp.3 0 %tmp.2;
+        %tmp.5 = "ExoSemiBold";
+        %tmp.6 = dup %tmp.4;
+        %tmp.7 = aputv %tmp.6 1 %tmp.5;
+        %tmp.8 = "KosugiRegular";
+        %tmp.9 = dup %tmp.7;
+        %tmp.10 = aputv %tmp.9 2 %tmp.8;
+        %tmp.11 = "NanumGothicBold";
+        %tmp.12 = dup %tmp.10;
+        %tmp.13 = aputv %tmp.12 3 %tmp.11;
+        %tmp.14 = "NanumGothicExtraBold";
+        %tmp.15 = dup %tmp.13;
+        %tmp.16 = aputv %tmp.15 4 %tmp.14;
+        %tmp.17 = "NanumGothicRegular";
+        %tmp.18 = dup %tmp.16;
+        %tmp.19 = aputv %tmp.18 5 %tmp.17;
+        %tmp.20 = "NotoNaskhArabicBold";
+        %tmp.21 = dup %tmp.19;
+        %tmp.22 = aputv %tmp.21 6 %tmp.20;
+        %tmp.23 = "NotoNaskhArabicRegular";
+        %tmp.24 = dup %tmp.22;
+        %tmp.25 = aputv %tmp.24 7 %tmp.23;
+        %tmp.26 = "NotoSansArmenianBold";
+        %tmp.27 = dup %tmp.25;
+        %tmp.28 = aputv %tmp.27 8 %tmp.26;
+        %tmp.29 = "NotoSansArmenianRegular";
+        %tmp.30 = dup %tmp.28;
+        %tmp.31 = aputv %tmp.30 9 %tmp.29;
+        %tmp.32 = "NotoSansHebrewBold";
+        %tmp.33 = dup %tmp.31;
+        %tmp.34 = aputv %tmp.33 10 %tmp.32;
+        %tmp.35 = "NotoSansHebrewRegular";
+        %tmp.36 = dup %tmp.34;
+        %tmp.37 = aputv %tmp.36 11 %tmp.35;
+        %tmp.38 = "NotoSansSCMedium";
+        %tmp.39 = dup %tmp.37;
+        %tmp.40 = aputv %tmp.39 12 %tmp.38;
+        %tmp.41 = "PridiRegular";
+        %tmp.42 = dup %tmp.40;
+        %tmp.43 = aputv %tmp.42 13 %tmp.41;
+        %tmp.44 = "PridiRegularGarmin";
+        %tmp.45 = dup %tmp.43;
+        %tmp.46 = aputv %tmp.45 14 %tmp.44;
+        %tmp.47 = "PridiSemiBoldGarmin";
+        %tmp.48 = dup %tmp.46;
+        %tmp.49 = aputv %tmp.48 15 %tmp.47;
+        %tmp.50 = "RobotoBlack";
+        %tmp.51 = dup %tmp.49;
+        %tmp.52 = aputv %tmp.51 16 %tmp.50;
+        %tmp.53 = "RobotoCondensedBold";
+        %tmp.54 = dup %tmp.52;
+        %tmp.55 = aputv %tmp.54 17 %tmp.53;
+        %tmp.56 = "RobotoCondensedRegular";
+        %tmp.57 = dup %tmp.55;
+        %tmp.58 = aputv %tmp.57 18 %tmp.56;
+        %tmp.59 = "RobotoCondensedRegularItalic";
+        %tmp.60 = dup %tmp.58;
+        %tmp.61 = aputv %tmp.60 19 %tmp.59;
+        %tmp.62 = "RobotoRegular";
+        %tmp.63 = dup %tmp.61;
+        %tmp.64 = aputv %tmp.63 20 %tmp.62;
+        %tmp.65 = "SakkalMajallaBold";
+        %tmp.66 = dup %tmp.64;
+        %tmp.67 = aputv %tmp.66 21 %tmp.65;
+        %tmp.68 = "SakkalMajallaRoman";
+        %tmp.69 = dup %tmp.67;
+        %tmp.70 = aputv %tmp.69 22 %tmp.68;
+        %tmp.71 = "Swiss721Bold";
+        %tmp.72 = dup %tmp.70;
+        %tmp.73 = aputv %tmp.72 23 %tmp.71;
+        %tmp.74 = "Swiss721Regular";
+        %tmp.75 = dup %tmp.73;
+        %tmp.76 = aputv %tmp.75 24 %tmp.74;
+        %tmp.77 = "TomorrowBold";
+        %tmp.78 = dup %tmp.76;
+        %tmp.79 = aputv %tmp.78 25 %tmp.77;
+        %tmp.80 = "YantramanavRegular";
+        %tmp.81 = dup %tmp.79;
+        %tmp.82 = aputv %tmp.81 26 %tmp.80;
+        putv self :ALL_FACE_NAMES %tmp.82;
+    }
+    [ @file = "/workspaces/ViDataFace/source/ViDataFaceView.mc"; @line = 8; ]
+    static
+    <init> {
+    }
+    [ @file = "/workspaces/ViDataFace/source/ViDataFaceView.mc"; @line = 10; @position = 16; @symbol_vardef = [_fontTimer,10,16,26]; @symbol_type<0> = [Timer,10,30,35]; @symbol_type<1> = [Timer,10,36,41]; ]
+    private
+    var _fontTimer as Timer.Timer or Null;
+    [ @file = "/workspaces/ViDataFace/source/ViDataFaceView.mc"; @line = 11; @position = 16; @symbol_vardef = [_fontIndex,11,16,26]; @symbol_type<0> = [Number,11,30,36]; ]
+    private
+    var _fontIndex as Number = 0;
+    [ @file = "/workspaces/ViDataFace/source/ViDataFaceView.mc"; @line = 13; @symbol_functiondef = [initialize,13,13,23]; ]
+    function initialize() as Void {
+_workspaces_ViDataFace_source_ViDataFaceView_mc_13_26_15_4_start:
+[ "/workspaces/ViDataFace/source/ViDataFaceView.mc" 14 8 ]
+        symbol [ WatchFace %tmp.2 14 8 17 ];
+        %tmp.2 = getv ? :WatchFace;
+        symbol [ initialize %tmp.3 14 18 28 ];
+        %tmp.3 = getv function %tmp.2 :initialize;
+        invoke %tmp.2 %tmp.3();
+_workspaces_ViDataFace_source_ViDataFaceView_mc_13_26_15_4_stop:
+    }
+    [ @file = "/workspaces/ViDataFace/source/ViDataFaceView.mc"; @line = 18; @symbol_functiondef = [onLayout,18,13,21]; @symbol_param<0> = [dc,18,22,24]; @symbol_param<0>_type<0> = [Dc,18,28,30]; ]
+    function onLayout(dc as Dc) as Void {
+_workspaces_ViDataFace_source_ViDataFaceView_mc_18_40_20_4_start:
+[ "/workspaces/ViDataFace/source/ViDataFaceView.mc" 19 8 ]
+        %tmp.1 = self;
+        symbol [ setLayout %tmp.2 19 8 17 ];
+        %tmp.2 = getv function %tmp.1 :setLayout;
+        symbol [ Rez %tmp.4 19 18 21 ];
+        %tmp.4 = getv ? :Rez;
+        symbol [ Layouts %tmp.5 19 22 29 ];
+        %tmp.5 = getv %tmp.4 :Layouts;
+        symbol [ WatchFace %tmp.6 19 30 39 ];
+        %tmp.6 = getv function %tmp.5 :WatchFace;
+        %tmp.7 = lgetv %dc;
+        symbol [ dc %tmp.7 19 40 42 ];
+        %tmp.8 = invoke %tmp.5 %tmp.6(%tmp.7);
+        invoke %tmp.1 %tmp.2(%tmp.8);
+_workspaces_ViDataFace_source_ViDataFaceView_mc_18_40_20_4_stop:
+    }
+    [ @file = "/workspaces/ViDataFace/source/ViDataFaceView.mc"; @line = 25; @symbol_functiondef = [onShow,25,13,19]; ]
+    function onShow() as Void {
+_workspaces_ViDataFace_source_ViDataFaceView_mc_25_30_28_4_start:
+[ "/workspaces/ViDataFace/source/ViDataFaceView.mc" 26 8 ]
+        symbol [ Timer %tmp.3 26 25 30 ];
+        %tmp.3 = getm $.Toybox.Timer;
+        symbol [ Timer %tmp.4 26 31 36 ];
+        %tmp.4 = getv function ? %tmp.3 :Timer;
+        %tmp.1 = newc %tmp.4 ();
+        symbol [ _fontTimer ? 26 8 18 ];
+        putv self :_fontTimer %tmp.1;
+[ "/workspaces/ViDataFace/source/ViDataFaceView.mc" 27 8 ]
+        symbol [ _fontTimer %tmp.6 27 8 18 ];
+        %tmp.6 = getv ? :_fontTimer;
+        symbol [ start %tmp.7 27 19 24 ];
+        %tmp.7 = getv function %tmp.6 :start;
+        %tmp.8 = self;
+        symbol [ method %tmp.9 27 25 31 ];
+        %tmp.9 = getv function %tmp.8 :method;
+        %tmp.11 = const :onFontTimer;
+        symbol [ onFontTimer %tmp.11 27 33 44 const ];
+        %tmp.12 = invoke %tmp.8 %tmp.9(%tmp.11);
+        %tmp.13 = 10000;
+        %tmp.14 = true;
+        invoke %tmp.6 %tmp.7(%tmp.12, %tmp.13, %tmp.14);
+_workspaces_ViDataFace_source_ViDataFaceView_mc_25_30_28_4_stop:
+    }
+    [ @file = "/workspaces/ViDataFace/source/ViDataFaceView.mc"; @line = 30; @symbol_functiondef = [onFontTimer,30,21,32]; ]
+    private
+    function onFontTimer() as Void {
+_workspaces_ViDataFace_source_ViDataFaceView_mc_30_43_33_4_start:
+[ "/workspaces/ViDataFace/source/ViDataFaceView.mc" 31 8 ]
+        symbol [ _fontIndex %tmp.2 31 22 32 ];
+        %tmp.2 = getv ? :_fontIndex;
+        %tmp.3 = 1;
+        %tmp.4 = add %tmp.2 %tmp.3;
+        symbol [ ALL_FACE_NAMES %tmp.6 31 40 54 ];
+        %tmp.6 = getv ? :ALL_FACE_NAMES;
+        symbol [ size %tmp.7 31 55 59 ];
+        %tmp.7 = getv function %tmp.6 :size;
+        %tmp.8 = invoke %tmp.6 %tmp.7();
+        %tmp.9 = mod %tmp.4 %tmp.8;
+        symbol [ _fontIndex ? 31 8 18 ];
+        putv self :_fontIndex %tmp.9;
+[ "/workspaces/ViDataFace/source/ViDataFaceView.mc" 32 8 ]
+        symbol [ WatchUi %tmp.10 32 8 15 ];
+        %tmp.10 = getm $.Toybox.WatchUi;
+        symbol [ requestUpdate %tmp.11 32 16 29 ];
+        %tmp.11 = getv function %tmp.10 :requestUpdate;
+        invoke %tmp.10 %tmp.11();
+_workspaces_ViDataFace_source_ViDataFaceView_mc_30_43_33_4_stop:
+    }
+    [ @file = "/workspaces/ViDataFace/source/ViDataFaceView.mc"; @line = 35; @position = 18; @symbol_constdef = [ALL_FACE_NAMES,35,18,32]; @symbol_type<0> = [Array,35,36,41]; @symbol_type<1> = [String,35,42,48]; ]
+    private
+    const ALL_FACE_NAMES as Array<String>;
+    [ @file = "/workspaces/ViDataFace/source/ViDataFaceView.mc"; @line = 44; @position = 18; @symbol_constdef = [FONT_TEST_TEXT,44,18,32]; @symbol_type<0> = [String,44,36,42]; ]
+    private
+    const FONT_TEST_TEXT as String = "▲▼▴▾ ⦵ ♥ 🜂 ⭍☼ ☀︽ ︾";
+    [ @file = "/workspaces/ViDataFace/source/ViDataFaceView.mc"; @line = 46; @symbol_functiondef = [drawFontSupportTest,46,21,40]; @symbol_param<0> = [dc,46,41,43]; @symbol_param<0>_type<0> = [Dc,46,47,49]; ]
+    private
+    function drawFontSupportTest(dc as Dc) as Void {
+_workspaces_ViDataFace_source_ViDataFaceView_mc_46_59_66_4_start:
+[ "/workspaces/ViDataFace/source/ViDataFaceView.mc" 47 8 ]
+        %tmp.1 = lgetv %dc;
+        symbol [ dc %tmp.1 47 8 10 ];
+        symbol [ setColor %tmp.2 47 11 19 ];
+        %tmp.2 = getv function %tmp.1 :setColor;
+        symbol [ Graphics %tmp.3 47 20 28 ];
+        %tmp.3 = getm $.Toybox.Graphics;
+        symbol [ COLOR_WHITE %tmp.4 47 29 40 ];
+        %tmp.4 = getv %tmp.3 :COLOR_WHITE;
+        symbol [ Graphics %tmp.5 47 42 50 ];
+        %tmp.5 = getm $.Toybox.Graphics;
+        symbol [ COLOR_TRANSPARENT %tmp.6 47 51 68 ];
+        %tmp.6 = getv %tmp.5 :COLOR_TRANSPARENT;
+        invoke %tmp.1 %tmp.2(%tmp.4, %tmp.6);
+[ "/workspaces/ViDataFace/source/ViDataFaceView.mc" 48 8 ]
+        [ "_workspaces_ViDataFace_source_ViDataFaceView_mc_46_59_66_4_start" "_workspaces_ViDataFace_source_ViDataFaceView_mc_46_59_66_4_stop" ]
+        %labelFont.1 = local;
+        symbol [ labelFont %labelFont.1 48 12 21 ];
+        symbol [ Graphics %tmp.7 48 24 32 ];
+        %tmp.7 = getm $.Toybox.Graphics;
+        symbol [ getVectorFont %tmp.8 48 33 46 ];
+        %tmp.8 = getv function %tmp.7 :getVectorFont;
+        %tmp.9 = newd 2;
+        %tmp.11 = const :face;
+        symbol [ face %tmp.11 48 49 53 const ];
+        %tmp.12 = "RobotoCondensedRegular";
+        %tmp.13 = dup %tmp.9;
+        %tmp.14 = aputv %tmp.13 %tmp.11 %tmp.12;
+        %tmp.16 = const :size;
+        symbol [ size %tmp.16 48 84 88 const ];
+        %tmp.17 = 10;
+        %tmp.18 = dup %tmp.14;
+        %tmp.19 = aputv %tmp.18 %tmp.16 %tmp.17;
+        %tmp.20 = invoke %tmp.7 %tmp.8(%tmp.19);
+        lputv %labelFont.1 %tmp.20;
+        symbol [ labelFont %labelFont.1 48 12 21 ];
+[ "/workspaces/ViDataFace/source/ViDataFaceView.mc" 49 8 ]
+_workspaces_ViDataFace_source_ViDataFaceView_mc_49_8_51_8_if_stmt:
+        %tmp.21 = lgetv %labelFont.1;
+        symbol [ labelFont %tmp.21 49 12 21 ];
+        %tmp.22 = null;
+        %tmp.23 = eq %tmp.21 %tmp.22;
+        bf %tmp.23 @_workspaces_ViDataFace_source_ViDataFaceView_mc_49_8_51_8_if_end;
+_workspaces_ViDataFace_source_ViDataFaceView_mc_49_8_51_8_if_true:
+_workspaces_ViDataFace_source_ViDataFaceView_mc_49_31_51_8_start:
+[ "/workspaces/ViDataFace/source/ViDataFaceView.mc" 50 12 ]
+        symbol [ Graphics %tmp.24 50 24 32 ];
+        %tmp.24 = getm $.Toybox.Graphics;
+        symbol [ FONT_XTINY %tmp.25 50 33 43 ];
+        %tmp.25 = getv %tmp.24 :FONT_XTINY;
+        lputv %labelFont.1 %tmp.25;
+        symbol [ labelFont %labelFont.1 50 12 21 ];
+_workspaces_ViDataFace_source_ViDataFaceView_mc_49_31_51_8_stop:
+        goto @_workspaces_ViDataFace_source_ViDataFaceView_mc_49_8_51_8_if_end;
+_workspaces_ViDataFace_source_ViDataFaceView_mc_49_8_51_8_if_end:
+[ "/workspaces/ViDataFace/source/ViDataFaceView.mc" 53 8 ]
+        [ "_workspaces_ViDataFace_source_ViDataFaceView_mc_46_59_66_4_start" "_workspaces_ViDataFace_source_ViDataFaceView_mc_46_59_66_4_stop" ]
+        %name.2 = local;
+        symbol [ name %name.2 53 12 16 ];
+        symbol [ ALL_FACE_NAMES %tmp.27 53 19 33 ];
+        %tmp.27 = getv ? :ALL_FACE_NAMES;
+        symbol [ _fontIndex %tmp.29 53 34 44 ];
+        %tmp.29 = getv ? :_fontIndex;
+        %tmp.30 = agetv %tmp.27 %tmp.29;
+        lputv %name.2 %tmp.30;
+        symbol [ name %name.2 53 12 16 ];
+[ "/workspaces/ViDataFace/source/ViDataFaceView.mc" 54 8 ]
+        [ "_workspaces_ViDataFace_source_ViDataFaceView_mc_46_59_66_4_start" "_workspaces_ViDataFace_source_ViDataFaceView_mc_46_59_66_4_stop" ]
+        %vf.3 = local;
+        symbol [ vf %vf.3 54 12 14 ];
+        symbol [ Graphics %tmp.31 54 17 25 ];
+        %tmp.31 = getm $.Toybox.Graphics;
+        symbol [ getVectorFont %tmp.32 54 26 39 ];
+        %tmp.32 = getv function %tmp.31 :getVectorFont;
+        %tmp.33 = newd 2;
+        %tmp.35 = const :face;
+        symbol [ face %tmp.35 54 42 46 const ];
+        %tmp.36 = lgetv %name.2;
+        symbol [ name %tmp.36 54 50 54 ];
+        %tmp.37 = dup %tmp.33;
+        %tmp.38 = aputv %tmp.37 %tmp.35 %tmp.36;
+        %tmp.40 = const :size;
+        symbol [ size %tmp.40 54 57 61 const ];
+        %tmp.41 = 32;
+        %tmp.42 = dup %tmp.38;
+        %tmp.43 = aputv %tmp.42 %tmp.40 %tmp.41;
+        %tmp.44 = invoke %tmp.31 %tmp.32(%tmp.43);
+        lputv %vf.3 %tmp.44;
+        symbol [ vf %vf.3 54 12 14 ];
+[ "/workspaces/ViDataFace/source/ViDataFaceView.mc" 55 8 ]
+        [ "_workspaces_ViDataFace_source_ViDataFaceView_mc_46_59_66_4_start" "_workspaces_ViDataFace_source_ViDataFaceView_mc_46_59_66_4_stop" ]
+        %status.4 = local;
+        symbol [ status %status.4 55 12 18 ];
+_workspaces_ViDataFace_source_ViDataFaceView_mc_55_21_55_43_begin:
+        %tmp.45 = lgetv %vf.3;
+        symbol [ vf %tmp.45 55 22 24 ];
+        %tmp.46 = null;
+        %tmp.47 = ne %tmp.45 %tmp.46;
+        bf %tmp.47 @_workspaces_ViDataFace_source_ViDataFaceView_mc_55_21_55_43_else_false;
+_workspaces_ViDataFace_source_ViDataFaceView_mc_55_21_55_43_true:
+        %tmp.48 = "OK";
+        push %tmp.48;
+        goto @_workspaces_ViDataFace_source_ViDataFaceView_mc_55_21_55_43_end;
+_workspaces_ViDataFace_source_ViDataFaceView_mc_55_21_55_43_else_false:
+        %tmp.49 = "--";
+        push %tmp.49;
+_workspaces_ViDataFace_source_ViDataFaceView_mc_55_21_55_43_end:
+        %tmp.50 = phi [%tmp.47 @_workspaces_ViDataFace_source_ViDataFaceView_mc_55_21_55_43_begin] [%tmp.48 @_workspaces_ViDataFace_source_ViDataFaceView_mc_55_21_55_43_true] [%tmp.49 @_workspaces_ViDataFace_source_ViDataFaceView_mc_55_21_55_43_else_false] [%tmp.50 @_workspaces_ViDataFace_source_ViDataFaceView_mc_55_21_55_43_end];
+        lputv %status.4 %tmp.50;
+        symbol [ status %status.4 55 12 18 ];
+[ "/workspaces/ViDataFace/source/ViDataFaceView.mc" 57 8 ]
+        [ "_workspaces_ViDataFace_source_ViDataFaceView_mc_46_59_66_4_start" "_workspaces_ViDataFace_source_ViDataFaceView_mc_46_59_66_4_stop" ]
+        %width.5 = local;
+        symbol [ width %width.5 57 12 17 ];
+        %tmp.51 = lgetv %dc;
+        symbol [ dc %tmp.51 57 20 22 ];
+        symbol [ getWidth %tmp.52 57 23 31 ];
+        %tmp.52 = getv function %tmp.51 :getWidth;
+        %tmp.53 = invoke %tmp.51 %tmp.52();
+        lputv %width.5 %tmp.53;
+        symbol [ width %width.5 57 12 17 ];
+[ "/workspaces/ViDataFace/source/ViDataFaceView.mc" 58 8 ]
+        [ "_workspaces_ViDataFace_source_ViDataFaceView_mc_46_59_66_4_start" "_workspaces_ViDataFace_source_ViDataFaceView_mc_46_59_66_4_stop" ]
+        %height.6 = local;
+        symbol [ height %height.6 58 12 18 ];
+        %tmp.54 = lgetv %dc;
+        symbol [ dc %tmp.54 58 21 23 ];
+        symbol [ getHeight %tmp.55 58 24 33 ];
+        %tmp.55 = getv function %tmp.54 :getHeight;
+        %tmp.56 = invoke %tmp.54 %tmp.55();
+        lputv %height.6 %tmp.56;
+        symbol [ height %height.6 58 12 18 ];
+[ "/workspaces/ViDataFace/source/ViDataFaceView.mc" 60 8 ]
+        %tmp.57 = lgetv %dc;
+        symbol [ dc %tmp.57 60 8 10 ];
+        symbol [ drawText %tmp.58 60 11 19 ];
+        %tmp.58 = getv function %tmp.57 :drawText;
+        %tmp.59 = lgetv %width.5;
+        symbol [ width %tmp.59 60 20 25 ];
+        %tmp.60 = 2;
+        %tmp.61 = div %tmp.59 %tmp.60;
+        %tmp.62 = lgetv %height.6;
+        symbol [ height %tmp.62 60 31 37 ];
+        %tmp.63 = 2;
+        %tmp.64 = div %tmp.62 %tmp.63;
+        %tmp.65 = 40;
+        %tmp.66 = sub %tmp.64 %tmp.65;
+        %tmp.67 = lgetv %labelFont.1;
+        symbol [ labelFont %tmp.67 60 48 57 ];
+        %tmp.68 = lgetv %name.2;
+        symbol [ name %tmp.68 60 59 63 ];
+        %tmp.69 = " ";
+        %tmp.70 = add %tmp.68 %tmp.69;
+        %tmp.71 = lgetv %status.4;
+        symbol [ status %tmp.71 60 72 78 ];
+        %tmp.72 = add %tmp.70 %tmp.71;
+        symbol [ Graphics %tmp.73 61 12 20 ];
+        %tmp.73 = getm $.Toybox.Graphics;
+        symbol [ TEXT_JUSTIFY_CENTER %tmp.74 61 21 40 ];
+        %tmp.74 = getv %tmp.73 :TEXT_JUSTIFY_CENTER;
+        symbol [ Graphics %tmp.75 61 43 51 ];
+        %tmp.75 = getm $.Toybox.Graphics;
+        symbol [ TEXT_JUSTIFY_VCENTER %tmp.76 61 52 72 ];
+        %tmp.76 = getv %tmp.75 :TEXT_JUSTIFY_VCENTER;
+        %tmp.77 = bitor %tmp.74 %tmp.76;
+        invoke %tmp.57 %tmp.58(%tmp.61, %tmp.66, %tmp.67, %tmp.72, %tmp.77);
+[ "/workspaces/ViDataFace/source/ViDataFaceView.mc" 63 8 ]
+        [ "_workspaces_ViDataFace_source_ViDataFaceView_mc_46_59_66_4_start" "_workspaces_ViDataFace_source_ViDataFaceView_mc_46_59_66_4_stop" ]
+        %testFont.7 = local;
+        symbol [ testFont %testFont.7 63 12 20 ];
+_workspaces_ViDataFace_source_ViDataFaceView_mc_63_23_63_43_begin:
+        %tmp.78 = lgetv %vf.3;
+        symbol [ vf %tmp.78 63 24 26 ];
+        %tmp.79 = null;
+        %tmp.80 = ne %tmp.78 %tmp.79;
+        bf %tmp.80 @_workspaces_ViDataFace_source_ViDataFaceView_mc_63_23_63_43_else_false;
+_workspaces_ViDataFace_source_ViDataFaceView_mc_63_23_63_43_true:
+        %tmp.81 = lgetv %vf.3;
+        symbol [ vf %tmp.81 63 38 40 ];
+        %tmp.82 = as %tmp.81 { (!Null) };
+        push %tmp.82;
+        goto @_workspaces_ViDataFace_source_ViDataFaceView_mc_63_23_63_43_end;
+_workspaces_ViDataFace_source_ViDataFaceView_mc_63_23_63_43_else_false:
+        %tmp.83 = lgetv %labelFont.1;
+        symbol [ labelFont %tmp.83 63 43 52 ];
+        push %tmp.83;
+_workspaces_ViDataFace_source_ViDataFaceView_mc_63_23_63_43_end:
+        %tmp.84 = phi [%tmp.80 @_workspaces_ViDataFace_source_ViDataFaceView_mc_63_23_63_43_begin] [%tmp.82 @_workspaces_ViDataFace_source_ViDataFaceView_mc_63_23_63_43_true] [%tmp.83 @_workspaces_ViDataFace_source_ViDataFaceView_mc_63_23_63_43_else_false] [%tmp.84 @_workspaces_ViDataFace_source_ViDataFaceView_mc_63_23_63_43_end];
+        lputv %testFont.7 %tmp.84;
+        symbol [ testFont %testFont.7 63 12 20 ];
+[ "/workspaces/ViDataFace/source/ViDataFaceView.mc" 64 8 ]
+        %tmp.85 = lgetv %dc;
+        symbol [ dc %tmp.85 64 8 10 ];
+        symbol [ drawText %tmp.86 64 11 19 ];
+        %tmp.86 = getv function %tmp.85 :drawText;
+        %tmp.87 = lgetv %width.5;
+        symbol [ width %tmp.87 64 20 25 ];
+        %tmp.88 = 2;
+        %tmp.89 = div %tmp.87 %tmp.88;
+        %tmp.90 = lgetv %height.6;
+        symbol [ height %tmp.90 64 31 37 ];
+        %tmp.91 = 2;
+        %tmp.92 = div %tmp.90 %tmp.91;
+        %tmp.93 = lgetv %testFont.7;
+        symbol [ testFont %tmp.93 64 43 51 ];
+        symbol [ FONT_TEST_TEXT %tmp.95 64 53 67 ];
+        %tmp.95 = getv ? :FONT_TEST_TEXT;
+        symbol [ Graphics %tmp.96 65 12 20 ];
+        %tmp.96 = getm $.Toybox.Graphics;
+        symbol [ TEXT_JUSTIFY_CENTER %tmp.97 65 21 40 ];
+        %tmp.97 = getv %tmp.96 :TEXT_JUSTIFY_CENTER;
+        symbol [ Graphics %tmp.98 65 43 51 ];
+        %tmp.98 = getm $.Toybox.Graphics;
+        symbol [ TEXT_JUSTIFY_VCENTER %tmp.99 65 52 72 ];
+        %tmp.99 = getv %tmp.98 :TEXT_JUSTIFY_VCENTER;
+        %tmp.100 = bitor %tmp.97 %tmp.99;
+        invoke %tmp.85 %tmp.86(%tmp.89, %tmp.92, %tmp.93, %tmp.95, %tmp.100);
+_workspaces_ViDataFace_source_ViDataFaceView_mc_46_59_66_4_stop:
+    }
+    [ @file = "/workspaces/ViDataFace/source/ViDataFaceView.mc"; @line = 69; @symbol_functiondef = [onUpdate,69,13,21]; @symbol_param<0> = [dc,69,22,24]; @symbol_param<0>_type<0> = [Dc,69,28,30]; ]
+    function onUpdate(dc as Dc) as Void {
+_workspaces_ViDataFace_source_ViDataFaceView_mc_69_40_96_4_start:
+[ "/workspaces/ViDataFace/source/ViDataFaceView.mc" 71 8 ]
+        [ "_workspaces_ViDataFace_source_ViDataFaceView_mc_69_40_96_4_start" "_workspaces_ViDataFace_source_ViDataFaceView_mc_69_40_96_4_stop" ]
+        %timeFormat.1 = local;
+        symbol [ timeFormat %timeFormat.1 71 12 22 ];
+        %tmp.1 = "$1$:$2$";
+        lputv %timeFormat.1 %tmp.1;
+        symbol [ timeFormat %timeFormat.1 71 12 22 ];
+[ "/workspaces/ViDataFace/source/ViDataFaceView.mc" 72 8 ]
+        [ "_workspaces_ViDataFace_source_ViDataFaceView_mc_69_40_96_4_start" "_workspaces_ViDataFace_source_ViDataFaceView_mc_69_40_96_4_stop" ]
+        %clockTime.2 = local;
+        symbol [ clockTime %clockTime.2 72 12 21 ];
+        symbol [ System %tmp.2 72 24 30 ];
+        %tmp.2 = getm $.Toybox.System;
+        symbol [ getClockTime %tmp.3 72 31 43 ];
+        %tmp.3 = getv function %tmp.2 :getClockTime;
+        %tmp.4 = invoke %tmp.2 %tmp.3();
+        lputv %clockTime.2 %tmp.4;
+        symbol [ clockTime %clockTime.2 72 12 21 ];
+[ "/workspaces/ViDataFace/source/ViDataFaceView.mc" 73 8 ]
+        [ "_workspaces_ViDataFace_source_ViDataFaceView_mc_69_40_96_4_start" "_workspaces_ViDataFace_source_ViDataFaceView_mc_69_40_96_4_stop" ]
+        %hours.3 = local;
+        symbol [ hours %hours.3 73 12 17 ];
+        %tmp.5 = lgetv %clockTime.2;
+        symbol [ clockTime %tmp.5 73 20 29 ];
+        symbol [ hour %tmp.6 73 30 34 ];
+        %tmp.6 = getv %tmp.5 :hour;
+        lputv %hours.3 %tmp.6;
+        symbol [ hours %hours.3 73 12 17 ];
+[ "/workspaces/ViDataFace/source/ViDataFaceView.mc" 74 8 ]
+_workspaces_ViDataFace_source_ViDataFaceView_mc_74_8_83_8_if_stmt:
+        symbol [ System %tmp.7 74 13 19 ];
+        %tmp.7 = getm $.Toybox.System;
+        symbol [ getDeviceSettings %tmp.8 74 20 37 ];
+        %tmp.8 = getv function %tmp.7 :getDeviceSettings;
+        %tmp.9 = invoke %tmp.7 %tmp.8();
+        symbol [ is24Hour %tmp.10 74 40 48 ];
+        %tmp.10 = getv %tmp.9 :is24Hour;
+        %tmp.11 = not %tmp.10;
+        bf %tmp.11 @_workspaces_ViDataFace_source_ViDataFaceView_mc_74_8_83_8_if_else_false;
+_workspaces_ViDataFace_source_ViDataFaceView_mc_74_8_83_8_if_true:
+_workspaces_ViDataFace_source_ViDataFaceView_mc_74_50_78_8_start:
+[ "/workspaces/ViDataFace/source/ViDataFaceView.mc" 75 12 ]
+_workspaces_ViDataFace_source_ViDataFaceView_mc_75_12_77_12_if_stmt:
+        %tmp.12 = lgetv %hours.3;
+        symbol [ hours %tmp.12 75 16 21 ];
+        %tmp.13 = 12;
+        %tmp.14 = gt %tmp.12 %tmp.13;
+        bf %tmp.14 @_workspaces_ViDataFace_source_ViDataFaceView_mc_75_12_77_12_if_end;
+_workspaces_ViDataFace_source_ViDataFaceView_mc_75_12_77_12_if_true:
+_workspaces_ViDataFace_source_ViDataFaceView_mc_75_28_77_12_start:
+[ "/workspaces/ViDataFace/source/ViDataFaceView.mc" 76 16 ]
+        %tmp.15 = lgetv %hours.3;
+        symbol [ hours %tmp.15 76 24 29 ];
+        %tmp.16 = 12;
+        %tmp.17 = sub %tmp.15 %tmp.16;
+        lputv %hours.3 %tmp.17;
+        symbol [ hours %hours.3 76 16 21 ];
+_workspaces_ViDataFace_source_ViDataFaceView_mc_75_28_77_12_stop:
+        goto @_workspaces_ViDataFace_source_ViDataFaceView_mc_75_12_77_12_if_end;
+_workspaces_ViDataFace_source_ViDataFaceView_mc_75_12_77_12_if_end:
+_workspaces_ViDataFace_source_ViDataFaceView_mc_74_50_78_8_stop:
+        goto @_workspaces_ViDataFace_source_ViDataFaceView_mc_74_8_83_8_if_end;
+_workspaces_ViDataFace_source_ViDataFaceView_mc_74_8_83_8_if_else_false:
+_workspaces_ViDataFace_source_ViDataFaceView_mc_78_15_83_8_start:
+[ "/workspaces/ViDataFace/source/ViDataFaceView.mc" 79 12 ]
+_workspaces_ViDataFace_source_ViDataFaceView_mc_79_12_82_12_if_stmt:
+        symbol [ Application %tmp.18 79 16 27 ];
+        %tmp.18 = getm $.Toybox.Application;
+        symbol [ Properties %tmp.19 79 28 38 ];
+        %tmp.19 = getv %tmp.18 :Properties;
+        symbol [ getValue %tmp.20 79 39 47 ];
+        %tmp.20 = getv function %tmp.19 :getValue;
+        %tmp.21 = "UseMilitaryFormat";
+        %tmp.22 = invoke %tmp.19 %tmp.20(%tmp.21);
+        bf %tmp.22 @_workspaces_ViDataFace_source_ViDataFaceView_mc_79_12_82_12_if_end;
+_workspaces_ViDataFace_source_ViDataFaceView_mc_79_12_82_12_if_true:
+_workspaces_ViDataFace_source_ViDataFaceView_mc_79_70_82_12_start:
+[ "/workspaces/ViDataFace/source/ViDataFaceView.mc" 80 16 ]
+        %tmp.23 = "$1$$2$";
+        lputv %timeFormat.1 %tmp.23;
+        symbol [ timeFormat %timeFormat.1 80 16 26 ];
+[ "/workspaces/ViDataFace/source/ViDataFaceView.mc" 81 16 ]
+        %tmp.24 = lgetv %hours.3;
+        symbol [ hours %tmp.24 81 24 29 ];
+        symbol [ format %tmp.25 81 30 36 ];
+        %tmp.25 = getv function %tmp.24 :format;
+        %tmp.26 = "%02d";
+        %tmp.27 = invoke %tmp.24 %tmp.25(%tmp.26);
+        lputv %hours.3 %tmp.27;
+        symbol [ hours %hours.3 81 16 21 ];
+_workspaces_ViDataFace_source_ViDataFaceView_mc_79_70_82_12_stop:
+        goto @_workspaces_ViDataFace_source_ViDataFaceView_mc_79_12_82_12_if_end;
+_workspaces_ViDataFace_source_ViDataFaceView_mc_79_12_82_12_if_end:
+_workspaces_ViDataFace_source_ViDataFaceView_mc_78_15_83_8_stop:
+_workspaces_ViDataFace_source_ViDataFaceView_mc_74_8_83_8_if_end:
+[ "/workspaces/ViDataFace/source/ViDataFaceView.mc" 84 8 ]
+        [ "_workspaces_ViDataFace_source_ViDataFaceView_mc_69_40_96_4_start" "_workspaces_ViDataFace_source_ViDataFaceView_mc_69_40_96_4_stop" ]
+        %timeString.4 = local;
+        symbol [ timeString %timeString.4 84 12 22 ];
+        symbol [ Lang %tmp.28 84 25 29 ];
+        %tmp.28 = getm $.Toybox.Lang;
+        symbol [ format %tmp.29 84 30 36 ];
+        %tmp.29 = getv function %tmp.28 :format;
+        %tmp.30 = lgetv %timeFormat.1;
+        symbol [ timeFormat %tmp.30 84 37 47 ];
+        %tmp.31 = newa 2;
+        %tmp.32 = lgetv %hours.3;
+        symbol [ hours %tmp.32 84 50 55 ];
+        %tmp.33 = dup %tmp.31;
+        %tmp.34 = aputv %tmp.33 0 %tmp.32;
+        %tmp.35 = lgetv %clockTime.2;
+        symbol [ clockTime %tmp.35 84 57 66 ];
+        symbol [ min %tmp.36 84 67 70 ];
+        %tmp.36 = getv %tmp.35 :min;
+        symbol [ format %tmp.37 84 71 77 ];
+        %tmp.37 = getv function %tmp.36 :format;
+        %tmp.38 = "%02d";
+        %tmp.39 = invoke %tmp.36 %tmp.37(%tmp.38);
+        %tmp.40 = dup %tmp.34;
+        %tmp.41 = aputv %tmp.40 1 %tmp.39;
+        %tmp.42 = invoke %tmp.28 %tmp.29(%tmp.30, %tmp.41);
+        lputv %timeString.4 %tmp.42;
+        symbol [ timeString %timeString.4 84 12 22 ];
+[ "/workspaces/ViDataFace/source/ViDataFaceView.mc" 87 8 ]
+        [ "_workspaces_ViDataFace_source_ViDataFaceView_mc_69_40_96_4_start" "_workspaces_ViDataFace_source_ViDataFaceView_mc_69_40_96_4_stop" ]
+        %view.5 = local;
+        symbol [ view %view.5 87 12 16 ];
+        symbol [ View %tmp.44 87 19 23 ];
+        %tmp.44 = getv ? :View;
+        symbol [ findDrawableById %tmp.45 87 24 40 ];
+        %tmp.45 = getv function %tmp.44 :findDrawableById;
+        %tmp.46 = "TimeLabel";
+        %tmp.47 = invoke %tmp.44 %tmp.45(%tmp.46);
+        %tmp.48 = as %tmp.47 Text;
+        symbol [ Text %tmp.48 87 57 61 ];
+        lputv %view.5 %tmp.48;
+        symbol [ view %view.5 87 12 16 ];
+[ "/workspaces/ViDataFace/source/ViDataFaceView.mc" 88 8 ]
+        %tmp.49 = lgetv %view.5;
+        symbol [ view %tmp.49 88 8 12 ];
+        symbol [ setColor %tmp.50 88 13 21 ];
+        %tmp.50 = getv function %tmp.49 :setColor;
+        symbol [ Application %tmp.51 88 22 33 ];
+        %tmp.51 = getm $.Toybox.Application;
+        symbol [ Properties %tmp.52 88 34 44 ];
+        %tmp.52 = getv %tmp.51 :Properties;
+        symbol [ getValue %tmp.53 88 45 53 ];
+        %tmp.53 = getv function %tmp.52 :getValue;
+        %tmp.54 = "ForegroundColor";
+        %tmp.55 = invoke %tmp.52 %tmp.53(%tmp.54);
+        %tmp.56 = as %tmp.55 Number;
+        symbol [ Number %tmp.56 88 76 82 ];
+        invoke %tmp.49 %tmp.50(%tmp.56);
+[ "/workspaces/ViDataFace/source/ViDataFaceView.mc" 89 8 ]
+        %tmp.57 = lgetv %view.5;
+        symbol [ view %tmp.57 89 8 12 ];
+        symbol [ setText %tmp.58 89 13 20 ];
+        %tmp.58 = getv function %tmp.57 :setText;
+        %tmp.59 = lgetv %timeString.4;
+        symbol [ timeString %tmp.59 89 21 31 ];
+        invoke %tmp.57 %tmp.58(%tmp.59);
+[ "/workspaces/ViDataFace/source/ViDataFaceView.mc" 95 8 ]
+        symbol [ View %tmp.61 95 8 12 ];
+        %tmp.61 = getv ? :View;
+        symbol [ onUpdate %tmp.62 95 13 21 ];
+        %tmp.62 = getv function %tmp.61 :onUpdate;
+        %tmp.63 = lgetv %dc;
+        symbol [ dc %tmp.63 95 22 24 ];
+        invoke %tmp.61 %tmp.62(%tmp.63);
+_workspaces_ViDataFace_source_ViDataFaceView_mc_69_40_96_4_stop:
+    }
+    [ @file = "/workspaces/ViDataFace/source/ViDataFaceView.mc"; @line = 101; @symbol_functiondef = [onHide,101,13,19]; ]
+    function onHide() as Void {
+_workspaces_ViDataFace_source_ViDataFaceView_mc_101_30_106_4_start:
+[ "/workspaces/ViDataFace/source/ViDataFaceView.mc" 102 8 ]
+_workspaces_ViDataFace_source_ViDataFaceView_mc_102_8_105_8_if_stmt:
+        symbol [ _fontTimer %tmp.2 102 12 22 ];
+        %tmp.2 = getv ? :_fontTimer;
+        %tmp.3 = null;
+        %tmp.4 = ne %tmp.2 %tmp.3;
+        bf %tmp.4 @_workspaces_ViDataFace_source_ViDataFaceView_mc_102_8_105_8_if_end;
+_workspaces_ViDataFace_source_ViDataFaceView_mc_102_8_105_8_if_true:
+_workspaces_ViDataFace_source_ViDataFaceView_mc_102_32_105_8_start:
+[ "/workspaces/ViDataFace/source/ViDataFaceView.mc" 103 12 ]
+        symbol [ _fontTimer %tmp.6 103 12 22 ];
+        %tmp.6 = getv ? :_fontTimer;
+        %tmp.7 = as %tmp.6 { (!Null) };
+        symbol [ stop %tmp.8 103 23 27 ];
+        %tmp.8 = getv function %tmp.7 :stop;
+        invoke %tmp.7 %tmp.8();
+[ "/workspaces/ViDataFace/source/ViDataFaceView.mc" 104 12 ]
+        %tmp.9 = null;
+        symbol [ _fontTimer ? 104 12 22 ];
+        putv self :_fontTimer %tmp.9;
+_workspaces_ViDataFace_source_ViDataFaceView_mc_102_32_105_8_stop:
+        goto @_workspaces_ViDataFace_source_ViDataFaceView_mc_102_8_105_8_if_end;
+_workspaces_ViDataFace_source_ViDataFaceView_mc_102_8_105_8_if_end:
+_workspaces_ViDataFace_source_ViDataFaceView_mc_101_30_106_4_stop:
+    }
+    [ @file = "/workspaces/ViDataFace/source/ViDataFaceView.mc"; @line = 109; @symbol_functiondef = [onExitSleep,109,13,24]; ]
+    function onExitSleep() as Void {
+    }
+    [ @file = "/workspaces/ViDataFace/source/ViDataFaceView.mc"; @line = 113; @symbol_functiondef = [onEnterSleep,113,13,25]; ]
+    function onEnterSleep() as Void {
+    }
+}
+[ @file = "/workspaces/ViDataFace/source/ViDataFaceView.mc"; @line = 1; ]
+<init> {
+}
