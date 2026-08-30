@@ -113,6 +113,13 @@ module Layout {
         :clock          => { :x => 140, :y => 140, :j => JC, :c => INK_WHITE,  :f => F_CLOCK    },
         :timezone_2     => { :x => 140, :y => 186, :j => JC, :c => INK_MID,    :f => F_TZ       },
 
+        // ---- night mode ------------------------------------------------
+        // Three rows only, and dimmer ink: at night the face is read in the
+        // dark, by someone who should not be woken further by it.
+        :night_alarm    => { :x => 140, :y =>  96, :j => JC, :c => INK_DIM,   :f => F_VALUE    },
+        :night_clock    => { :x => 140, :y => 140, :j => JC, :c => INK_MID,   :f => F_CLOCK    },
+        :night_zone     => { :x => 140, :y => 192, :j => JC, :c => INK_DIM,   :f => F_TZ       },
+
         // the arc, read left to right: -80 deg
         :body_label     => { :x =>  42, :y => 142, :j => JC, :c => INK_DIM,    :f => F_LABEL    },
         :body_value     => { :x =>  42, :y => 167, :j => JC, :c => INK_BRIGHT, :f => F_VALUE    },
@@ -181,6 +188,22 @@ module Layout {
             dc.drawBitmap(x, a[:y] - (b.getHeight() / 2), b);
             x += b.getWidth() + ICON_GAP;
         }
+    }
+
+    // A bitmap and a line of text, centred on the anchor as one group.
+    function putIconText(dc, key, bitmap, text) {
+        var a = ANCHORS[key];
+        if (a == null || a[:f] == null) { return; }
+        var f = font(a[:f]);
+        if (f == null) { return; }
+        var tw = dc.getTextWidthInPixels(text, f);
+        var iw = (bitmap == null) ? 0 : bitmap.getWidth() + ICON_GAP;
+        var left = a[:x] - (iw + tw) / 2;
+        if (bitmap != null) {
+            dc.drawBitmap(left, a[:y] - (bitmap.getHeight() / 2), bitmap);
+        }
+        dc.setColor(a[:c], Gfx.COLOR_TRANSPARENT);
+        dc.drawText(left + iw, a[:y], f, text, JL);
     }
 
     // ---- value formatting ---------------------------------------------

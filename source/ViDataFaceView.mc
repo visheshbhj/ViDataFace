@@ -9,6 +9,9 @@ import Toybox.WatchUi;
 class ViDataFaceView extends WatchUi.WatchFace {
 
     private var _complications as CompilationService = new CompilationService();
+    // Tracked so the complication subscriptions are torn down once on the way
+    // into night mode, not re-evaluated on every draw.
+    private var _night as Boolean = false;
 
     function initialize() {
         WatchFace.initialize();
@@ -23,7 +26,40 @@ class ViDataFaceView extends WatchUi.WatchFace {
     // the state of this View and prepare it to be shown. This includes
     // loading resources into memory.
     function onShow() as Void {
-        _complications.start();
+        _night = NightMode.isActive();
+        if (!_night) {
+            _complications.start();
+        }
+    }
+
+    //! Night mode exists to stop work, not just to draw less: the complication
+    //! subscriptions are dropped on the way in and taken out again on the way
+    //! out, so nothing is being pushed to a face that would not draw it.
+    private function updateNight() as Void {
+        var night = NightMode.isActive();
+        if (night == _night) {
+            return;
+        }
+        _night = night;
+        if (night) {
+            _complications.stop();
+        } else {
+            _complications.start();
+        }
+    }
+
+    //! The clock, the second timezone, and the next wake-up. Nothing else: no
+    //! sensors are read and no battery arc is drawn.
+    private function drawNight(dc as Dc) as Void {
+        var wake = NightMode.wakeText();
+        if (wake != null) {
+            // The bell is always shown: a bare "08:00" beside a clock reading
+            // 03:12 does not say what it is. It marks the row as the wake-up,
+            // whether or not a separate alarm is also set.
+            Layout.putIconText(dc, :night_alarm, StatusIcons.get(:alarm), wake);
+        }
+        Layout.put(dc, :night_clock, DataService.localTime());
+        Layout.put(dc, :night_zone,  SecondZone.text());
     }
 
     //! The raw reading for a field, complication first: where the device offers
@@ -81,6 +117,11 @@ class ViDataFaceView extends WatchUi.WatchFace {
         // calls dc.clear(), which would erase anything drawn before it.
         View.onUpdate(dc);
 
+        updateNight();
+        if (_night) {
+            drawNight(dc);
+            return;
+        }
         drawFields(dc);
         // Diagnostic page: clears the screen and lists every complication.
         //_complications.draw(dc);
