@@ -11,18 +11,6 @@ import Toybox.Time;
 //! return strings. null means the sensor, permission or sample is unavailable.
 module DataService {
 
-    // TEMPORARY — fixed worst-case values for eyeballing the layout at full
-    // width. Set DEMO to false, or delete this block and the call in
-    // ViDataFaceView.raw(), to go back to live sensors.
-    const DEMO = true;
-    function demoValue(name as String) as Object? {
-        if (!DEMO) { return null; }
-        if (name.equals("AltitudeLabel")) { return 11542.0; }   // 5 digits
-        if (name.equals("StepsLabel"))    { return 88888; }     // 5 digits
-        if (name.equals("CaloriesLabel")) { return 8888; }      // 4 digits
-        return null;
-    }
-
     //! Raw reading for a field, keyed by its layout id. Numeric for the sensor
     //! fields, String for the clock, null when there is nothing to show.
     function rawFor(name as String) as Object? {
