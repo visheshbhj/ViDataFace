@@ -31,6 +31,10 @@ class ViDataFaceView extends WatchUi.WatchFace {
     //! number in the API's own unit, so the Layout formatter downstream is the
     //! same either way.
     private function raw(name as String) as Object? {
+        var demo = DataService.demoValue(name);   // TEMPORARY, see DataService.DEMO
+        if (demo != null) {
+            return demo;
+        }
         var value = _complications.getNumber(name);
         if (value != null) {
             return value;
@@ -39,9 +43,6 @@ class ViDataFaceView extends WatchUi.WatchFace {
     }
 
     private function drawFields(dc as Dc) as Void {
-        // Records at most one sample per slot, so this is cheap per update.
-        Trend.sample();
-
         Layout.battery(dc, DataService.batteryPercent());
 
         // Nothing is drawn when the sky is unknown: an empty slot reads better

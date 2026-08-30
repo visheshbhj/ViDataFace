@@ -100,13 +100,15 @@ module Layout {
         :weather_icon   => { :x => 112, :y =>  48, :j => JC, :c => INK_BRIGHT, :f => null       }, // 28x28 bitmap, centred
         :temperature    => { :x => 132, :y =>  48, :j => JL, :c => INK_BRIGHT, :f => F_TEMP     },
 
-        // shoulder row
-        :altitude       => { :x =>  66, :y =>  83, :j => JC, :c => INK_BRIGHT, :f => F_VALUE    },
-        :barometer      => { :x => 214, :y =>  83, :j => JC, :c => INK_BRIGHT, :f => F_VALUE    },
+        // shoulder row — inset to 76/204 so a 5-digit altitude plus its sign
+        // triangle, and a barometer carrying a decimal and a chevron, still
+        // clear the bezel
+        :altitude       => { :x =>  76, :y =>  83, :j => JC, :c => INK_BRIGHT, :f => F_VALUE    },
+        :barometer      => { :x => 204, :y =>  83, :j => JC, :c => INK_BRIGHT, :f => F_VALUE    },
 
         // clock block — the clock is on the true centre
         :clock          => { :x => 140, :y => 140, :j => JC, :c => INK_WHITE,  :f => F_CLOCK    },
-        :timezone_2     => { :x => 140, :y => 196, :j => JC, :c => INK_MID,    :f => F_TZ       },
+        :timezone_2     => { :x => 140, :y => 186, :j => JC, :c => INK_MID,    :f => F_TZ       },
 
         // the arc, read left to right: -80 deg
         :body_label     => { :x =>  42, :y => 142, :j => JC, :c => INK_DIM,    :f => F_LABEL    },
@@ -186,10 +188,12 @@ module Layout {
         return (m.toNumber() < 0) ? :down : :up;
     }
 
-    // Barometer in hPa. Ambient pressure arrives in PASCALS — divide by 100.
+    // Barometer in hPa, one decimal. Ambient pressure arrives in PASCALS —
+    // divide by 100. The tenth is worth showing: a whole hPa is a big move for
+    // a barometer, so integers hide most of what the trend chevron reacts to.
     function pressure(pa) {
         if (pa == null) { return "--"; }
-        return ((pa / 100.0).toNumber()).format("%d");
+        return (pa / 100.0).format("%.1f");
     }
 
     // Temperature, whole degrees, keeps the minus sign.

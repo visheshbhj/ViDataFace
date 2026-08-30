@@ -2,7 +2,6 @@ import Toybox.Activity;
 import Toybox.ActivityMonitor;
 import Toybox.Application;
 import Toybox.Lang;
-import Toybox.Math;
 import Toybox.System;
 import Toybox.Time;
 
@@ -11,6 +10,18 @@ import Toybox.Time;
 //! formatter block there. Only the clock fields, which have no numeric form,
 //! return strings. null means the sensor, permission or sample is unavailable.
 module DataService {
+
+    // TEMPORARY — fixed worst-case values for eyeballing the layout at full
+    // width. Set DEMO to false, or delete this block and the call in
+    // ViDataFaceView.raw(), to go back to live sensors.
+    const DEMO = true;
+    function demoValue(name as String) as Object? {
+        if (!DEMO) { return null; }
+        if (name.equals("AltitudeLabel")) { return 11542.0; }   // 5 digits
+        if (name.equals("StepsLabel"))    { return 88888; }     // 5 digits
+        if (name.equals("CaloriesLabel")) { return 8888; }      // 4 digits
+        return null;
+    }
 
     //! Raw reading for a field, keyed by its layout id. Numeric for the sensor
     //! fields, String for the clock, null when there is nothing to show.
@@ -70,29 +81,6 @@ module DataService {
             return null;
         }
         return info.ambientPressure as Float;
-    }
-
-    //! Ambient pressure corrected to sea level, in PASCALS, or null.
-    //!
-    //! Trend.sample() needs a reading that does not move when the wearer does.
-    //! meanSeaLevelPressure is already corrected where the device reports it;
-    //! otherwise the ISA barometric formula backs the altitude out of the raw
-    //! ambient reading. Without this a 100 m climb reads as a 12 hPa crash.
-    function seaLevelPressure() as Numeric? {
-        var info = Activity.getActivityInfo();
-        if (info != null && (info has :meanSeaLevelPressure)
-                && info.meanSeaLevelPressure != null) {
-            return info.meanSeaLevelPressure as Float;
-        }
-        var pa = pressure();
-        if (pa == null) {
-            return null;
-        }
-        var h = altitude();
-        if (h == null) {
-            return pa;   // uncorrected is better than nothing when there is no altitude
-        }
-        return (pa as Float) / Math.pow(1.0 - 0.0000225577 * (h as Float), 5.25588);
     }
 
     //! Degrees C. Format with Layout.temp().
