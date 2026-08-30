@@ -170,10 +170,20 @@ module Layout {
         return (v.toNumber()).format("%d");
     }
 
-    // Altitude in metres. Activity.Info.altitude is Float metres.
+    // Altitude in metres, MAGNITUDE ONLY — the leading triangle carries the
+    // sign, so "-340m" would double up on it. Five digits is reachable from a
+    // plane, so the field is sized for "11000m" plus its marker.
     function altitude(m) {
         if (m == null) { return "--"; }
-        return (m.toNumber()).format("%d") + "m";
+        var v = m.toNumber();
+        return ((v < 0) ? -v : v).format("%d") + "m";
+    }
+
+    // Which triangle goes in front of an altitude: :up at or above sea level,
+    // :down below it, null when there is no reading to sign.
+    function altitudeMark(m) {
+        if (m == null) { return null; }
+        return (m.toNumber() < 0) ? :down : :up;
     }
 
     // Barometer in hPa. Ambient pressure arrives in PASCALS — divide by 100.
@@ -192,6 +202,73 @@ module Layout {
     function pct(v) {
         if (v == null) { return "--"; }
         return (v.toNumber()).format("%d") + "%";
+    }
+
+    // ---- drawn markers -------------------------------------------------
+    // NONE of the marker glyphs exist in the device fonts: the four chevrons
+    // U+FE3D-FE40 are in no face at all, and the triangles U+25B2/U+25BC only
+    // in the CJK and Thai faces, whose weight does not match RobotoCondensed.
+    // So they are drawn. Sizes are relative to the value font.
+    const MARK_W    = 11;   // marker cell width
+    const MARK_GAP  = 3;    // space between marker and text
+    const CHEV_H    = 5;    // one chevron's rise
+    const CHEV_PEN  = 2;
+    const TRI_W     = 9;
+    const TRI_H     = 8;
+
+    // A "^" (or "v") stroke. A rapid change stacks two, matching the doubled
+    // chevrons in the spec (up = rapid, up = gradual).
+    function chevron(dc, cx, cy, up, rapid, colour) {
+        dc.setColor(colour, Gfx.COLOR_TRANSPARENT);
+        dc.setPenWidth(CHEV_PEN);
+        var w = MARK_W / 2;
+        var n = rapid ? 2 : 1;
+        // Stacked pair straddles the centre; a single one sits on it.
+        var top = cy - (rapid ? (CHEV_H + 1) : CHEV_H / 2);
+        for (var i = 0; i < n; i++) {
+            var oy = top + i * (CHEV_H + 2);
+            var apex = up ? oy : oy + CHEV_H;
+            var tail = up ? oy + CHEV_H : oy;
+            dc.drawLine(cx - w, tail, cx, apex);
+            dc.drawLine(cx, apex, cx + w, tail);
+        }
+    }
+
+    // Solid triangle, for the sign of a signed value.
+    function triangle(dc, cx, cy, up, colour) {
+        dc.setColor(colour, Gfx.COLOR_TRANSPARENT);
+        var w = TRI_W / 2;
+        var h = TRI_H / 2;
+        var pts = up ? [[cx, cy - h], [cx + w, cy + h], [cx - w, cy + h]]
+                     : [[cx, cy + h], [cx + w, cy - h], [cx - w, cy - h]];
+        dc.fillPolygon(pts);
+    }
+
+    // A value with a marker beside it, the pair centred on the anchor as one
+    // group so the text does not shift when a marker appears or goes away.
+    //   lead  : :up / :down / null      (triangle, drawn before the text)
+    //   trail : :rapid_up / :up / :down / :rapid_down / null  (chevron, after)
+    function putMarked(dc, key, text, lead, trail) {
+        var a = ANCHORS[key];
+        if (a == null || a[:f] == null) { return; }
+        var f = font(a[:f]);
+        if (f == null) { return; }
+
+        var tw = dc.getTextWidthInPixels(text, f);
+        var lw = (lead == null)  ? 0 : MARK_W + MARK_GAP;
+        var rw = (trail == null) ? 0 : MARK_GAP + MARK_W;
+        var left = a[:x] - (lw + tw + rw) / 2;
+
+        if (lead != null) {
+            triangle(dc, left + MARK_W / 2, a[:y], lead == :up, a[:c]);
+        }
+        dc.setColor(a[:c], Gfx.COLOR_TRANSPARENT);
+        dc.drawText(left + lw, a[:y], f, text, JL);
+        if (trail != null) {
+            var up = (trail == :up) || (trail == :rapid_up);
+            var rapid = (trail == :rapid_up) || (trail == :rapid_down);
+            chevron(dc, left + lw + tw + MARK_GAP + MARK_W / 2, a[:y], up, rapid, a[:c]);
+        }
     }
 
     // Draw a label by key using its short form.

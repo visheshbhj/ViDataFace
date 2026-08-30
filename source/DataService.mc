@@ -2,6 +2,7 @@ import Toybox.Activity;
 import Toybox.ActivityMonitor;
 import Toybox.Application;
 import Toybox.Lang;
+import Toybox.Math;
 import Toybox.System;
 import Toybox.Time;
 
@@ -69,6 +70,29 @@ module DataService {
             return null;
         }
         return info.ambientPressure as Float;
+    }
+
+    //! Ambient pressure corrected to sea level, in PASCALS, or null.
+    //!
+    //! Trend.sample() needs a reading that does not move when the wearer does.
+    //! meanSeaLevelPressure is already corrected where the device reports it;
+    //! otherwise the ISA barometric formula backs the altitude out of the raw
+    //! ambient reading. Without this a 100 m climb reads as a 12 hPa crash.
+    function seaLevelPressure() as Numeric? {
+        var info = Activity.getActivityInfo();
+        if (info != null && (info has :meanSeaLevelPressure)
+                && info.meanSeaLevelPressure != null) {
+            return info.meanSeaLevelPressure as Float;
+        }
+        var pa = pressure();
+        if (pa == null) {
+            return null;
+        }
+        var h = altitude();
+        if (h == null) {
+            return pa;   // uncorrected is better than nothing when there is no altitude
+        }
+        return (pa as Float) / Math.pow(1.0 - 0.0000225577 * (h as Float), 5.25588);
     }
 
     //! Degrees C. Format with Layout.temp().

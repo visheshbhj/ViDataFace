@@ -39,6 +39,9 @@ class ViDataFaceView extends WatchUi.WatchFace {
     }
 
     private function drawFields(dc as Dc) as Void {
+        // Records at most one sample per slot, so this is cheap per update.
+        Trend.sample();
+
         Layout.battery(dc, DataService.batteryPercent());
 
         // Nothing is drawn when the sky is unknown: an empty slot reads better
@@ -51,8 +54,13 @@ class ViDataFaceView extends WatchUi.WatchFace {
         Layout.put(dc, :timezone_2, DataService.istTime());
 
         Layout.put(dc, :temperature,  Layout.temp(raw("WeatherLabel")));
-        Layout.put(dc, :altitude,     Layout.altitude(raw("AltitudeLabel")));
-        Layout.put(dc, :barometer,    Layout.pressure(raw("BarometerLabel")));
+
+        // Altitude is signed by a leading triangle rather than a minus sign;
+        // the barometer trails the 4-hour trend chevron.
+        var alt = raw("AltitudeLabel");
+        Layout.putMarked(dc, :altitude, Layout.altitude(alt), Layout.altitudeMark(alt), null);
+        Layout.putMarked(dc, :barometer, Layout.pressure(raw("BarometerLabel")),
+            null, Trend.marker());
 
         Layout.put(dc, :cal_value,    Layout.num(raw("CaloriesLabel")));
         Layout.put(dc, :hr_value,     Layout.num(raw("HeartRateLabel")));
