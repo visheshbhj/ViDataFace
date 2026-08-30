@@ -100,6 +100,9 @@ module Layout {
         :weather_icon   => { :x => 112, :y =>  48, :j => JC, :c => INK_BRIGHT, :f => null       }, // 28x28 bitmap, centred
         :temperature    => { :x => 132, :y =>  48, :j => JL, :c => INK_BRIGHT, :f => F_TEMP     },
 
+        // date, in the gap between the top cluster and the shoulder values
+        :date           => { :x => 140, :y =>  66, :j => JC, :c => INK_DIM,   :f => F_LABEL    },
+
         // shoulder row — inset to 72/208 so a 5-digit altitude plus its sign
         // triangle, and a barometer carrying a decimal and a chevron, still
         // clear the bezel

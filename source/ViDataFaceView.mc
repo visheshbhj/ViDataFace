@@ -51,12 +51,8 @@ class ViDataFaceView extends WatchUi.WatchFace {
     //! The clock, the second timezone, and the next wake-up. Nothing else: no
     //! sensors are read and no battery arc is drawn.
     private function drawNight(dc as Dc) as Void {
-        var wake = NightMode.wakeText();
-        if (wake != null) {
-            // The bell is always shown: a bare "08:00" beside a clock reading
-            // 03:12 does not say what it is. It marks the row as the wake-up,
-            // whether or not a separate alarm is also set.
-            Layout.putIconText(dc, :night_alarm, StatusIcons.get(:alarm), wake);
+        if (NightMode.alarmCount() > 0) {
+            Layout.putBitmapRow(dc, :night_alarm, [StatusIcons.get(:alarm)]);
         }
         Layout.put(dc, :night_clock, DataService.localTime());
         Layout.put(dc, :night_zone,  SecondZone.text());
@@ -74,8 +70,19 @@ class ViDataFaceView extends WatchUi.WatchFace {
         return DataService.rawFor(name);
     }
 
+    //! Text-valued fields: the complication's own wording where the device has
+    //! one, since it is already localised, and a local fallback otherwise.
+    private function text(name as String, fallback as String) as String {
+        var value = _complications.getText(name);
+        return (value != null) ? value as String : fallback;
+    }
+
     private function drawFields(dc as Dc) as Void {
-        Layout.battery(dc, DataService.batteryPercent());
+        // Complication first here as well: on a solar watch the device's own
+        // battery figure is the one the rest of the system reports.
+        var battery = _complications.getNumber("BatteryLabel");
+        Layout.battery(dc, (battery != null) ? (battery as Numeric).toNumber()
+                                             : DataService.batteryPercent());
 
         // Nothing is drawn when the sky is unknown: an empty slot reads better
         // than a placeholder next to a live temperature.
@@ -83,6 +90,10 @@ class ViDataFaceView extends WatchUi.WatchFace {
             WeatherIcons.get(DataService.weatherCondition()));
 
         Layout.putBitmapRow(dc, :status_row, StatusIcons.active());
+
+        // The weekday and monthday come from the device already localised, so
+        // this is the one field taken as text rather than a number.
+        Layout.put(dc, :date, text("DateLabel", DataService.dateText()));
 
         // The clock fields are the only ones that are already text.
         Layout.put(dc, :clock,      DataService.localTime());

@@ -45,6 +45,13 @@ module DataService {
         return Lang.format(timeFormat, [hours, clockTime.min.format("%02d")]);
     }
 
+    // FORMAT_MEDIUM gives abbreviated, already-localised names ("Fri", "Aug").
+    // Only used when the device has no weekday complication to offer.
+    function dateText() as String {
+        var now = Time.Gregorian.info(Time.now(), Time.FORMAT_MEDIUM);
+        return Lang.format("$1$ $2$", [now.day_of_week, now.day.format("%02d")]);
+    }
+
     //! Metres. Format with Layout.altitude().
     function altitude() as Numeric? {
         var info = Activity.getActivityInfo();

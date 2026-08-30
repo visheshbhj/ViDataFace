@@ -13,6 +13,7 @@ class CompilationService {
     // Field name (see DataService) -> the complication that supplies it.
     // TimeLabel and ISTTimeLabel are computed from the clock, not complications.
     private const SUBSCRIPTIONS as Dictionary<String, Complications.Type> = {
+        "DateLabel"        => Complications.COMPLICATION_TYPE_WEEKDAY_MONTHDAY,
         "AltitudeLabel"    => Complications.COMPLICATION_TYPE_ALTITUDE,
         "BarometerLabel"   => Complications.COMPLICATION_TYPE_SEA_LEVEL_PRESSURE,
         "WeatherLabel"     => Complications.COMPLICATION_TYPE_CURRENT_TEMPERATURE,
@@ -109,6 +110,17 @@ class CompilationService {
             return value as Numeric;
         }
         return null;
+    }
+
+    //! The reading as text, for the fields that are words rather than numbers
+    //! — the weekday and monthday, which arrive already localised by the
+    //! device. Returns null when there is nothing cached.
+    function getText(name as String) as String? {
+        var value = _values.get(name);
+        if (value == null) {
+            return null;
+        }
+        return value.toString();
     }
 
     //! The raw reading rendered for the diagnostic list, or "--". Display code

@@ -12,13 +12,10 @@ import Toybox.UserProfile;
 //!   - the sleep window from the user profile, so the face goes quiet on
 //!     schedule even when night mode is not switched on.
 //!
-//! Connect IQ has NO API for the next alarm's time: DeviceSettings offers
-//! alarmCount and nothing else. So the time shown is the profile's wake time —
-//! the only upcoming wake-up the API will give us — and the alarm count sits
-//! beside it when alarms are set.
+//! Connect IQ has NO API for the next alarm's TIME: DeviceSettings offers
+//! alarmCount and nothing else. So the night face marks that an alarm is set
+//! and says no more than that — a bell, drawn only when alarmCount > 0.
 module NightMode {
-
-    const SECONDS_PER_DAY = 86400;
 
     function isActive() as Boolean {
         var settings = System.getDeviceSettings();
@@ -52,17 +49,6 @@ module NightMode {
     function secondsSinceMidnight() as Number {
         var clock = System.getClockTime();
         return clock.hour * 3600 + clock.min * 60 + clock.sec;
-    }
-
-    //! The profile's wake time as "06:30", or null if it has none.
-    function wakeText() as String? {
-        var profile = UserProfile.getProfile();
-        if (profile == null || !(profile has :wakeTime) || profile.wakeTime == null) {
-            return null;
-        }
-        var secs = (profile.wakeTime as Time.Duration).value() % SECONDS_PER_DAY;
-        return Lang.format("$1$:$2$",
-            [(secs / 3600).format("%02d"), ((secs % 3600) / 60).format("%02d")]);
     }
 
     function alarmCount() as Number {
