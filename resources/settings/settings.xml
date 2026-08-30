@@ -4,4 +4,18 @@
         <settingConfig type="boolean" />
     </setting>
 
+    <setting propertyKey="@Properties.SecondZone" title="@Strings.SecondZoneTitle">
+        <settingConfig type="list">
+            <listEntry value="0">@Strings.ZoneIST</listEntry>
+            <listEntry value="1">@Strings.ZoneUTC</listEntry>
+            <listEntry value="2">@Strings.ZoneLON</listEntry>
+            <listEntry value="3">@Strings.ZoneNYC</listEntry>
+            <listEntry value="4">@Strings.ZoneSFO</listEntry>
+            <listEntry value="5">@Strings.ZoneDXB</listEntry>
+            <listEntry value="6">@Strings.ZoneSIN</listEntry>
+            <listEntry value="7">@Strings.ZoneTYO</listEntry>
+            <listEntry value="8">@Strings.ZoneSYD</listEntry>
+        </settingConfig>
+    </setting>
+
 </settings>

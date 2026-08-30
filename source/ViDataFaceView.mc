@@ -54,7 +54,7 @@ class ViDataFaceView extends WatchUi.WatchFace {
 
         // The clock fields are the only ones that are already text.
         Layout.put(dc, :clock,      DataService.localTime());
-        Layout.put(dc, :timezone_2, DataService.istTime());
+        Layout.put(dc, :timezone_2, SecondZone.text());
 
         Layout.put(dc, :temperature,  Layout.temp(raw("WeatherLabel")));
 

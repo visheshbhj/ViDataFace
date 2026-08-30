@@ -27,7 +27,6 @@ module DataService {
     //! fields, String for the clock, null when there is nothing to show.
     function rawFor(name as String) as Object? {
         if (name.equals("TimeLabel"))        { return localTime(); }
-        if (name.equals("ISTTimeLabel"))     { return istTime(); }
         if (name.equals("AltitudeLabel"))    { return altitude(); }
         if (name.equals("BarometerLabel"))   { return pressure(); }
         if (name.equals("WeatherLabel"))     { return temperature(); }
@@ -56,13 +55,6 @@ module DataService {
             }
         }
         return Lang.format(timeFormat, [hours, clockTime.min.format("%02d")]);
-    }
-
-    // IST is UTC+05:30 and observes no DST, so a fixed offset is exact.
-    function istTime() as String {
-        var ist = Time.Gregorian.utcInfo(Time.now().add(new Time.Duration(19800)),
-            Time.FORMAT_SHORT);
-        return Lang.format("$1$:$2$", [ist.hour.format("%02d"), ist.min.format("%02d")]);
     }
 
     //! Metres. Format with Layout.altitude().

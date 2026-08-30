@@ -3,4 +3,15 @@
     <string id="AppName">ViDataFace</string>
     <string id="MilitaryFormatTitle">Military Format for 24 Hour Time</string>
 
+    <string id="SecondZoneTitle">Second Time Zone</string>
+    <string id="ZoneIST">India (IST)</string>
+    <string id="ZoneUTC">UTC</string>
+    <string id="ZoneLON">London</string>
+    <string id="ZoneNYC">New York</string>
+    <string id="ZoneSFO">San Francisco</string>
+    <string id="ZoneDXB">Dubai</string>
+    <string id="ZoneSIN">Singapore</string>
+    <string id="ZoneTYO">Tokyo</string>
+    <string id="ZoneSYD">Sydney</string>
+
 </strings>
