@@ -1,4 +1,5 @@
 using Toybox.Graphics as Gfx;
+using Toybox.System as Sys;
 
 // Enduro 3 watch face — Pass 6a layout map
 // 280 x 280 MIP. Every entry is the anchor point used by drawText().
@@ -236,6 +237,22 @@ module Layout {
     // The emulator showed raw floats (5.765788, 24.0000, 838.00000) because
     // the Garmin APIs hand back Float, not Number. Never pass an API value
     // straight to put() — run it through one of these.
+    //
+    // UNITS. Everything reaching these formatters is SI — metres, Celsius,
+    // Pascals — from BOTH sources. Complications are not pre-converted: with
+    // the device set to statute, the temperature complication returns the same
+    // 16.0 as Toybox.Weather rather than 61. Their `unit` field names the
+    // quantity (height, temperature), not the unit system. So the device
+    // setting is applied once, here, and nowhere else.
+    const M_TO_FT = 3.28084;
+
+    function statute(setting) {
+        var device = Sys.getDeviceSettings();
+        if (!(device has setting)) { return false; }
+        var value = (setting == :elevationUnits) ? device.elevationUnits
+                                                 : device.temperatureUnits;
+        return value == Sys.UNIT_STATUTE;
+    }
 
     // Integer, no decimal point. null-safe.
     function num(v) {
@@ -248,8 +265,10 @@ module Layout {
     // plane, so the field is sized for "11542" plus its marker.
     function altitude(m) {
         if (m == null) { return "--"; }
-        var v = m.toNumber();
-        return ((v < 0) ? -v : v).format("%d");
+        var v = m.toFloat();
+        if (statute(:elevationUnits)) { v = v * M_TO_FT; }
+        var n = v.toNumber();
+        return ((n < 0) ? -n : n).format("%d");
     }
 
     // Which triangle goes in front of an altitude: :up at or above sea level,
@@ -262,15 +281,21 @@ module Layout {
     // Barometer in hPa, one decimal. Ambient pressure arrives in PASCALS —
     // divide by 100. The tenth is worth showing: a whole hPa is a big move for
     // a barometer, so integers hide most of what the trend chevron reacts to.
+    //
+    // No unit conversion: DeviceSettings has no pressureUnits to follow, so
+    // hPa it is, on every watch.
     function pressure(pa) {
         if (pa == null) { return "--"; }
         return (pa / 100.0).format("%.1f");
     }
 
-    // Temperature, whole degrees, keeps the minus sign.
+    // Temperature, whole degrees, keeps the minus sign. Celsius in, whichever
+    // the watch is set to out.
     function temp(c) {
         if (c == null) { return "--"; }
-        return (c.toNumber()).format("%d") + "\u00B0";
+        var v = c.toFloat();
+        if (statute(:temperatureUnits)) { v = v * 9.0 / 5.0 + 32.0; }
+        return (v.toNumber()).format("%d") + "\u00B0";
     }
 
     // Percent fields (body battery, stress, solar intensity).
