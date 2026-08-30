@@ -23,6 +23,10 @@ RUN apt-get update && apt-get install -y \
     xdg-utils \
     x11-apps \
     openssl \
+    xvfb \
+    x11-utils \
+    xdotool \
+    imagemagick \
     && rm -rf /var/lib/apt/lists/*
 
 # Username/UID/GID are passed in from the host at build time (see

@@ -1,0 +1,61 @@
+<drawables xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://developer.garmin.com/downloads/connect-iq/resources.xsd">
+
+    <!-- Weather condition icons, one per Toybox.Weather.CONDITION_* value.
+         The number in each id IS the enum value, so WeatherIcons indexes
+         them directly. 24px art scaled to the 28px slot in Layout. -->
+    <bitmap id="WeatherIcon00" filename="weather/00-clear.svg" scaleRelativeTo="screen" scaleX="10%" dithering="none" />  <!-- clear -->
+    <bitmap id="WeatherIcon01" filename="weather/01-partly_cloudy.svg" scaleRelativeTo="screen" scaleX="10%" dithering="none" />  <!-- partly_cloudy -->
+    <bitmap id="WeatherIcon02" filename="weather/02-mostly_cloudy.svg" scaleRelativeTo="screen" scaleX="10%" dithering="none" />  <!-- mostly_cloudy -->
+    <bitmap id="WeatherIcon03" filename="weather/03-rain.svg" scaleRelativeTo="screen" scaleX="10%" dithering="none" />  <!-- rain -->
+    <bitmap id="WeatherIcon04" filename="weather/04-snow.svg" scaleRelativeTo="screen" scaleX="10%" dithering="none" />  <!-- snow -->
+    <bitmap id="WeatherIcon05" filename="weather/05-windy.svg" scaleRelativeTo="screen" scaleX="10%" dithering="none" />  <!-- windy -->
+    <bitmap id="WeatherIcon06" filename="weather/06-thunderstorms.svg" scaleRelativeTo="screen" scaleX="10%" dithering="none" />  <!-- thunderstorms -->
+    <bitmap id="WeatherIcon07" filename="weather/07-wintry_mix.svg" scaleRelativeTo="screen" scaleX="10%" dithering="none" />  <!-- wintry_mix -->
+    <bitmap id="WeatherIcon08" filename="weather/08-fog.svg" scaleRelativeTo="screen" scaleX="10%" dithering="none" />  <!-- fog -->
+    <bitmap id="WeatherIcon09" filename="weather/09-hazy.svg" scaleRelativeTo="screen" scaleX="10%" dithering="none" />  <!-- hazy -->
+    <bitmap id="WeatherIcon10" filename="weather/10-hail.svg" scaleRelativeTo="screen" scaleX="10%" dithering="none" />  <!-- hail -->
+    <bitmap id="WeatherIcon11" filename="weather/11-scattered_showers.svg" scaleRelativeTo="screen" scaleX="10%" dithering="none" />  <!-- scattered_showers -->
+    <bitmap id="WeatherIcon12" filename="weather/12-scattered_thunderstorms.svg" scaleRelativeTo="screen" scaleX="10%" dithering="none" />  <!-- scattered_thunderstorms -->
+    <bitmap id="WeatherIcon13" filename="weather/13-unknown_precipitation.svg" scaleRelativeTo="screen" scaleX="10%" dithering="none" />  <!-- unknown_precipitation -->
+    <bitmap id="WeatherIcon14" filename="weather/14-light_rain.svg" scaleRelativeTo="screen" scaleX="10%" dithering="none" />  <!-- light_rain -->
+    <bitmap id="WeatherIcon15" filename="weather/15-heavy_rain.svg" scaleRelativeTo="screen" scaleX="10%" dithering="none" />  <!-- heavy_rain -->
+    <bitmap id="WeatherIcon16" filename="weather/16-light_snow.svg" scaleRelativeTo="screen" scaleX="10%" dithering="none" />  <!-- light_snow -->
+    <bitmap id="WeatherIcon17" filename="weather/17-heavy_snow.svg" scaleRelativeTo="screen" scaleX="10%" dithering="none" />  <!-- heavy_snow -->
+    <bitmap id="WeatherIcon18" filename="weather/18-light_rain_snow.svg" scaleRelativeTo="screen" scaleX="10%" dithering="none" />  <!-- light_rain_snow -->
+    <bitmap id="WeatherIcon19" filename="weather/19-heavy_rain_snow.svg" scaleRelativeTo="screen" scaleX="10%" dithering="none" />  <!-- heavy_rain_snow -->
+    <bitmap id="WeatherIcon20" filename="weather/20-cloudy.svg" scaleRelativeTo="screen" scaleX="10%" dithering="none" />  <!-- cloudy -->
+    <bitmap id="WeatherIcon21" filename="weather/21-rain_snow.svg" scaleRelativeTo="screen" scaleX="10%" dithering="none" />  <!-- rain_snow -->
+    <bitmap id="WeatherIcon22" filename="weather/22-partly_clear.svg" scaleRelativeTo="screen" scaleX="10%" dithering="none" />  <!-- partly_clear -->
+    <bitmap id="WeatherIcon23" filename="weather/23-mostly_clear.svg" scaleRelativeTo="screen" scaleX="10%" dithering="none" />  <!-- mostly_clear -->
+    <bitmap id="WeatherIcon24" filename="weather/24-light_showers.svg" scaleRelativeTo="screen" scaleX="10%" dithering="none" />  <!-- light_showers -->
+    <bitmap id="WeatherIcon25" filename="weather/25-showers.svg" scaleRelativeTo="screen" scaleX="10%" dithering="none" />  <!-- showers -->
+    <bitmap id="WeatherIcon26" filename="weather/26-heavy_showers.svg" scaleRelativeTo="screen" scaleX="10%" dithering="none" />  <!-- heavy_showers -->
+    <bitmap id="WeatherIcon27" filename="weather/27-chance_of_showers.svg" scaleRelativeTo="screen" scaleX="10%" dithering="none" />  <!-- chance_of_showers -->
+    <bitmap id="WeatherIcon28" filename="weather/28-chance_of_thunderstorms.svg" scaleRelativeTo="screen" scaleX="10%" dithering="none" />  <!-- chance_of_thunderstorms -->
+    <bitmap id="WeatherIcon29" filename="weather/29-mist.svg" scaleRelativeTo="screen" scaleX="10%" dithering="none" />  <!-- mist -->
+    <bitmap id="WeatherIcon30" filename="weather/30-dust.svg" scaleRelativeTo="screen" scaleX="10%" dithering="none" />  <!-- dust -->
+    <bitmap id="WeatherIcon31" filename="weather/31-drizzle.svg" scaleRelativeTo="screen" scaleX="10%" dithering="none" />  <!-- drizzle -->
+    <bitmap id="WeatherIcon32" filename="weather/32-tornado.svg" scaleRelativeTo="screen" scaleX="10%" dithering="none" />  <!-- tornado -->
+    <bitmap id="WeatherIcon33" filename="weather/33-smoke.svg" scaleRelativeTo="screen" scaleX="10%" dithering="none" />  <!-- smoke -->
+    <bitmap id="WeatherIcon34" filename="weather/34-ice.svg" scaleRelativeTo="screen" scaleX="10%" dithering="none" />  <!-- ice -->
+    <bitmap id="WeatherIcon35" filename="weather/35-sand.svg" scaleRelativeTo="screen" scaleX="10%" dithering="none" />  <!-- sand -->
+    <bitmap id="WeatherIcon36" filename="weather/36-squall.svg" scaleRelativeTo="screen" scaleX="10%" dithering="none" />  <!-- squall -->
+    <bitmap id="WeatherIcon37" filename="weather/37-sandstorm.svg" scaleRelativeTo="screen" scaleX="10%" dithering="none" />  <!-- sandstorm -->
+    <bitmap id="WeatherIcon38" filename="weather/38-volcanic_ash.svg" scaleRelativeTo="screen" scaleX="10%" dithering="none" />  <!-- volcanic_ash -->
+    <bitmap id="WeatherIcon39" filename="weather/39-haze.svg" scaleRelativeTo="screen" scaleX="10%" dithering="none" />  <!-- haze -->
+    <bitmap id="WeatherIcon40" filename="weather/40-fair.svg" scaleRelativeTo="screen" scaleX="10%" dithering="none" />  <!-- fair -->
+    <bitmap id="WeatherIcon41" filename="weather/41-hurricane.svg" scaleRelativeTo="screen" scaleX="10%" dithering="none" />  <!-- hurricane -->
+    <bitmap id="WeatherIcon42" filename="weather/42-tropical_storm.svg" scaleRelativeTo="screen" scaleX="10%" dithering="none" />  <!-- tropical_storm -->
+    <bitmap id="WeatherIcon43" filename="weather/43-chance_of_snow.svg" scaleRelativeTo="screen" scaleX="10%" dithering="none" />  <!-- chance_of_snow -->
+    <bitmap id="WeatherIcon44" filename="weather/44-chance_of_rain_snow.svg" scaleRelativeTo="screen" scaleX="10%" dithering="none" />  <!-- chance_of_rain_snow -->
+    <bitmap id="WeatherIcon45" filename="weather/45-cloudy_chance_of_rain.svg" scaleRelativeTo="screen" scaleX="10%" dithering="none" />  <!-- cloudy_chance_of_rain -->
+    <bitmap id="WeatherIcon46" filename="weather/46-cloudy_chance_of_snow.svg" scaleRelativeTo="screen" scaleX="10%" dithering="none" />  <!-- cloudy_chance_of_snow -->
+    <bitmap id="WeatherIcon47" filename="weather/47-cloudy_chance_of_rain_snow.svg" scaleRelativeTo="screen" scaleX="10%" dithering="none" />  <!-- cloudy_chance_of_rain_snow -->
+    <bitmap id="WeatherIcon48" filename="weather/48-flurries.svg" scaleRelativeTo="screen" scaleX="10%" dithering="none" />  <!-- flurries -->
+    <bitmap id="WeatherIcon49" filename="weather/49-freezing_rain.svg" scaleRelativeTo="screen" scaleX="10%" dithering="none" />  <!-- freezing_rain -->
+    <bitmap id="WeatherIcon50" filename="weather/50-sleet.svg" scaleRelativeTo="screen" scaleX="10%" dithering="none" />  <!-- sleet -->
+    <bitmap id="WeatherIcon51" filename="weather/51-ice_snow.svg" scaleRelativeTo="screen" scaleX="10%" dithering="none" />  <!-- ice_snow -->
+    <bitmap id="WeatherIcon52" filename="weather/52-thin_clouds.svg" scaleRelativeTo="screen" scaleX="10%" dithering="none" />  <!-- thin_clouds -->
+    <bitmap id="WeatherIcon53" filename="weather/53-unknown.svg" scaleRelativeTo="screen" scaleX="10%" dithering="none" />  <!-- unknown -->
+
+</drawables>
