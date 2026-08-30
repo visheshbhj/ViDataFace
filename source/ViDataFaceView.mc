@@ -54,7 +54,7 @@ class ViDataFaceView extends WatchUi.WatchFace {
         if (NightMode.alarmCount() > 0) {
             Layout.putBitmapRow(dc, :night_alarm, [StatusIcons.get(:alarm)]);
         }
-        Layout.put(dc, :night_clock, DataService.localTime());
+        Layout.putClock(dc, :night_clock, DataService.localTime(), DataService.meridiem());
         Layout.put(dc, :night_zone,  SecondZone.text());
     }
 
@@ -96,7 +96,7 @@ class ViDataFaceView extends WatchUi.WatchFace {
         Layout.put(dc, :date, text("DateLabel", DataService.dateText()));
 
         // The clock fields are the only ones that are already text.
-        Layout.put(dc, :clock,      DataService.localTime());
+        Layout.putClock(dc, :clock, DataService.localTime(), DataService.meridiem());
         Layout.put(dc, :timezone_2, SecondZone.text());
 
         Layout.put(dc, :temperature,  Layout.temp(raw("WeatherLabel")));

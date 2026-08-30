@@ -193,6 +193,29 @@ module Layout {
         }
     }
 
+    // The clock, with the AM/PM marker beside it when the watch is on a
+    // 12-hour setting. The digits stay centred on the anchor and the marker
+    // hangs off their right edge — centring the pair as one group would drag
+    // the time off centre, and the time is the thing that must look centred.
+    const MERIDIEM_GAP = 5;
+    function putClock(dc, key, text, meridiem) {
+        var a = ANCHORS[key];
+        if (a == null || a[:f] == null) { return; }
+        var f = font(a[:f]);
+        if (f == null) { return; }
+        dc.setColor(a[:c], Gfx.COLOR_TRANSPARENT);
+        dc.drawText(a[:x], a[:y], f, text, a[:j]);
+        if (meridiem == null) { return; }
+
+        var mf = font(F_LABEL);
+        if (mf == null) { return; }
+        var right = a[:x] + dc.getTextWidthInPixels(text, f) / 2;
+        // Sits against the top of the digits rather than their middle, the way
+        // a meridiem marker is set beside a large numeral.
+        dc.setColor(INK_DIM, Gfx.COLOR_TRANSPARENT);
+        dc.drawText(right + MERIDIEM_GAP, a[:y] - 16, mf, meridiem, JL);
+    }
+
     // A bitmap and a line of text, centred on the anchor as one group.
     function putIconText(dc, key, bitmap, text) {
         var a = ANCHORS[key];

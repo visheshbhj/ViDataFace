@@ -28,21 +28,34 @@ module DataService {
         return null;
     }
 
+    //! The clock digits, in whichever convention the watch is set to. The
+    //! device setting decides; nothing here overrides it.
     function localTime() as String {
-        var timeFormat = "$1$:$2$";
-        var clockTime = System.getClockTime();
-        var hours = clockTime.hour;
+        var clock = System.getClockTime();
+        var minutes = clock.min.format("%02d");
+
         if (!System.getDeviceSettings().is24Hour) {
-            if (hours > 12) {
-                hours = hours - 12;
+            // 12-hour: midnight and noon are both "12", not "0". The old code
+            // only subtracted when hour > 12, so 00:50 came out as "0:50".
+            var hours = clock.hour % 12;
+            if (hours == 0) {
+                hours = 12;
             }
-        } else {
-            if (Application.Properties.getValue("UseMilitaryFormat")) {
-                timeFormat = "$1$$2$";
-                hours = hours.format("%02d");
-            }
+            return Lang.format("$1$:$2$", [hours, minutes]);
         }
-        return Lang.format(timeFormat, [hours, clockTime.min.format("%02d")]);
+        if (Application.Properties.getValue("UseMilitaryFormat")) {
+            return Lang.format("$1$$2$", [clock.hour.format("%02d"), minutes]);
+        }
+        return Lang.format("$1$:$2$", [clock.hour.format("%02d"), minutes]);
+    }
+
+    //! "AM"/"PM" while the watch is on a 12-hour clock, null on a 24-hour one
+    //! where the hour already says which half of the day it is.
+    function meridiem() as String? {
+        if (System.getDeviceSettings().is24Hour) {
+            return null;
+        }
+        return (System.getClockTime().hour < 12) ? "AM" : "PM";
     }
 
     // FORMAT_MEDIUM gives abbreviated, already-localised names ("Fri", "Aug").
