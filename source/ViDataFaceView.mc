@@ -1,14 +1,14 @@
 import Toybox.Application;
 import Toybox.Graphics;
 import Toybox.Lang;
-import Toybox.System;
-import Toybox.Timer;
 import Toybox.WatchUi;
 
+//! Draws the Pass 6a face. Every position, colour, font and format lives in
+//! Layout; this class only decides which reading goes in which slot, and which
+//! Layout formatter turns it into text. Nothing here formats a number itself.
 class ViDataFaceView extends WatchUi.WatchFace {
 
-    private var _fontTimer as Timer.Timer?;
-    private var _fontIndex as Number = 0;
+    private var _complications as CompilationService = new CompilationService();
 
     function initialize() {
         WatchFace.initialize();
@@ -23,86 +23,68 @@ class ViDataFaceView extends WatchUi.WatchFace {
     // the state of this View and prepare it to be shown. This includes
     // loading resources into memory.
     function onShow() as Void {
-        _fontTimer = new Timer.Timer();
-        _fontTimer.start(method(:onFontTimer), 10000, true);
+        _complications.start();
     }
 
-    private function onFontTimer() as Void {
-        _fontIndex = (_fontIndex + 1) % ALL_FACE_NAMES.size();
-        WatchUi.requestUpdate();
-    }
-
-    private const ALL_FACE_NAMES as Array<String> = [
-        "BionicBold", "ExoSemiBold", "KosugiRegular", "NanumGothicBold", "NanumGothicExtraBold",
-        "NanumGothicRegular", "NotoNaskhArabicBold", "NotoNaskhArabicRegular", "NotoSansArmenianBold",
-        "NotoSansArmenianRegular", "NotoSansHebrewBold", "NotoSansHebrewRegular", "NotoSansSCMedium",
-        "PridiRegular", "PridiRegularGarmin", "PridiSemiBoldGarmin", "RobotoBlack", "RobotoCondensedBold",
-        "RobotoCondensedRegular", "RobotoCondensedRegularItalic", "RobotoRegular", "SakkalMajallaBold",
-        "SakkalMajallaRoman", "Swiss721Bold", "Swiss721Regular", "TomorrowBold", "YantramanavRegular"
-    ];
-
-    private const FONT_TEST_TEXT as String = "▲▼▴▾ ⦵ ♥ 🜂 ⭍☼ ☀︽ ︾";
-
-    private function drawFontSupportTest(dc as Dc) as Void {
-        dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
-        var labelFont = Graphics.getVectorFont({:face => "RobotoCondensedRegular", :size => 10});
-        if (labelFont == null) {
-            labelFont = Graphics.FONT_XTINY;
+    //! The raw reading for a field, complication first: where the device offers
+    //! one it is the better sensor path. Both paths hand back the API's own
+    //! number in the API's own unit, so the Layout formatter downstream is the
+    //! same either way.
+    private function raw(name as String) as Object? {
+        var value = _complications.getNumber(name);
+        if (value != null) {
+            return value;
         }
+        return DataService.rawFor(name);
+    }
 
-        var name = ALL_FACE_NAMES[_fontIndex];
-        var vf = Graphics.getVectorFont({:face => name, :size => 32});
-        var status = (vf != null) ? "OK" : "--";
+    private function drawFields(dc as Dc) as Void {
+        Layout.battery(dc, DataService.batteryPercent());
 
-        var width = dc.getWidth();
-        var height = dc.getHeight();
+        // Nothing is drawn when the sky is unknown: an empty slot reads better
+        // than a placeholder next to a live temperature.
+        Layout.putBitmap(dc, :weather_icon,
+            WeatherIcons.get(DataService.weatherCondition()));
 
-        dc.drawText(width / 2, height / 2 - 40, labelFont, name + " " + status,
-            Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
+        // The clock fields are the only ones that are already text.
+        Layout.put(dc, :clock,      DataService.localTime());
+        Layout.put(dc, :timezone_2, DataService.istTime());
 
-        var testFont = (vf != null) ? vf : labelFont;
-        dc.drawText(width / 2, height / 2, testFont, FONT_TEST_TEXT,
-            Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
+        Layout.put(dc, :temperature,  Layout.temp(raw("WeatherLabel")));
+        Layout.put(dc, :altitude,     Layout.altitude(raw("AltitudeLabel")));
+        Layout.put(dc, :barometer,    Layout.pressure(raw("BarometerLabel")));
+
+        Layout.put(dc, :cal_value,    Layout.num(raw("CaloriesLabel")));
+        Layout.put(dc, :hr_value,     Layout.num(raw("HeartRateLabel")));
+        Layout.put(dc, :steps_value,  Layout.num(raw("StepsLabel")));
+
+        Layout.put(dc, :body_value,   Layout.pct(raw("BodyBatteryLabel")));
+        Layout.put(dc, :solar_value,  Layout.pct(raw("SolarLabel")));
+        Layout.put(dc, :stress_value, Layout.pct(raw("StressLabel")));
+
+        var captions = Layout.LABELS.keys();
+        for (var i = 0; i < captions.size(); i++) {
+            Layout.label(dc, captions[i]);
+        }
     }
 
     // Update the view
     function onUpdate(dc as Dc) as Void {
-        // Get the current time and format it correctly
-        var timeFormat = "$1$:$2$";
-        var clockTime = System.getClockTime();
-        var hours = clockTime.hour;
-        if (!System.getDeviceSettings().is24Hour) {
-            if (hours > 12) {
-                hours = hours - 12;
-            }
-        } else {
-            if (Application.Properties.getValue("UseMilitaryFormat")) {
-                timeFormat = "$1$$2$";
-                hours = hours.format("%02d");
-            }
-        }
-        var timeString = Lang.format(timeFormat, [hours, clockTime.min.format("%02d")]);
-
-        // Update the view
-        var view = View.findDrawableById("TimeLabel") as Text;
-        view.setColor(Application.Properties.getValue("ForegroundColor") as Number);
-        view.setText(timeString);
-        
-        //drawFontSupportTest(dc);
-        
-
-        // Call the parent onUpdate function to redraw the layout
+        // Call the parent onUpdate first to redraw the layout: Background.draw()
+        // calls dc.clear(), which would erase anything drawn before it.
         View.onUpdate(dc);
+
+        drawFields(dc);
+        // Diagnostic page: clears the screen and lists every complication.
+        //_complications.draw(dc);
     }
 
     // Called when this View is removed from the screen. Save the
     // state of this View here. This includes freeing resources from
     // memory.
     function onHide() as Void {
-        if (_fontTimer != null) {
-            _fontTimer.stop();
-            _fontTimer = null;
-        }
+        _complications.stop();
+        WeatherIcons.release();
     }
 
     // The user has just looked at their watch. Timers and animations may be started here.
