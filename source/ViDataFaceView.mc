@@ -50,6 +50,8 @@ class ViDataFaceView extends WatchUi.WatchFace {
         Layout.putBitmap(dc, :weather_icon,
             WeatherIcons.get(DataService.weatherCondition()));
 
+        Layout.putBitmapRow(dc, :status_row, StatusIcons.active());
+
         // The clock fields are the only ones that are already text.
         Layout.put(dc, :clock,      DataService.localTime());
         Layout.put(dc, :timezone_2, DataService.istTime());
@@ -94,6 +96,7 @@ class ViDataFaceView extends WatchUi.WatchFace {
     function onHide() as Void {
         _complications.stop();
         WeatherIcons.release();
+        StatusIcons.release();
     }
 
     // The user has just looked at their watch. Timers and animations may be started here.

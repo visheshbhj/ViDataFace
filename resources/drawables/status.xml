@@ -1,0 +1,10 @@
+<drawables xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://developer.garmin.com/downloads/connect-iq/resources.xsd">
+
+    <!-- Status row icons. Drawn in INK_MID rather than tinted at runtime:
+         dc.drawBitmap cannot recolour, so the ink is baked into the art. -->
+    <bitmap id="StatusBluetooth" filename="status/bluetooth.svg" scaleRelativeTo="screen" scaleX="6%" dithering="none" />
+    <bitmap id="StatusDnd"       filename="status/dnd.svg"       scaleRelativeTo="screen" scaleX="6%" dithering="none" />
+    <bitmap id="StatusAlarm"     filename="status/alarm.svg"     scaleRelativeTo="screen" scaleX="6%" dithering="none" />
+    <bitmap id="StatusNotify"    filename="status/notify.svg"    scaleRelativeTo="screen" scaleX="6%" dithering="none" />
+
+</drawables>

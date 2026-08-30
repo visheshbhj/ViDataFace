@@ -50,7 +50,7 @@ module Layout {
         :clock    => { :face => "BionicSemiBold",         :size => 64, :stock => Gfx.FONT_NUMBER_HOT },
         :temp     => { :face => "RobotoCondensedBold",    :size => 26, :stock => Gfx.FONT_MEDIUM     },
         :value    => { :face => "RobotoCondensedBold",    :size => 22, :stock => Gfx.FONT_MEDIUM     },
-        :tz       => { :face => "RobotoCondensedRegular", :size => 16, :stock => Gfx.FONT_SMALL      },
+        :tz       => { :face => "RobotoCondensedRegular", :size => 20, :stock => Gfx.FONT_SMALL      },
         :label    => { :face => "RobotoCondensedBold",    :size => 13, :stock => Gfx.FONT_XTINY      }
     };
 
@@ -100,11 +100,14 @@ module Layout {
         :weather_icon   => { :x => 112, :y =>  48, :j => JC, :c => INK_BRIGHT, :f => null       }, // 28x28 bitmap, centred
         :temperature    => { :x => 132, :y =>  48, :j => JL, :c => INK_BRIGHT, :f => F_TEMP     },
 
-        // shoulder row — inset to 76/204 so a 5-digit altitude plus its sign
+        // shoulder row — inset to 72/208 so a 5-digit altitude plus its sign
         // triangle, and a barometer carrying a decimal and a chevron, still
         // clear the bezel
-        :altitude       => { :x =>  76, :y =>  83, :j => JC, :c => INK_BRIGHT, :f => F_VALUE    },
-        :barometer      => { :x => 204, :y =>  83, :j => JC, :c => INK_BRIGHT, :f => F_VALUE    },
+        :altitude       => { :x =>  72, :y =>  83, :j => JC, :c => INK_BRIGHT, :f => F_VALUE    },
+        :barometer      => { :x => 208, :y =>  83, :j => JC, :c => INK_BRIGHT, :f => F_VALUE    },
+
+        // status row — the 24 px band between the shoulder ink and the clock ink
+        :status_row     => { :x => 140, :y => 102, :j => JC, :c => INK_MID,   :f => null       }, // 17px icons
 
         // clock block — the clock is on the true centre
         :clock          => { :x => 140, :y => 140, :j => JC, :c => INK_WHITE,  :f => F_CLOCK    },
@@ -161,6 +164,25 @@ module Layout {
                       a[:y] - (bitmap.getHeight() / 2), bitmap);
     }
 
+    // A row of bitmaps centred on an anchor, laid out left to right. An empty
+    // list draws nothing, which is what a quiet watch should look like.
+    const ICON_GAP = 6;
+    function putBitmapRow(dc, key, bitmaps) {
+        var a = ANCHORS[key];
+        if (a == null || bitmaps == null || bitmaps.size() == 0) { return; }
+        var total = 0;
+        for (var i = 0; i < bitmaps.size(); i++) {
+            total += bitmaps[i].getWidth();
+        }
+        total += ICON_GAP * (bitmaps.size() - 1);
+        var x = a[:x] - total / 2;
+        for (var i = 0; i < bitmaps.size(); i++) {
+            var b = bitmaps[i];
+            dc.drawBitmap(x, a[:y] - (b.getHeight() / 2), b);
+            x += b.getWidth() + ICON_GAP;
+        }
+    }
+
     // ---- value formatting ---------------------------------------------
     // The emulator showed raw floats (5.765788, 24.0000, 838.00000) because
     // the Garmin APIs hand back Float, not Number. Never pass an API value
@@ -172,13 +194,13 @@ module Layout {
         return (v.toNumber()).format("%d");
     }
 
-    // Altitude in metres, MAGNITUDE ONLY — the leading triangle carries the
-    // sign, so "-340m" would double up on it. Five digits is reachable from a
-    // plane, so the field is sized for "11000m" plus its marker.
+    // Altitude, MAGNITUDE ONLY and unitless — the leading triangle carries the
+    // sign, so "-340" would double up on it. Five digits is reachable from a
+    // plane, so the field is sized for "11542" plus its marker.
     function altitude(m) {
         if (m == null) { return "--"; }
         var v = m.toNumber();
-        return ((v < 0) ? -v : v).format("%d") + "m";
+        return ((v < 0) ? -v : v).format("%d");
     }
 
     // Which triangle goes in front of an altitude: :up at or above sea level,
