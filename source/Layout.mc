@@ -101,8 +101,9 @@ module Layout {
         :weather_icon   => { :x => 112, :y =>  48, :j => JC, :c => INK_BRIGHT, :f => null       }, // 28x28 bitmap, centred
         :temperature    => { :x => 132, :y =>  48, :j => JL, :c => INK_BRIGHT, :f => F_TEMP     },
 
-        // date, in the gap between the top cluster and the shoulder values
-        :date           => { :x => 140, :y =>  66, :j => JC, :c => INK_DIM,   :f => F_LABEL    },
+        // Date sits directly above the clock, set at the same size as the
+        // second timezone below it so the two frame the time evenly.
+        :date           => { :x => 140, :y => 102, :j => JC, :c => INK_DIM,   :f => F_TZ       },
 
         // shoulder row — inset to 72/208 so a 5-digit altitude plus its sign
         // triangle, and a barometer carrying a decimal and a chevron, still
@@ -110,8 +111,15 @@ module Layout {
         :altitude       => { :x =>  72, :y =>  83, :j => JC, :c => INK_BRIGHT, :f => F_VALUE    },
         :barometer      => { :x => 208, :y =>  83, :j => JC, :c => INK_BRIGHT, :f => F_VALUE    },
 
-        // status row — the 24 px band between the shoulder ink and the clock ink
-        :status_row     => { :x => 140, :y => 102, :j => JC, :c => INK_MID,   :f => null       }, // 17px icons
+        // Status row, DISABLED — see ViDataFaceView.drawFields. The anchor is
+        // kept for when it comes back. Note the date now owns the band above
+        // the clock, so re-enabling this needs a home: the only clear space
+        // left is the 17.9 px under the temperature, too thin for 17 px icons.
+        :status_row     => { :x => 140, :y =>  65, :j => JC, :c => INK_MID,   :f => null       },
+
+        // Night keeps the same reading order as day — date, time, timezone —
+        // so the bell moves up to make room.
+        :night_date     => { :x => 140, :y => 104, :j => JC, :c => INK_DIM,   :f => F_TZ       },
 
         // clock block — the clock is on the true centre
         :clock          => { :x => 140, :y => 140, :j => JC, :c => INK_WHITE,  :f => F_CLOCK    },
@@ -120,7 +128,7 @@ module Layout {
         // ---- night mode ------------------------------------------------
         // Three rows only, and dimmer ink: at night the face is read in the
         // dark, by someone who should not be woken further by it.
-        :night_alarm    => { :x => 140, :y =>  96, :j => JC, :c => INK_DIM,   :f => F_VALUE    },
+        :night_alarm    => { :x => 140, :y =>  74, :j => JC, :c => INK_DIM,   :f => F_VALUE    },
         :night_clock    => { :x => 140, :y => 140, :j => JC, :c => INK_MID,   :f => F_CLOCK    },
         :night_zone     => { :x => 140, :y => 192, :j => JC, :c => INK_DIM,   :f => F_TZ       },
 

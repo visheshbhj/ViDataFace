@@ -55,6 +55,7 @@ class ViDataFaceView extends WatchUi.WatchFace {
             Layout.putBitmapRow(dc, :night_alarm, [StatusIcons.get(:alarm)]);
         }
         Layout.putClock(dc, :night_clock, DataService.localTime(), DataService.meridiem());
+        Layout.put(dc, :night_date,  text("DateLabel", DataService.dateText()));
         Layout.put(dc, :night_zone,  SecondZone.text());
     }
 
@@ -89,7 +90,9 @@ class ViDataFaceView extends WatchUi.WatchFace {
         Layout.putBitmap(dc, :weather_icon,
             WeatherIcons.get(DataService.weatherCondition()));
 
-        Layout.putBitmapRow(dc, :status_row, StatusIcons.active());
+        // Status icons (phone / focus / alarm / notifications) are switched off
+        // for now. StatusIcons stays — night mode still draws the bell from it.
+        // Layout.putBitmapRow(dc, :status_row, StatusIcons.active());
 
         // The weekday and monthday come from the device already localised, so
         // this is the one field taken as text rather than a number.
