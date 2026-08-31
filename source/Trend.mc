@@ -26,18 +26,19 @@ module Trend {
     const GRADUAL_HPA = 0.6;
     const RAPID_HPA   = 2.5;
 
-    // Scanning two histories is ~360 samples, and a watch face can be asked to
-    // redraw once a second while the wrist is raised. The trend cannot change
-    // faster than the 120 s sample interval, so once a minute is plenty.
+    // Scanning two histories is ~360 samples. The reading is a change measured
+    // across FOUR HOURS, so it cannot move meaningfully in a minute: recomputing
+    // every five is still far finer than the quantity being reported.
+    const REFRESH_MIN = 5;
     var _marker = null;
-    var _minute = -1;
+    var _slot = -1;
 
     //! :rapid_up, :up, :down, :rapid_down, or null when the change is too small
     //! to report, the window too short, or the device keeps no pressure history.
     function marker() as Symbol? {
-        var minute = Time.now().value() / 60;
-        if (minute != _minute) {
-            _minute = minute;
+        var slot = Frame.minute() / REFRESH_MIN;
+        if (slot != _slot) {
+            _slot = slot;
             _marker = compute();
         }
         return _marker;

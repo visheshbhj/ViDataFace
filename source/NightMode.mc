@@ -17,8 +17,24 @@ import Toybox.UserProfile;
 //! and says no more than that — a bell, drawn only when alarmCount > 0.
 module NightMode {
 
+    // The decision cannot change within a minute, and it is asked for on every
+    // draw, so it is computed once per snapshot.
+    var _active = false;
+    var _minute = -1;
+
     function isActive() as Boolean {
-        var settings = System.getDeviceSettings();
+        if (Frame.minute() != _minute) {
+            _minute = Frame.minute();
+            _active = compute();
+        }
+        return _active;
+    }
+
+    function compute() as Boolean {
+        var settings = Frame.settings;
+        if (settings == null) {
+            return false;
+        }
         if ((settings has :isNightModeEnabled) && settings.isNightModeEnabled) {
             return true;
         }
@@ -29,7 +45,7 @@ module NightMode {
     //! normally crosses midnight (22:30 -> 06:30), which is why this is not a
     //! plain range test.
     function inSleepWindow() as Boolean {
-        var profile = UserProfile.getProfile();
+        var profile = Frame.profile;
         if (profile == null || !(profile has :sleepTime) || !(profile has :wakeTime)
                 || profile.sleepTime == null || profile.wakeTime == null) {
             return false;
@@ -47,12 +63,12 @@ module NightMode {
     }
 
     function secondsSinceMidnight() as Number {
-        var clock = System.getClockTime();
+        var clock = Frame.clock;
         return clock.hour * 3600 + clock.min * 60 + clock.sec;
     }
 
     function alarmCount() as Number {
-        var settings = System.getDeviceSettings();
+        var settings = Frame.settings;
         if (!(settings has :alarmCount) || settings.alarmCount == null) {
             return 0;
         }

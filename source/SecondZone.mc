@@ -33,10 +33,20 @@ module SecondZone {
     //! "IST 23:57" — the label makes the row self-describing once the zone is
     //! configurable. Falls back to plain local-offset arithmetic on a device
     //! without localMoment().
+    // Resolving a zone means building a Location and asking the device for its
+    // offset and DST rules — much the most expensive thing on the face. The
+    // answer only changes once a minute, so it is computed once a minute.
+    var _text = null;
+    var _minute = -1;
+
     function text() as String {
-        var zone = ZONES[index()];
-        var label = zone[:label] as String;
-        return label + " " + clock(zone);
+        if (Frame.minute() != _minute || _text == null) {
+            _minute = Frame.minute();
+            var i = index();
+            var zone = ZONES[i];
+            _text = (zone[:label] as String) + " " + clock(zone, i);
+        }
+        return _text;
     }
 
     function index() as Number {
@@ -51,14 +61,26 @@ module SecondZone {
         return i;
     }
 
-    function clock(zone) as String {
-        var now = Time.now();
-        if (Time.Gregorian has :localMoment) {
-            var here = new Position.Location({
+    // The Location for the chosen zone, built once rather than per call.
+    var _location = null;
+    var _locationFor = -1;
+
+    function location(zone, i) {
+        if (_location == null || _locationFor != i) {
+            _locationFor = i;
+            _location = new Position.Location({
                 :latitude  => zone[:lat],
                 :longitude => zone[:lon],
                 :format    => :degrees
             });
+        }
+        return _location;
+    }
+
+    function clock(zone, i) as String {
+        var now = Time.now();
+        if (Time.Gregorian has :localMoment) {
+            var here = location(zone, i);
             var moment = Time.Gregorian.localMoment(here, now);
             if (moment != null) {
                 var info = Time.Gregorian.info(moment, Time.FORMAT_SHORT);

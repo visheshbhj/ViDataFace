@@ -26,6 +26,9 @@ class ViDataFaceView extends WatchUi.WatchFace {
     // the state of this View and prepare it to be shown. This includes
     // loading resources into memory.
     function onShow() as Void {
+        // onShow runs before any draw, so the snapshot has to exist before
+        // anything reads it.
+        Frame.begin();
         _night = NightMode.isActive();
         if (!_night) {
             _complications.start();
@@ -130,6 +133,9 @@ class ViDataFaceView extends WatchUi.WatchFace {
         // Call the parent onUpdate first to redraw the layout: Background.draw()
         // calls dc.clear(), which would erase anything drawn before it.
         View.onUpdate(dc);
+
+        // Everything the face reads is snapshotted here, once a minute.
+        Frame.begin();
 
         updateNight();
         if (_night) {

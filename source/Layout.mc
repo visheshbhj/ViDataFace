@@ -255,7 +255,7 @@ module Layout {
     const M_TO_FT = 3.28084;
 
     function statute(setting) {
-        var device = Sys.getDeviceSettings();
+        var device = Frame.settings;
         if (!(device has setting)) { return false; }
         var value = (setting == :elevationUnits) ? device.elevationUnits
                                                  : device.temperatureUnits;

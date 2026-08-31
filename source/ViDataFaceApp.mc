@@ -23,6 +23,9 @@ class ViDataFaceApp extends Application.AppBase {
 
     // New app settings have been received so trigger a UI update
     function onSettingsChanged() as Void {
+        // Drop the snapshot so a new zone or unit shows at once rather than
+        // waiting for the minute to roll over.
+        Frame.invalidate();
         WatchUi.requestUpdate();
     }
 
