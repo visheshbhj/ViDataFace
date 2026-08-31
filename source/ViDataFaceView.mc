@@ -88,10 +88,13 @@ class ViDataFaceView extends WatchUi.WatchFace {
         Layout.battery(dc, (battery != null) ? (battery as Numeric).toNumber()
                                              : DataService.batteryPercent());
 
-        // Nothing is drawn when the sky is unknown: an empty slot reads better
-        // than a placeholder next to a live temperature.
-        Layout.putBitmap(dc, :weather_icon,
-            WeatherIcons.get(DataService.weatherCondition()));
+        // The condition complication hands back the same Weather.CONDITION_*
+        // number as the sensor, so the icon is complication-backed like
+        // everything else. Nothing is drawn when the sky is unknown: an empty
+        // slot reads better than a placeholder next to a live temperature.
+        var condition = raw("ConditionLabel");
+        Layout.putBitmap(dc, :weather_icon, (condition != null)
+            ? WeatherIcons.get((condition as Numeric).toNumber()) : null);
 
         // Status icons (phone / focus / alarm / notifications) are switched off
         // for now. StatusIcons stays — night mode still draws the bell from it.

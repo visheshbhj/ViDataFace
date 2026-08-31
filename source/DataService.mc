@@ -23,6 +23,7 @@ module DataService {
         if (name.equals("AltitudeLabel"))    { return altitude(); }
         if (name.equals("BarometerLabel"))   { return pressure(); }
         if (name.equals("WeatherLabel"))     { return temperature(); }
+        if (name.equals("ConditionLabel"))   { return weatherCondition(); }
         if (name.equals("StepsLabel"))       { return steps(); }
         if (name.equals("HeartRateLabel"))   { return heartRate(); }
         if (name.equals("CaloriesLabel"))    { return calories(); }

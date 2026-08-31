@@ -17,6 +17,9 @@ class CompilationService {
         "AltitudeLabel"    => Complications.COMPLICATION_TYPE_ALTITUDE,
         "BarometerLabel"   => Complications.COMPLICATION_TYPE_SEA_LEVEL_PRESSURE,
         "WeatherLabel"     => Complications.COMPLICATION_TYPE_CURRENT_TEMPERATURE,
+        // Returns the raw Weather.CONDITION_* value — the same number
+        // Toybox.Weather reports — so it can index the icon art directly.
+        "ConditionLabel"   => Complications.COMPLICATION_TYPE_CURRENT_WEATHER,
         "StepsLabel"       => Complications.COMPLICATION_TYPE_STEPS,
         "HeartRateLabel"   => Complications.COMPLICATION_TYPE_HEART_RATE,
         "CaloriesLabel"    => Complications.COMPLICATION_TYPE_CALORIES,
@@ -56,13 +59,19 @@ class CompilationService {
             if (type == null) {
                 continue;
             }
-            var id = new Complications.Id(type as Complications.Type);
-            // A device that doesn't support the complication returns false here
-            // rather than throwing, so a failed subscribe is data, not an error.
-            _subscribed.put(name, Complications.subscribeToUpdates(id));
-            // Seed the cache: subscribing only delivers *changes*, so without a
-            // first read every field stays blank until its next update.
-            cache(name, readValue(id));
+            // Subscribing was assumed to return false for a complication the
+            // device does not offer. It does not always: CURRENT_WEATHER throws
+            // here, which took the whole face down with an error screen. One bad
+            // type must not cost us the other ten, so each is isolated.
+            try {
+                var id = new Complications.Id(type as Complications.Type);
+                _subscribed.put(name, Complications.subscribeToUpdates(id));
+                // Seed the cache: subscribing only delivers *changes*, so
+                // without a first read every field stays blank until its next.
+                cache(name, readValue(id));
+            } catch (e) {
+                _subscribed.put(name, false);
+            }
         }
     }
 
