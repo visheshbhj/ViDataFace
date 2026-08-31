@@ -81,10 +81,15 @@ way into night and takes them out again on the way out, tracked by a flag so it
 happens once at the transition. While asleep the face reads no sensors and
 draws no battery arc — three rows of text and nothing else.
 
-The trigger is `ActivityMonitor.Info.isSleepMode` and nothing else: the state
-the watch itself is in. It is checked once a minute like everything else, so a
-transition reaches the screen within a minute of the watch entering or leaving
-sleep mode.
+The trigger is `ActivityMonitor.Info.isSleepMode` — the state the watch itself
+is in — falling back to the configured sleep window from `UserProfile` when that
+returns null. `isSleepMode` is deprecated and typed `Boolean or Null`, so the
+fallback is not hypothetical. Note that reading it through `Frame.monitor`, an
+untyped var, suppresses the compiler's deprecation warning; the deprecation is
+real regardless.
+
+It is checked once a minute like everything else, so a transition reaches the
+screen within a minute of the watch entering or leaving sleep mode.
 
 ## Complications
 

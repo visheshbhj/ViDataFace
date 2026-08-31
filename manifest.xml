@@ -23,6 +23,9 @@
         <iq:permissions>
             <iq:uses-permission id="ComplicationSubscriber"/>
             <iq:uses-permission id="SensorHistory"/>
+            <!-- Only for NightMode's fallback, when the watch does not
+                 report its own sleep mode. -->
+            <iq:uses-permission id="UserProfile"/>
         </iq:permissions>
         <!--
             Use "Monkey C: Edit Languages" from the Visual Studio Code command
