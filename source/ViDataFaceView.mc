@@ -13,6 +13,13 @@ class ViDataFaceView extends WatchUi.WatchFace {
     // into night mode, not re-evaluated on every draw.
     private var _night as Boolean = false;
 
+    // The system asks a watch face to redraw once a SECOND while the wrist is
+    // raised. This face shows no seconds, so most of those repaint an identical
+    // picture. One in five is honoured, plus every minute boundary so the time
+    // is never late.
+    private const DRAW_EVERY_SEC = 5;
+    private var _drawnMinute as Number = -1;
+
     function initialize() {
         WatchFace.initialize();
     }
@@ -131,14 +138,31 @@ class ViDataFaceView extends WatchUi.WatchFace {
         }
     }
 
+    //! True when this tick is worth painting: the minute has rolled over, or we
+    //! have reached the next five-second step. Skipping means not clearing the
+    //! screen either, so the previous frame simply stays up.
+    private function shouldDraw() as Boolean {
+        var minute = Frame.clock.hour * 60 + Frame.clock.min;
+        if (minute != _drawnMinute) {
+            _drawnMinute = minute;
+            return true;
+        }
+        return (Frame.clock.sec % DRAW_EVERY_SEC) == 0;
+    }
+
     // Update the view
     function onUpdate(dc as Dc) as Void {
+        // Cheap: it refreshes the clock every tick but re-reads the sensors only
+        // when the minute rolls over. It has to run before shouldDraw(), which
+        // reads the clock it refreshes.
+        Frame.begin();
+        if (!shouldDraw()) {
+            return;
+        }
+
         // Call the parent onUpdate first to redraw the layout: Background.draw()
         // calls dc.clear(), which would erase anything drawn before it.
         View.onUpdate(dc);
-
-        // Everything the face reads is snapshotted here, once a minute.
-        Frame.begin();
 
         updateNight();
         if (_night) {
