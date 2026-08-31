@@ -1,24 +1,27 @@
+import Toybox.ActivityMonitor;
 import Toybox.Lang;
 import Toybox.System;
-import Toybox.Time;
-import Toybox.UserProfile;
 
 //! Decides when the face should go quiet for the night, and supplies the few
 //! things it still shows.
 //!
-//! Two triggers, either is enough:
-//!   - the watch's own night mode setting (isNightModeEnabled), which the
-//!     wearer controls directly, and
-//!   - the sleep window from the user profile, so the face goes quiet on
-//!     schedule even when night mode is not switched on.
+//! The trigger is the watch's own sleep mode — ActivityMonitor.Info.isSleepMode
+//! — and nothing else. That is the state the watch itself is in, whether it got
+//! there on the wearer's sleep schedule or by being switched on by hand, so the
+//! face follows the watch rather than second-guessing it.
+//!
+//! An earlier version also went quiet whenever the clock fell inside the sleep
+//! window from UserProfile. That fired whether or not the wearer was actually
+//! asleep — a late evening inside the window looked identical to being in bed —
+//! and it cost the UserProfile permission at install. Both are gone.
 //!
 //! Connect IQ has NO API for the next alarm's TIME: DeviceSettings offers
 //! alarmCount and nothing else. So the night face marks that an alarm is set
 //! and says no more than that — a bell, drawn only when alarmCount > 0.
 module NightMode {
 
-    // The decision cannot change within a minute, and it is asked for on every
-    // draw, so it is computed once per snapshot.
+    // The state is asked for on every draw and cannot change usefully within a
+    // minute, so it is computed once per snapshot.
     var _active = false;
     var _minute = -1;
 
@@ -30,46 +33,22 @@ module NightMode {
         return _active;
     }
 
+    //! True only while the watch is in sleep mode. A device that does not report
+    //! it never goes quiet, which is the right way to fail: a face that stays
+    //! full is merely unhelpful at night, one stuck in night mode is useless by
+    //! day.
     function compute() as Boolean {
-        var settings = Frame.settings;
-        if (settings == null) {
+        var info = Frame.monitor;
+        if (info == null || !(info has :isSleepMode) || info.isSleepMode == null) {
             return false;
         }
-        if ((settings has :isNightModeEnabled) && settings.isNightModeEnabled) {
-            return true;
-        }
-        return inSleepWindow();
-    }
-
-    //! True while the clock sits inside the profile's sleep window. The window
-    //! normally crosses midnight (22:30 -> 06:30), which is why this is not a
-    //! plain range test.
-    function inSleepWindow() as Boolean {
-        var profile = Frame.profile;
-        if (profile == null || !(profile has :sleepTime) || !(profile has :wakeTime)
-                || profile.sleepTime == null || profile.wakeTime == null) {
-            return false;
-        }
-        var sleep = (profile.sleepTime as Time.Duration).value();
-        var wake = (profile.wakeTime as Time.Duration).value();
-        if (sleep == wake) {
-            return false;
-        }
-        var now = secondsSinceMidnight();
-        if (sleep < wake) {
-            return (now >= sleep) && (now < wake);
-        }
-        return (now >= sleep) || (now < wake);
-    }
-
-    function secondsSinceMidnight() as Number {
-        var clock = Frame.clock;
-        return clock.hour * 3600 + clock.min * 60 + clock.sec;
+        return info.isSleepMode as Boolean;
     }
 
     function alarmCount() as Number {
         var settings = Frame.settings;
-        if (!(settings has :alarmCount) || settings.alarmCount == null) {
+        if (settings == null || !(settings has :alarmCount)
+                || settings.alarmCount == null) {
             return 0;
         }
         return settings.alarmCount as Number;

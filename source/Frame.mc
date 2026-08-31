@@ -2,7 +2,6 @@ import Toybox.Activity;
 import Toybox.ActivityMonitor;
 import Toybox.Lang;
 import Toybox.System;
-import Toybox.UserProfile;
 
 //! One snapshot of everything the face reads, taken once a MINUTE.
 //!
@@ -25,7 +24,6 @@ module Frame {
     var monitor = null;
     var stats = null;
     var conditions = null;
-    var profile = null;
     var bodyBattery = null;
 
     var _minute = -1;
@@ -43,7 +41,6 @@ module Frame {
         activity = Activity.getActivityInfo();
         monitor = ActivityMonitor.getInfo();
         stats = System.getSystemStats();
-        profile = UserProfile.getProfile();
         conditions = (Toybox has :Weather)
             ? Toybox.Weather.getCurrentConditions() : null;
 

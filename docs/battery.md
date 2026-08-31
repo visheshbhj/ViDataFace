@@ -81,6 +81,11 @@ way into night and takes them out again on the way out, tracked by a flag so it
 happens once at the transition. While asleep the face reads no sensors and
 draws no battery arc — three rows of text and nothing else.
 
+The trigger is `ActivityMonitor.Info.isSleepMode` and nothing else: the state
+the watch itself is in. It is checked once a minute like everything else, so a
+transition reaches the screen within a minute of the watch entering or leaving
+sleep mode.
+
 ## Complications
 
 Every field that has a complication uses it, falling back to the sensor path.
