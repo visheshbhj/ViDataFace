@@ -51,6 +51,23 @@ VS Code bind-mounts the project folder into the container, which means the
 To update, copy a new build over the old file with the same name. To remove
 the face, delete the file from `GARMIN/APPS/`.
 
+## Settings
+
+Garmin Connect only shows settings for apps installed from the Connect IQ
+Store, so a sideloaded face is configured on the watch instead. Hold **MENU**,
+open **Watch Face**, and choose ViDataFace's customise or settings entry. The
+menu is built by [`SettingsMenu`](../source/SettingsMenu.mc):
+
+| Setting | Choices | Default |
+|---|---|---|
+| Second zone | IST, UTC, London, New York, San Francisco, Dubai, Singapore, Tokyo, Sydney | IST |
+| Trend refresh | 5, 10, 15, 20, 30, 45, 60 min | 5 min |
+| Trend lookback | 1–6 h | 4 h |
+| Battery low at | 5–50 % in 5s, then 60–90 % in 10s | 40 % |
+| Military time | on / off | off |
+
+A change is written straight away and the face picks it up on its next draw.
+
 ## Troubleshooting
 
 **The face doesn't appear in the list.** Check that you built it for the right

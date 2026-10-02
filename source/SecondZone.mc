@@ -38,27 +38,24 @@ module SecondZone {
     // answer only changes once a minute, so it is computed once a minute.
     var _text = null;
     var _minute = -1;
+    var _index = -1;
 
     function text() as String {
-        if (Frame.minute() != _minute || _text == null) {
+        // The zone is checked as well as the minute: a settings change re-reads
+        // within the same minute, and must not wait for the next one.
+        var i = index();
+        if (Frame.minute() != _minute || i != _index || _text == null) {
             _minute = Frame.minute();
-            var i = index();
+            _index = i;
             var zone = ZONES[i];
             _text = (zone[:label] as String) + " " + clock(zone, i);
         }
         return _text;
     }
 
+    //! Read and range-checked once a minute by Settings.
     function index() as Number {
-        var stored = Application.Properties.getValue("SecondZone");
-        if (stored == null) {
-            return 0;
-        }
-        var i = stored.toNumber();
-        if (i == null || i < 0 || i >= ZONES.size()) {
-            return 0;
-        }
-        return i;
+        return Settings.secondZone;
     }
 
     // The Location for the chosen zone, built once rather than per call.

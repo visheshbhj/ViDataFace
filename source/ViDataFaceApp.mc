@@ -21,6 +21,12 @@ class ViDataFaceApp extends Application.AppBase {
         return [ new ViDataFaceView() ];
     }
 
+    // The on-watch settings menu, offered from the watch face's customise
+    // option. See SettingsMenu.
+    function getSettingsView() as [Views] or [Views, InputDelegates] or Null {
+        return [ SettingsMenu.build(), new SettingsMenuDelegate() ];
+    }
+
     // New app settings have been received so trigger a UI update
     function onSettingsChanged() as Void {
         // Drop the snapshot so a new zone or unit shows at once rather than

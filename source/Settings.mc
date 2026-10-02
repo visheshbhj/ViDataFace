@@ -15,10 +15,14 @@ module Settings {
     // The battery ring turns from green to yellow at or below this.
     var batteryLowPct = 40;
 
+    // Index into SecondZone.ZONES.
+    var secondZone = 0;
+
     function load() as Void {
         trendRefreshMin  = number("TrendRefreshMin",  5, 60,  5);
         trendWindowHours = number("TrendWindowHours", 1,  6,  4);
         batteryLowPct    = number("BatteryLowPct",    5, 95, 40);
+        secondZone       = number("SecondZone",       0, SecondZone.ZONES.size() - 1, 0);
     }
 
     function number(key as String, lo as Number, hi as Number,
