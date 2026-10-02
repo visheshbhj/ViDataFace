@@ -1,11 +1,10 @@
 # Update cadence and battery
 
-The face runs on three clocks. Each exists because the thing it drives changes
+The face runs on two clocks. Each exists because the thing it drives changes
 at a different rate, and none of them is the rate the system offers.
 
 | Cadence | What it drives | Constant |
 |---|---|---|
-| 5 seconds | painting the screen | `ViDataFaceView.DRAW_EVERY_SEC` |
 | 1 minute | reading every sensor | `Frame.begin()` |
 | 5 minutes | the barometric trend | `Trend.REFRESH_MIN` |
 
@@ -47,24 +46,18 @@ Two things to know if you touch it:
 - **Settings changes call `Frame.invalidate()`** from `onSettingsChanged`, so a
   new zone or unit appears at once instead of waiting for the minute to roll.
 
-## 5 seconds — the draw gate
+## Every tick — painting
 
-`onUpdate` returns early unless the five-second step has come round **or the
-minute has rolled over**. The second condition is not optional: without it a
-minute change landing at `:01` would not reach the screen until `:05`, and the
-clock would read stale.
+`onUpdate` paints the whole face on every tick the system sends. Only the
+sensor reads are rationed (to `Frame`'s minute); drawing is not.
 
-Returning early means `View.onUpdate(dc)` is never called, so `dc.clear()` never
-runs and **the previous frame stays on screen**. That is the mechanism — the
-face is not redrawn dimmer or partially, it is simply not redrawn.
-
-Verified in the simulator: the face renders normally across skipped ticks, and
-a temporary counter read `ticks 5 draws 2`. The skipped draws are genuinely
-skipped, not merely cheap.
-
-`Frame.begin()` still runs on every tick, ahead of the gate, because the gate
-reads the clock it refreshes. On a tick where the minute has not changed that is
-one call and a comparison.
+An earlier version painted only every fifth second and returned early
+otherwise, relying on the previous frame staying on screen. It does in the
+simulator. **On the watch it does not:** the screen is not kept between
+`onUpdate` calls, so every skipped tick showed as a blank frame — the face
+flashed off once a second while the wrist was raised. Do not gate drawing on a
+real device; if drawing itself ever needs to get cheaper, render into a
+`BufferedBitmap` and blit that each tick instead.
 
 ## 5 minutes — the trend
 
@@ -106,7 +99,7 @@ cost the other eleven.
 ## What this is not
 
 **These are counted reductions, not measured battery savings.** The call counts
-above are real and the draw gating is verified, but actual current draw can only
+above are real, but actual current draw can only
 be measured on the watch. Nothing here has been tested against a battery.
 
 The largest remaining lever is untouched: the face still accepts every 1 Hz tick
@@ -116,7 +109,5 @@ it is a design decision rather than a free win.
 
 ## Changing the cadences
 
-All three are single constants. Raising the draw interval past ~15 s is
-unlikely to help much — the minute-boundary rule already forces a paint whenever
-the display would otherwise be wrong, so the gate is only skipping repaints of
-an unchanged picture either way.
+Both are single constants: the minute in `Frame.begin()` and
+`Trend.REFRESH_MIN`.
