@@ -25,6 +25,8 @@ module Layout {
     const INK_SOLAR  = 0xFFAA00;  // solar value
     const INK_SOLARL = 0xA98B45;  // solar label
     const INK_TRACK  = 0x2A2F2A;  // battery arc track
+    const INK_BATT   = 0x00FF00;  // battery arc above the low limit
+    const INK_LOW    = 0xFFFF00;  // ... and at or below it: yellow, not red, which vanishes without the backlight
     const BG         = 0x080A08;  // ground; every ink above is picked against it
 
     // ---- battery arc ---------------------------------------------------
@@ -390,14 +392,16 @@ module Layout {
         if (s != null) { put(dc, key, s); }
     }
 
-    // Battery arc. pct is 0..100.
+    // Battery arc. pct is 0..100. Green, switching to yellow at or below the
+    // user's low limit (Settings.batteryLowPct).
     function battery(dc, pct) {
         dc.setPenWidth(ARC_PEN);
         dc.setColor(INK_TRACK, Gfx.COLOR_TRANSPARENT);
         dc.drawCircle(CX, CY, ARC_R);
         if (pct <= 0) { return; }
         var sweep = (ARC_SWEEP_FULL * pct) / 100;
-        dc.setColor(INK_BRIGHT, Gfx.COLOR_TRANSPARENT);
+        dc.setColor((pct <= Settings.batteryLowPct) ? INK_LOW : INK_BATT,
+                    Gfx.COLOR_TRANSPARENT);
         dc.drawArc(CX, CY, ARC_R, Gfx.ARC_CLOCKWISE,
                    ARC_START_DEG, ARC_START_DEG - sweep);
     }

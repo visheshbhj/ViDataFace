@@ -5,4 +5,11 @@
          not readable from Connect IQ, so the zone is picked here. -->
     <property id="SecondZone" type="number">0</property>
 
+    <!-- Barometric trend. Ranges are enforced again in Settings.mc. -->
+    <property id="TrendRefreshMin" type="number">5</property>
+    <property id="TrendWindowHours" type="number">4</property>
+
+    <!-- The battery ring turns yellow at or below this percentage. -->
+    <property id="BatteryLowPct" type="number">40</property>
+
 </properties>

@@ -6,7 +6,7 @@ at a different rate, and none of them is the rate the system offers.
 | Cadence | What it drives | Constant |
 |---|---|---|
 | 1 minute | reading every sensor | `Frame.begin()` |
-| 5 minutes | the barometric trend | `Trend.REFRESH_MIN` |
+| 5–60 minutes (setting, default 5) | the barometric trend | `Settings.trendRefreshMin` |
 
 ## The problem
 
@@ -59,11 +59,13 @@ flashed off once a second while the wrist was raised. Do not gate drawing on a
 real device; if drawing itself ever needs to get cheaper, render into a
 `BufferedBitmap` and blit that each tick instead.
 
-## 5 minutes — the trend
+## 5–60 minutes — the trend
 
-[`Trend`](../source/Trend.mc) reports a pressure change measured across **four
-hours**, from a sensor the device samples every **two minutes**. Recomputing it
-on a display cadence was never meaningful. Each recompute scans ~360 history
+[`Trend`](../source/Trend.mc) reports a pressure change measured across a window
+of **1–6 hours** (setting, default 4), from a sensor the device samples every
+**two minutes**. Recomputing it on a display cadence was never meaningful; how
+often it does is also a setting, 5–60 minutes. A longer refresh saves scans,
+and the trend barely moves in between either way. Each recompute scans ~360 history
 samples across two `SensorHistory` iterators, so it is the most expensive thing
 on the face when it does run.
 
@@ -109,5 +111,6 @@ it is a design decision rather than a free win.
 
 ## Changing the cadences
 
-Both are single constants: the minute in `Frame.begin()` and
-`Trend.REFRESH_MIN`.
+The sensor minute is fixed in `Frame.begin()`. The trend's refresh and window
+are user settings, read once a minute by [`Settings`](../source/Settings.mc)
+alongside the rest of `Frame`'s snapshot.

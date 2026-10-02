@@ -18,4 +18,16 @@
         </settingConfig>
     </setting>
 
+    <setting propertyKey="@Properties.TrendRefreshMin" title="@Strings.TrendRefreshTitle">
+        <settingConfig type="numeric" min="5" max="60" />
+    </setting>
+
+    <setting propertyKey="@Properties.TrendWindowHours" title="@Strings.TrendWindowTitle">
+        <settingConfig type="numeric" min="1" max="6" />
+    </setting>
+
+    <setting propertyKey="@Properties.BatteryLowPct" title="@Strings.BatteryLowTitle">
+        <settingConfig type="numeric" min="5" max="95" />
+    </setting>
+
 </settings>

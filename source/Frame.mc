@@ -39,6 +39,7 @@ module Frame {
         }
         _minute = minute;
 
+        Settings.load();
         settings = System.getDeviceSettings();
         activity = Activity.getActivityInfo();
         monitor = ActivityMonitor.getInfo();

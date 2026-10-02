@@ -3,7 +3,9 @@ import Toybox.Math;
 import Toybox.System;
 import Toybox.Time;
 
-//! Four-hour barometric trend, read from the device's own sensor history.
+//! Barometric trend, read from the device's own sensor history. The window
+//! (1-6 h, default 4) and how often it is recomputed (5-60 min, default 5) are
+//! user settings; see Settings.
 //!
 //! Enduro 3 keeps 180 pressure samples at 120 s — six hours — and the same for
 //! elevation, so there is nothing for us to sample or store: the history is
@@ -17,40 +19,47 @@ import Toybox.Time;
 //! sea level using the elevation history over the same window.
 module Trend {
 
-    const WINDOW_SEC   = 4 * 3600;
-    // Below this much history the window is too short to call a trend.
+    // Below this much history the window is too short to call a trend. It is
+    // 45 min whatever the window, which is three quarters of the shortest one.
     const MIN_SPAN_SEC = 45 * 60;
 
-    // hPa across the window. Meteorology calls ~2 hPa in 3 hours rapid; these
-    // are the 4-hour equivalents.
-    const GRADUAL_HPA = 0.6;
-    const RAPID_HPA   = 2.5;
+    // hPa PER HOUR of window. Meteorology calls ~2 hPa in 3 hours rapid; these
+    // were 0.6 and 2.5 hPa across the original fixed 4-hour window, and scale
+    // with the window so a short one is not held to a long one's total.
+    const GRADUAL_HPA_PER_H = 0.15;
+    const RAPID_HPA_PER_H   = 0.625;
 
-    // Scanning two histories is ~360 samples. The reading is a change measured
-    // across FOUR HOURS, so it cannot move meaningfully in a minute: recomputing
-    // every five is still far finer than the quantity being reported.
-    const REFRESH_MIN = 5;
+    // Scanning two histories is up to ~360 samples. The reading is a change
+    // measured across hours, so it cannot move meaningfully in a minute.
     var _marker = null;
     var _slot = -1;
+    var _refresh = -1;
+    var _window = -1;
 
     //! :rapid_up, :up, :down, :rapid_down, or null when the change is too small
     //! to report, the window too short, or the device keeps no pressure history.
     function marker() as Symbol? {
-        var slot = Frame.minute() / REFRESH_MIN;
-        if (slot != _slot) {
+        var refresh = Settings.trendRefreshMin;
+        var window = Settings.trendWindowHours;
+        var slot = Frame.minute() / refresh;
+        // A changed setting recomputes at once rather than at the next slot.
+        if (slot != _slot || refresh != _refresh || window != _window) {
             _slot = slot;
-            _marker = compute();
+            _refresh = refresh;
+            _window = window;
+            _marker = compute(window);
         }
         return _marker;
     }
 
-    function compute() as Symbol? {
+    function compute(hours as Number) as Symbol? {
+        var windowSec = hours * 3600;
         if (!(Toybox has :SensorHistory)
                 || !(Toybox.SensorHistory has :getPressureHistory)) {
             return null;
         }
         var pressure = endpoints(Toybox.SensorHistory.getPressureHistory(
-            { :period => new Time.Duration(WINDOW_SEC) }));
+            { :period => new Time.Duration(windowSec) }));
         if (pressure == null) {
             return null;
         }
@@ -66,7 +75,7 @@ module Trend {
         var highEl = null;
         if (Toybox.SensorHistory has :getElevationHistory) {
             var elevation = endpoints(Toybox.SensorHistory.getElevationHistory(
-                { :period => new Time.Duration(WINDOW_SEC) }));
+                { :period => new Time.Duration(windowSec) }));
             if (elevation != null) {
                 lowEl = (elevation[0] as Array)[1];
                 highEl = (elevation[1] as Array)[1];
@@ -76,10 +85,10 @@ module Trend {
         var d = (toSeaLevel(newer[1] as Float, highEl)
                - toSeaLevel(older[1] as Float, lowEl)) / 100.0;
         var mag = (d < 0) ? -d : d;
-        if (mag < GRADUAL_HPA) {
+        if (mag < GRADUAL_HPA_PER_H * hours) {
             return null;
         }
-        if (mag >= RAPID_HPA) {
+        if (mag >= RAPID_HPA_PER_H * hours) {
             return (d > 0) ? :rapid_up : :rapid_down;
         }
         return (d > 0) ? :up : :down;
