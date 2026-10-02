@@ -12,20 +12,25 @@ module Layout {
     const CY = 140;
 
     // ---- ink ----------------------------------------------------------
+    // The Enduro 3 is a 64-colour MIP panel read by reflected light: each
+    // channel snaps to 00/55/AA/FF, and with the backlight off a colour is only
+    // as visible as the light it reflects. Mid-tones that look subtle in the
+    // simulator vanish on the wrist, so every ink here sits on the palette and
+    // the darkest text ink is AA.
     const INK_BRIGHT = 0xF2F4F0;  // primary values
-    const INK_WHITE  = 0xFFFFFF;  // clock only
-    const INK_DIM    = 0x78877D;  // labels
-    const INK_MID    = 0x9AA79F;  // second timezone
-    const INK_HR     = 0xFF4A33;  // heart rate
+    const INK_WHITE  = 0xFFFFFF;  // date and second timezone
+    const INK_CLOCK  = 0xFFFF00;  // clock: yellow is the most reflective colour after white
+    const INK_DIM    = 0xAAAAAA;  // labels
+    const INK_MID    = 0xAAAAAA;  // night-mode clock
     const INK_SOLAR  = 0xFFAA00;  // solar value
     const INK_SOLARL = 0xA98B45;  // solar label
     const INK_TRACK  = 0x2A2F2A;  // battery arc track
     const BG         = 0x080A08;  // ground; every ink above is picked against it
 
     // ---- battery arc ---------------------------------------------------
-    // Drawn with dc.setPenWidth(5); radius measured to the stroke centre.
-    const ARC_R          = 132;
-    const ARC_PEN        = 5;
+    // Drawn with dc.setPenWidth(ARC_PEN); radius measured to the stroke centre.
+    const ARC_R          = 134;
+    const ARC_PEN        = 2;
     const ARC_START_DEG  = 90;    // 12 o'clock, sweeping clockwise
     const ARC_SWEEP_FULL = 360;
 
@@ -48,10 +53,10 @@ module Layout {
     // wider than the design metrics, which is what the 74 px column pitch
     // absorbs.
     const FONTS = {
-        :clock    => { :face => "BionicSemiBold",         :size => 64, :stock => Gfx.FONT_NUMBER_HOT },
+        :clock    => { :face => "BionicSemiBold",         :size => 80, :stock => Gfx.FONT_NUMBER_HOT },
         :temp     => { :face => "RobotoCondensedBold",    :size => 26, :stock => Gfx.FONT_MEDIUM     },
         :value    => { :face => "RobotoCondensedBold",    :size => 22, :stock => Gfx.FONT_MEDIUM     },
-        :tz       => { :face => "RobotoCondensedRegular", :size => 20, :stock => Gfx.FONT_SMALL      },
+        :tz       => { :face => "RobotoCondensedBold",    :size => 22, :stock => Gfx.FONT_SMALL      },
         :label    => { :face => "RobotoCondensedBold",    :size => 13, :stock => Gfx.FONT_XTINY      }
     };
 
@@ -103,7 +108,7 @@ module Layout {
 
         // Date sits directly above the clock, set at the same size as the
         // second timezone below it so the two frame the time evenly.
-        :date           => { :x => 140, :y => 102, :j => JC, :c => INK_DIM,   :f => F_TZ       },
+        :date           => { :x => 140, :y =>  98, :j => JC, :c => INK_WHITE, :f => F_TZ       },
 
         // shoulder row — inset to 72/208 so a 5-digit altitude plus its sign
         // triangle, and a barometer carrying a decimal and a chevron, still
@@ -122,8 +127,8 @@ module Layout {
         :night_date     => { :x => 140, :y => 104, :j => JC, :c => INK_DIM,   :f => F_TZ       },
 
         // clock block — the clock is on the true centre
-        :clock          => { :x => 140, :y => 140, :j => JC, :c => INK_WHITE,  :f => F_CLOCK    },
-        :timezone_2     => { :x => 140, :y => 186, :j => JC, :c => INK_MID,    :f => F_TZ       },
+        :clock          => { :x => 140, :y => 140, :j => JC, :c => INK_CLOCK,  :f => F_CLOCK    },
+        :timezone_2     => { :x => 140, :y => 188, :j => JC, :c => INK_WHITE,  :f => F_TZ       },
 
         // ---- night mode ------------------------------------------------
         // Three rows only, and dimmer ink: at night the face is read in the
@@ -140,7 +145,7 @@ module Layout {
         :cal_value      => { :x =>  66, :y => 217, :j => JC, :c => INK_BRIGHT, :f => F_VALUE    },
         // -16 deg
         :hr_label       => { :x => 112, :y => 221, :j => JC, :c => INK_DIM,    :f => F_LABEL    },
-        :hr_value       => { :x => 112, :y => 246, :j => JC, :c => INK_HR,     :f => F_VALUE    },
+        :hr_value       => { :x => 112, :y => 246, :j => JC, :c => INK_BRIGHT, :f => F_VALUE    },
         // +16 deg
         :steps_label    => { :x => 168, :y => 221, :j => JC, :c => INK_DIM,    :f => F_LABEL    },
         :steps_value    => { :x => 168, :y => 246, :j => JC, :c => INK_BRIGHT, :f => F_VALUE    },
