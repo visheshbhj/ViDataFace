@@ -6,7 +6,7 @@ at a different rate, and none of them is the rate the system offers.
 | Cadence | What it drives | Constant |
 |---|---|---|
 | 1 minute | reading every sensor | `Frame.begin()` |
-| 5 minutes–3 hours (setting, default 15 min) | the barometric trend | `Settings.trendRefreshMin` |
+| 5 minutes–3 hours (setting, default 15 min) | the pressure trend (and the ambient reading) | `Settings.trendRefreshMin` |
 
 ## The problem
 
@@ -76,6 +76,23 @@ real device; if drawing itself ever needs to get cheaper, render into a
 of **1–6 hours** (setting, default 4), from a sensor the device samples every
 **two minutes**. Recomputing it on a display cadence was never meaningful; how
 often it does is also a setting, 5 minutes to 3 hours.
+
+The pressure **number** beside the arrow depends on the **Sea-level pressure**
+setting:
+
+- **On** (default): live, from a subscription to the sea-level pressure
+  complication. That is the watch's own calculation; the face only reads it.
+  Each change the watch pushes wakes the face to cache it. In the simulator
+  that was roughly once a second (63 pushes in 75 s); how often a real watch
+  pushes is not known.
+- **Off**: ambient pressure, the newest sample of the pressure history, read on
+  the trend's slot. The sea-level subscription is not taken out at all, and a
+  change to the setting drops or restores it at once (checked in the
+  simulator: the pushes stopped and the number switched to ambient).
+
+`Activity.Info.ambientPressure` and `meanSeaLevelPressure` were both null in the
+simulator outside an activity, so neither is relied on first; they serve only
+as the sea-level fallback when the complication has nothing.
 
 How the change is worked out is a third setting, **Trend method**:
 
@@ -163,9 +180,9 @@ Nothing here has been tested against a battery.
 Two larger levers are left, each with a cost:
 
 - **Complication subscriptions.** Twelve are held whenever the face is not in
-  night mode. Each push, heart rate
-  above all, wakes the app to run the callback, even though the face only shows
-  the value at its next draw. Reading them with `getComplication()` once a
+  night mode (eleven with Sea-level pressure off). Each push, heart rate above
+  all, wakes the app to run the callback, even though the face only shows the
+  value at its next draw. Reading them with `getComplication()` once a
   minute instead would remove those wake-ups, but values would only update once
   a minute while the wrist is raised.
 - **Vector fonts on every tick.** While the wrist is raised the whole face is

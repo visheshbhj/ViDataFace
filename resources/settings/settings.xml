@@ -18,6 +18,10 @@
         </settingConfig>
     </setting>
 
+    <setting propertyKey="@Properties.PressureSeaLevel" title="@Strings.PressureSeaLevelTitle">
+        <settingConfig type="boolean" />
+    </setting>
+
     <setting propertyKey="@Properties.TrendIntervalMin" title="@Strings.TrendRefreshTitle">
         <settingConfig type="numeric" min="5" max="180" />
     </setting>

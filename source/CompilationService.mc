@@ -15,6 +15,7 @@ class CompilationService {
     private const SUBSCRIPTIONS as Dictionary<String, Complications.Type> = {
         "DateLabel"        => Complications.COMPLICATION_TYPE_WEEKDAY_MONTHDAY,
         "AltitudeLabel"    => Complications.COMPLICATION_TYPE_ALTITUDE,
+        // Subscribed only while Sea-level pressure is on; see start().
         "BarometerLabel"   => Complications.COMPLICATION_TYPE_SEA_LEVEL_PRESSURE,
         "WeatherLabel"     => Complications.COMPLICATION_TYPE_CURRENT_TEMPERATURE,
         // Returns the raw Weather.CONDITION_* value — the same number
@@ -64,10 +65,16 @@ class CompilationService {
                 continue;
             }
             _byType.put(type, name);
+            // With Sea-level pressure off the face shows ambient pressure from
+            // the sensor history, so a sea-level push would wake it for a
+            // value it never draws.
+            if (name.equals("BarometerLabel") && !Settings.pressureSeaLevel) {
+                continue;
+            }
             // Subscribing was assumed to return false for a complication the
             // device does not offer. It does not always: CURRENT_WEATHER throws
             // here, which took the whole face down with an error screen. One bad
-            // type must not cost us the other ten, so each is isolated.
+            // type must not cost us the others, so each is isolated.
             try {
                 var id = new Complications.Id(type as Complications.Type);
                 _subscribed.put(name, Complications.subscribeToUpdates(id));

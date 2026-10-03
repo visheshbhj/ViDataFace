@@ -12,6 +12,9 @@ class ViDataFaceView extends WatchUi.WatchFace {
     // Tracked so the complication subscriptions are torn down once on the way
     // into night mode, not re-evaluated on every draw.
     private var _night as Boolean = false;
+    // The sea-level pressure subscription exists only while that setting is on,
+    // so a change to it re-subscribes once, like a night transition.
+    private var _seaLevel as Boolean = true;
 
     function initialize() {
         WatchFace.initialize();
@@ -30,6 +33,7 @@ class ViDataFaceView extends WatchUi.WatchFace {
         // anything reads it.
         Frame.begin();
         _night = NightMode.isActive();
+        _seaLevel = Settings.pressureSeaLevel;
         if (!_night) {
             _complications.start();
         }
@@ -37,16 +41,19 @@ class ViDataFaceView extends WatchUi.WatchFace {
 
     //! Night mode exists to stop work, not just to draw less: the complication
     //! subscriptions are dropped on the way in and taken out again on the way
-    //! out, so nothing is being pushed to a face that would not draw it.
-    private function updateNight() as Void {
+    //! out, so nothing is being pushed to a face that would not draw it. A
+    //! change to Sea-level pressure re-subscribes the same way, since it decides
+    //! whether the pressure complication is subscribed at all.
+    private function updateSubscriptions() as Void {
         var night = NightMode.isActive();
-        if (night == _night) {
+        var seaLevel = Settings.pressureSeaLevel;
+        if (night == _night && seaLevel == _seaLevel) {
             return;
         }
         _night = night;
-        if (night) {
-            _complications.stop();
-        } else {
+        _seaLevel = seaLevel;
+        _complications.stop();
+        if (!night) {
             _complications.start();
         }
     }
@@ -114,7 +121,14 @@ class ViDataFaceView extends WatchUi.WatchFace {
         // the barometer trails the 4-hour trend chevron.
         var alt = raw("AltitudeLabel");
         Layout.putMarked(dc, :altitude, Layout.altitude(alt), Layout.altitudeMark(alt), null);
-        Layout.putMarked(dc, :barometer, Layout.pressure(raw("BarometerLabel")),
+        // Sea-level pressure is live, from its complication. Ambient pressure,
+        // and any gap in the complication, come from Trend on the arrow's slot.
+        var pressure = Settings.pressureSeaLevel
+            ? _complications.getNumber("BarometerLabel") : null;
+        if (pressure == null) {
+            pressure = Trend.pressure();
+        }
+        Layout.putMarked(dc, :barometer, Layout.pressure(pressure),
             null, Trend.marker());
 
         Layout.put(dc, :cal_value,    Layout.num(raw("CaloriesLabel")));
@@ -144,7 +158,7 @@ class ViDataFaceView extends WatchUi.WatchFace {
         // calls dc.clear(), which would erase anything drawn before it.
         View.onUpdate(dc);
 
-        updateNight();
+        updateSubscriptions();
         if (_night) {
             drawNight(dc);
             return;

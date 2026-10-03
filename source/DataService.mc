@@ -20,7 +20,6 @@ module DataService {
     function rawFor(name as String) as Object? {
         if (name.equals("TimeLabel"))        { return localTime(); }
         if (name.equals("AltitudeLabel"))    { return altitude(); }
-        if (name.equals("BarometerLabel"))   { return pressure(); }
         if (name.equals("WeatherLabel"))     { return temperature(); }
         if (name.equals("ConditionLabel"))   { return weatherCondition(); }
         if (name.equals("StepsLabel"))       { return steps(); }
@@ -85,15 +84,6 @@ module DataService {
             return null;
         }
         return info.altitude as Float;
-    }
-
-    //! PASCALS, not hectopascals — Layout.pressure() does the divide.
-    function pressure() as Numeric? {
-        var info = Frame.activity();
-        if (info == null || !(info has :ambientPressure) || info.ambientPressure == null) {
-            return null;
-        }
-        return info.ambientPressure as Float;
     }
 
     //! Degrees C. Format with Layout.temp().

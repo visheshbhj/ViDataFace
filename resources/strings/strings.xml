@@ -14,6 +14,7 @@
     <string id="ZoneTYO">Tokyo</string>
     <string id="ZoneSYD">Sydney</string>
 
+    <string id="PressureSeaLevelTitle">Sea-level pressure (off: pressure at your altitude)</string>
     <string id="TrendRefreshTitle">Pressure trend refresh (5-180 min)</string>
     <string id="TrendWindowTitle">Pressure trend lookback (1-6 hours)</string>
     <string id="TrendMethodTitle">Pressure trend method</string>

@@ -298,7 +298,8 @@ module Layout {
         return (m.toNumber() < 0) ? :down : :up;
     }
 
-    // Barometer in hPa, one decimal. Ambient pressure arrives in PASCALS —
+    // Barometer in hPa, one decimal. Pressure (sea-level or ambient, see
+    // Trend.pressure) arrives in PASCALS —
     // divide by 100. The tenth is worth showing: a whole hPa is a big move for
     // a barometer, so integers hide most of what the trend chevron reacts to.
     //

@@ -33,6 +33,8 @@ module SettingsMenu {
     function build() as Menu2 {
         var menu = new WatchUi.Menu2({ :title => "ViDataFace" });
         menu.addItem(choiceItem("SecondZone",       "Second zone"));
+        menu.addItem(new WatchUi.ToggleMenuItem("Sea-level pressure", null,
+            "PressureSeaLevel", Application.Properties.getValue("PressureSeaLevel") != false, null));
         menu.addItem(choiceItem("TrendIntervalMin", "Trend refresh"));
         menu.addItem(choiceItem("TrendWindowHours", "Trend lookback"));
         menu.addItem(choiceItem("TrendCalc",        "Trend method"));

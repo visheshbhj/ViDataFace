@@ -24,6 +24,11 @@ import Toybox.Time;
 //! 100 m climb drops ambient about 12 hPa, several times the rapid threshold,
 //! and a lift ride would read as a storm front. Each endpoint is normalised to
 //! sea level using the elevation history over the same window.
+//!
+//! Trend also supplies a pressure VALUE on the same slot (pressure()). The face
+//! shows it when Sea-level pressure is off (ambient pressure), and as the
+//! fallback when the live sea-level complication has nothing to give. With
+//! the setting on, the number itself is live from that complication.
 module Trend {
 
     // Below this much history the window is too short to call a trend. It is
@@ -43,28 +48,103 @@ module Trend {
     // The reading is a change measured across hours, so it cannot move
     // meaningfully in a minute.
     var _marker = null;
+    var _pressure = null;
     var _slot = -1;
     var _refresh = -1;
     var _window = -1;
     var _method = -1;
+    var _seaLevel = null;
 
-    //! :rapid_up, :up, :down, :rapid_down, or null when the change is too small
-    //! to report, the window too short, or the device keeps no pressure history.
-    function marker() as Symbol? {
+    //! Recompute the arrow and the pressure value when their slot comes round.
+    //! A changed setting recomputes at once rather than at the next slot.
+    function refresh() as Void {
         var refresh = Settings.trendRefreshMin;
         var window = Settings.trendWindowHours;
         var method = Settings.trendMethod;
+        var seaLevel = Settings.pressureSeaLevel;
         var slot = Frame.minute() / refresh;
-        // A changed setting recomputes at once rather than at the next slot.
         if (slot != _slot || refresh != _refresh || window != _window
-                || method != _method) {
+                || method != _method || seaLevel != _seaLevel) {
             _slot = slot;
             _refresh = refresh;
             _window = window;
             _method = method;
+            _seaLevel = seaLevel;
             _marker = compute(window, method);
+            _pressure = reading(seaLevel);
         }
+    }
+
+    //! :rapid_up, :up, :down, :rapid_down, or null when the change is too small
+    //! to report, the window too short, or the device keeps no pressure history.
+    //! Always computed from altitude-corrected readings, so it describes the
+    //! weather whichever pressure is displayed.
+    function marker() as Symbol? {
+        refresh();
         return _marker;
+    }
+
+    //! The pressure to display, in pascals, as of the last refresh: sea-level
+    //! or ambient as the setting asks. null when the watch reports neither.
+    function pressure() as Float? {
+        refresh();
+        return _pressure;
+    }
+
+    //! Sea-level pressure is the WATCH's own calculation: its complication, or
+    //! Activity.Info.meanSeaLevelPressure. Neither is recomputed here. Only if
+    //! the watch reports neither is the newest ambient sample corrected with
+    //! the newest elevation, the same correction the arrow uses.
+    //!
+    //! Ambient is the sensor's reading where you stand, which drops about
+    //! 12 hPa per 100 m climbed. It is the newest sample of the pressure
+    //! history: Activity.Info.ambientPressure would be the obvious source, but
+    //! it came back null in the simulator outside an activity, while the
+    //! history is always there (the arrow depends on it).
+    function reading(seaLevel as Boolean) as Float? {
+        if (seaLevel) {
+            var watch = watchSeaLevel();
+            if (watch != null) {
+                return watch;
+            }
+        }
+        var ambient = latest(:pressure);
+        if (ambient == null || !seaLevel) {
+            return ambient;
+        }
+        return toSeaLevel(ambient, (Toybox.SensorHistory has :getElevationHistory)
+            ? latest(:elevation) : null);
+    }
+
+    function watchSeaLevel() as Float? {
+        if (Toybox has :Complications) {
+            // Read on demand: no subscription, so no push wakes the face.
+            try {
+                var value = Toybox.Complications.getComplication(
+                    new Toybox.Complications.Id(
+                        Toybox.Complications.COMPLICATION_TYPE_SEA_LEVEL_PRESSURE)).value;
+                if (value != null) {
+                    return (value as Numeric).toFloat();
+                }
+            } catch (e) {
+                // Not offered on this device; fall through.
+            }
+        }
+        var info = Frame.activity();
+        if (info != null && (info has :meanSeaLevelPressure)
+                && info.meanSeaLevelPressure != null) {
+            return info.meanSeaLevelPressure;
+        }
+        return null;
+    }
+
+    //! The newest sample with data from the last hour of a history, or null.
+    function latest(kind as Symbol) as Float? {
+        if (!(Toybox has :SensorHistory) || !(Toybox.SensorHistory has :getPressureHistory)) {
+            return null;
+        }
+        var sample = first(history(kind, 3600, Toybox.SensorHistory.ORDER_NEWEST_FIRST));
+        return (sample == null) ? null : ((sample as Array)[1] as Numeric).toFloat();
     }
 
     function compute(hours as Number, method as Number) as Symbol? {

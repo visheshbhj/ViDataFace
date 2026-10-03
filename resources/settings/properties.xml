@@ -17,6 +17,10 @@
     <!-- 0: first and last reading. 1: a line fitted through every reading. -->
     <property id="TrendCalc" type="number">1</property>
 
+    <!-- Pressure corrected to sea level (true) or as measured at your altitude
+         (false). -->
+    <property id="PressureSeaLevel" type="boolean">true</property>
+
     <!-- The battery ring turns yellow at or below this percentage. -->
     <property id="BatteryLowPct" type="number">40</property>
 
