@@ -69,6 +69,16 @@ menu is built by [`SettingsMenu`](../source/SettingsMenu.mc):
 
 A change is written straight away and the face picks it up on its next draw.
 
+### Night screen
+
+The face switches to a minimal clock, date and second zone while the watch is
+asleep. It detects that through **Do Not Disturb**, so make sure Do Not Disturb
+is enabled in the watch's sleep mode settings. Turning DND on by hand also
+brings up the night screen.
+
+If the watch's sleep mode is set to use Garmin's own sleep watch face, this
+face is not shown during sleep at all, and neither is its night screen.
+
 ## Troubleshooting
 
 **The face doesn't appear in the list.** Check that you built it for the right

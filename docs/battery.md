@@ -98,14 +98,31 @@ How the change is worked out is a third setting, **Trend method**:
 [`NightMode`](../source/NightMode.mc) drops the complication subscriptions on the
 way into night and takes them out again on the way out, tracked by a flag so it
 happens once at the transition. While asleep the face reads no sensors and
-draws no battery arc — three rows of text and nothing else.
+draws no battery arc — three rows of text and nothing else. The cached
+complication readings are dropped with the subscriptions: nothing refreshes
+them overnight, and the night screen used to show yesterday's date after
+midnight.
 
-The trigger is `ActivityMonitor.Info.isSleepMode` — the state the watch itself
-is in — falling back to the configured sleep window from `UserProfile` when that
-returns null. `isSleepMode` is deprecated and typed `Boolean or Null`, so the
-fallback is not hypothetical. Note that reading it through `Frame.monitor`, an
-untyped var, suppresses the compiler's deprecation warning; the deprecation is
-real regardless.
+The face follows the state the **watch** is in, tried in order:
+
+1. `ActivityMonitor.Info.isSleepMode`, **only when it is true**. It is
+   deprecated ("may be removed after System 4"), and on a real Enduro 3 the
+   night screen never came on, although the simulator reports it correctly.
+   So a false from it is not believed.
+2. `DeviceSettings.doNotDisturb`. Garmin's sleep mode turns Do Not Disturb on
+   (an option in the watch's sleep mode settings), so this is the watch's sleep
+   state as Connect IQ can still see it. Turning DND on by hand brings the night
+   screen too.
+3. The configured sleep window from `UserProfile`, only on a device that reports
+   neither. It fires during a late evening inside the window whether or not
+   anyone is asleep, which is why it is the last resort.
+
+Reading `isSleepMode` through `Frame.monitor()`, an untyped accessor, suppresses
+the compiler's deprecation warning; the deprecation is real regardless.
+
+Verified in the simulator with its Sleep Mode and Do Not Disturb toggles: each
+one alone brings the night screen within a minute, and clearing both brings back
+the full face with every reading filled.
 
 It is checked once a minute like everything else, so a transition reaches the
 screen within a minute of the watch entering or leaving sleep mode.

@@ -81,6 +81,11 @@ class CompilationService {
     }
 
     //! Drop every subscription. Call from onHide().
+    //!
+    //! The cached readings go too. Nothing updates them once unsubscribed, and
+    //! the night screen kept drawing the cached date past midnight: yesterday's
+    //! "Fri 02" until morning. With the cache empty every field falls back to
+    //! its sensor path, and start() seeds it afresh.
     function stop() as Void {
         if (!_started) {
             return;
@@ -88,6 +93,7 @@ class CompilationService {
         _started = false;
         Complications.unsubscribeFromAllUpdates();
         Complications.registerComplicationChangeCallback(null);
+        _values = {};
     }
 
     //! Must NOT be private: registered by symbol with the Complications module.

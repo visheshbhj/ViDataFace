@@ -7,18 +7,24 @@ import Toybox.UserProfile;
 //! Decides when the face should go quiet for the night, and supplies the few
 //! things it still shows.
 //!
-//! Two sources, tried in order:
+//! The face follows the state the WATCH is in, not the clock. Three sources,
+//! tried in order:
 //!
-//!   1. ActivityMonitor.Info.isSleepMode — the state the watch itself is in,
-//!      and the only one that knows whether sleep is actually ACTIVE rather
-//!      than merely scheduled. It is DEPRECATED and typed "Boolean or Null",
-//!      so it is used only when it actually answers.
+//!   1. ActivityMonitor.Info.isSleepMode, but only when it says TRUE. It is
+//!      deprecated ("may be removed after System 4") and on the Enduro 3 it
+//!      does not report sleep mode: night mode never came on in a real night's
+//!      wear. A false from it is therefore not believed, only a true.
 //!
-//!   2. The wearer's configured sleep window from UserProfile, for devices and
-//!      firmware where the above returns null. This is a weaker signal: it is
-//!      true between the configured times whether or not anyone is asleep, so
-//!      a late evening inside the window looks like being in bed. Second place
-//!      is the right place for it.
+//!   2. DeviceSettings.doNotDisturb. Garmin's sleep mode turns Do Not Disturb
+//!      on (it is an option in the watch's sleep mode settings), so this is
+//!      the watch's own sleep state as Connect IQ can still see it. Turning DND
+//!      on by hand brings the night screen too, which is the price of using it.
+//!
+//!   3. The wearer's configured sleep window from UserProfile, only for a
+//!      device that reports neither of the above. It is true between the
+//!      configured times whether or not anyone is asleep, so a late evening
+//!      inside the window looks like being in bed; that is why it was dropped
+//!      as the main trigger and survives only as the last resort.
 //!
 //! Note for whoever edits this: reaching isSleepMode through Frame.monitor(), an
 //! untyped accessor, is why the compiler does not print its deprecation warning
@@ -45,8 +51,17 @@ module NightMode {
 
     function compute() as Boolean {
         var info = Frame.monitor();
-        if (info != null && (info has :isSleepMode) && info.isSleepMode != null) {
-            return info.isSleepMode as Boolean;
+        var sleepMode = (info != null && (info has :isSleepMode)) ? info.isSleepMode : null;
+        if (sleepMode == true) {
+            return true;
+        }
+        var settings = Frame.settings;
+        if (settings != null && (settings has :doNotDisturb)
+                && settings.doNotDisturb != null) {
+            return settings.doNotDisturb as Boolean;
+        }
+        if (sleepMode != null) {
+            return false;
         }
         return inSleepWindow();
     }
