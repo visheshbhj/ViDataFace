@@ -18,7 +18,7 @@
         </settingConfig>
     </setting>
 
-    <setting propertyKey="@Properties.TrendRefreshMin" title="@Strings.TrendRefreshTitle">
+    <setting propertyKey="@Properties.TrendIntervalMin" title="@Strings.TrendRefreshTitle">
         <settingConfig type="numeric" min="5" max="180" />
     </setting>
 
@@ -26,7 +26,7 @@
         <settingConfig type="numeric" min="1" max="6" />
     </setting>
 
-    <setting propertyKey="@Properties.TrendMethod" title="@Strings.TrendMethodTitle">
+    <setting propertyKey="@Properties.TrendCalc" title="@Strings.TrendMethodTitle">
         <settingConfig type="list">
             <listEntry value="0">@Strings.TrendMethodEnds</listEntry>
             <listEntry value="1">@Strings.TrendMethodFit</listEntry>

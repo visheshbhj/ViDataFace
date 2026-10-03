@@ -4,7 +4,7 @@ import Toybox.System;
 import Toybox.Time;
 
 //! Barometric trend, read from the device's own sensor history. The window
-//! (1-6 h, default 4), how often it is recomputed (5 min-3 h, default 5 min)
+//! (1-6 h, default 4), how often it is recomputed (5 min-3 h, default 15 min)
 //! and the method are user settings; see Settings. The method is either:
 //!
 //!   METHOD_ENDS  the newest reading minus the oldest. Four samples read, but
@@ -36,7 +36,7 @@ module Trend {
     const GRADUAL_HPA_PER_H = 0.15;
     const RAPID_HPA_PER_H   = 0.625;
 
-    // Values of the TrendMethod setting.
+    // Values of the trend method setting (property TrendCalc).
     const METHOD_ENDS = 0;
     const METHOD_FIT  = 1;
 

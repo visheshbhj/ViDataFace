@@ -6,7 +6,7 @@ at a different rate, and none of them is the rate the system offers.
 | Cadence | What it drives | Constant |
 |---|---|---|
 | 1 minute | reading every sensor | `Frame.begin()` |
-| 5 minutes–3 hours (setting, default 5 min) | the barometric trend | `Settings.trendRefreshMin` |
+| 5 minutes–3 hours (setting, default 15 min) | the barometric trend | `Settings.trendRefreshMin` |
 
 ## The problem
 
@@ -79,19 +79,20 @@ often it does is also a setting, 5 minutes to 3 hours.
 
 How the change is worked out is a third setting, **Trend method**:
 
-- **First & last** (default) compares the newest reading with the oldest. Only
+- **First & last** compares the newest reading with the oldest. Only
   the two ends matter, so each history is opened twice, once oldest-first and
   once newest-first, and only the front sample of each is read: about four
   samples per recompute. It used to walk every sample in the window, up to 180
   each for pressure and elevation (121 each at the default four hours). A
   logged run of both versions side by side returned identical endpoints.
-- **All samples** fits a least-squares line through every reading in the
-  window and takes the change along it. One noisy reading at either end no
-  longer swings the result, but it walks the whole window again (121 samples
-  per history at four hours, each corrected with a `Math.pow`). That is the
-  cost the first method was written to avoid, so pair it with a longer
-  refresh. A logged simulator run matched an independent Python fit of the
-  same samples to within Float rounding (−0.4997 hPa both).
+- **All samples** (default) fits a least-squares line through every reading
+  in the window and takes the change along it. One noisy reading at either end
+  no longer swings the result, but it walks the whole window again (121
+  samples per history at four hours, each corrected with a `Math.pow`). That
+  is the cost the first method was written to avoid, which is why it is paired
+  with a 15-minute default refresh: a third of the scans the old 5-minute
+  default would make. A logged simulator run matched an independent Python fit
+  of the same samples to within Float rounding (−0.4997 hPa both).
 
 ## Night mode stops work, not just drawing
 
