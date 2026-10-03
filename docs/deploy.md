@@ -53,31 +53,11 @@ the face, delete the file from `GARMIN/APPS/`.
 
 ## Settings
 
-Garmin Connect only shows settings for apps installed from the Connect IQ
-Store, so a sideloaded face is configured on the watch instead. Hold **MENU**,
-open **Watch Face**, and choose ViDataFace's customise or settings entry. The
-menu is built by [`SettingsMenu`](../source/SettingsMenu.mc):
-
-| Setting | Choices | Default |
-|---|---|---|
-| Second zone | IST, UTC, London, New York, San Francisco, Dubai, Singapore, Tokyo, Sydney | IST |
-| Trend refresh | 5, 10, 15, 20, 30, 45 min, 1 h, 90 min, 2 h, 3 h | 5 min |
-| Trend lookback | 1–6 h | 4 h |
-| Trend method | First & last, All samples | First & last |
-| Battery low at | 5–50 % in 5s, then 60–90 % in 10s | 40 % |
-| Military time | on / off | off |
-
-A change is written straight away and the face picks it up on its next draw.
-
-### Night screen
-
-The face switches to a minimal clock, date and second zone while the watch is
-asleep. It detects that through **Do Not Disturb**, so make sure Do Not Disturb
-is enabled in the watch's sleep mode settings. Turning DND on by hand also
-brings up the night screen.
-
-If the watch's sleep mode is set to use Garmin's own sleep watch face, this
-face is not shown during sleep at all, and neither is its night screen.
+A sideloaded face has no settings: on the Enduro 3 its Watch Face menu offers
+only **Apply** and **Delete**, and it runs on the defaults. To change them,
+install it from the Connect IQ Store as a private beta instead
+([store.md](store.md)). Every setting, and how to get the night screen working,
+is in [settings.md](settings.md).
 
 ## Troubleshooting
 

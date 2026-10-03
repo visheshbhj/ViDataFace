@@ -15,10 +15,11 @@ import Toybox.UserProfile;
 //!      does not report sleep mode: night mode never came on in a real night's
 //!      wear. A false from it is therefore not believed, only a true.
 //!
-//!   2. DeviceSettings.doNotDisturb. Garmin's sleep mode turns Do Not Disturb
-//!      on (it is an option in the watch's sleep mode settings), so this is
-//!      the watch's own sleep state as Connect IQ can still see it. Turning DND
-//!      on by hand brings the night screen too, which is the price of using it.
+//!   2. DeviceSettings.doNotDisturb, the nearest state Connect IQ can still
+//!      see. On the Enduro 2 Do Not Disturb is an option of sleep mode; on the
+//!      Enduro 3 sleep is a Focus Mode, and its manual does not say whether
+//!      the Sleep focus raises this flag. Turning DND on by hand brings the
+//!      night screen too, which is the price of using it.
 //!
 //!   3. The wearer's configured sleep window from UserProfile, only for a
 //!      device that reports neither of the above. It is true between the

@@ -127,10 +127,11 @@ The face follows the state the **watch** is in, tried in order:
    deprecated ("may be removed after System 4"), and on a real Enduro 3 the
    night screen never came on, although the simulator reports it correctly.
    So a false from it is not believed.
-2. `DeviceSettings.doNotDisturb`. Garmin's sleep mode turns Do Not Disturb on
-   (an option in the watch's sleep mode settings), so this is the watch's sleep
-   state as Connect IQ can still see it. Turning DND on by hand brings the night
-   screen too.
+2. `DeviceSettings.doNotDisturb`, the nearest state Connect IQ can still see.
+   On the Enduro 2, Do Not Disturb is an option of sleep mode; on the Enduro 3,
+   sleep is a Focus Mode, and its manual does not say whether the Sleep focus
+   raises this flag. Turning DND on by hand brings the night screen too. See
+   [settings.md](settings.md#night-screen).
 3. The configured sleep window from `UserProfile`, only on a device that reports
    neither. It fires during a late evening inside the window whether or not
    anyone is asleep, which is why it is the last resort.
