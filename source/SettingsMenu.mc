@@ -16,6 +16,7 @@ module SettingsMenu {
         "SecondZone"       => [0, 1, 2, 3, 4, 5, 6, 7, 8],
         "TrendRefreshMin"  => [5, 10, 15, 20, 30, 45, 60, 90, 120, 180],
         "TrendWindowHours" => [1, 2, 3, 4, 5, 6],
+        "TrendMethod"      => [0, 1],
         "BatteryLowPct"    => [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 60, 70, 80, 90]
     };
 
@@ -26,11 +27,15 @@ module SettingsMenu {
         Rez.Strings.ZoneSIN, Rez.Strings.ZoneTYO, Rez.Strings.ZoneSYD
     ];
 
+    // Method names, indexed by Trend.METHOD_*.
+    const METHOD_NAMES = [Rez.Strings.TrendMethodEnds, Rez.Strings.TrendMethodFit];
+
     function build() as Menu2 {
         var menu = new WatchUi.Menu2({ :title => "ViDataFace" });
         menu.addItem(choiceItem("SecondZone",       "Second zone"));
         menu.addItem(choiceItem("TrendRefreshMin",  "Trend refresh"));
         menu.addItem(choiceItem("TrendWindowHours", "Trend lookback"));
+        menu.addItem(choiceItem("TrendMethod",      "Trend method"));
         menu.addItem(choiceItem("BatteryLowPct",    "Battery low at"));
         menu.addItem(new WatchUi.ToggleMenuItem("Military time", null,
             "UseMilitaryFormat", Application.Properties.getValue("UseMilitaryFormat") == true, null));
@@ -49,6 +54,7 @@ module SettingsMenu {
         }
         if (key.equals("TrendRefreshMin"))  { return Settings.trendRefreshMin; }
         if (key.equals("TrendWindowHours")) { return Settings.trendWindowHours; }
+        if (key.equals("TrendMethod"))      { return Settings.trendMethod; }
         if (key.equals("BatteryLowPct"))    { return Settings.batteryLowPct; }
         return 0;
     }
@@ -64,6 +70,10 @@ module SettingsMenu {
                                             : v.format("%d") + " min";
         }
         if (key.equals("TrendWindowHours")) { return v.format("%d") + " h"; }
+        if (key.equals("TrendMethod")) {
+            return (v >= 0 && v < METHOD_NAMES.size())
+                ? WatchUi.loadResource(METHOD_NAMES[v]) as String : "--";
+        }
         return v.format("%d") + "%";
     }
 

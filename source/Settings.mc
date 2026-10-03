@@ -11,6 +11,9 @@ module Settings {
     // The watch keeps six hours of pressure history, hence the cap.
     var trendRefreshMin = 5;
     var trendWindowHours = 4;
+    // Trend.METHOD_ENDS (first and last reading) or Trend.METHOD_FIT (every
+    // reading in the window).
+    var trendMethod = 0;
 
     // The battery ring turns from green to yellow at or below this.
     var batteryLowPct = 40;
@@ -24,6 +27,7 @@ module Settings {
     function load() as Void {
         trendRefreshMin  = number("TrendRefreshMin",  5, 180, 5);
         trendWindowHours = number("TrendWindowHours", 1,  6,  4);
+        trendMethod      = number("TrendMethod",      0,  1,  0);
         batteryLowPct    = number("BatteryLowPct",    5, 95, 40);
         secondZone       = number("SecondZone",       0, SecondZone.ZONES.size() - 1, 0);
         militaryTime     = Application.Properties.getValue("UseMilitaryFormat") == true;

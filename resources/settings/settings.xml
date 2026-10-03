@@ -26,6 +26,13 @@
         <settingConfig type="numeric" min="1" max="6" />
     </setting>
 
+    <setting propertyKey="@Properties.TrendMethod" title="@Strings.TrendMethodTitle">
+        <settingConfig type="list">
+            <listEntry value="0">@Strings.TrendMethodEnds</listEntry>
+            <listEntry value="1">@Strings.TrendMethodFit</listEntry>
+        </settingConfig>
+    </setting>
+
     <setting propertyKey="@Properties.BatteryLowPct" title="@Strings.BatteryLowTitle">
         <settingConfig type="numeric" min="5" max="95" />
     </setting>

@@ -16,6 +16,9 @@
 
     <string id="TrendRefreshTitle">Pressure trend refresh (5-180 min)</string>
     <string id="TrendWindowTitle">Pressure trend lookback (1-6 hours)</string>
+    <string id="TrendMethodTitle">Pressure trend method</string>
+    <string id="TrendMethodEnds">First &amp; last</string>
+    <string id="TrendMethodFit">All samples</string>
     <string id="BatteryLowTitle">Battery ring low level (5-95 %)</string>
 
 </strings>

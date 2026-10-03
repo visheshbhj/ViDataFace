@@ -77,12 +77,21 @@ of **1–6 hours** (setting, default 4), from a sensor the device samples every
 **two minutes**. Recomputing it on a display cadence was never meaningful; how
 often it does is also a setting, 5 minutes to 3 hours.
 
-Only the two ends of the window matter, so each history is opened twice, once
-oldest-first and once newest-first, and only the front sample of each is read.
-That is about four samples per recompute. It used to walk every sample in the
-window, up to 180 each for pressure and elevation (121 each at the default four
-hours). A logged run of both versions side by side returned identical
-endpoints for both histories.
+How the change is worked out is a third setting, **Trend method**:
+
+- **First & last** (default) compares the newest reading with the oldest. Only
+  the two ends matter, so each history is opened twice, once oldest-first and
+  once newest-first, and only the front sample of each is read: about four
+  samples per recompute. It used to walk every sample in the window, up to 180
+  each for pressure and elevation (121 each at the default four hours). A
+  logged run of both versions side by side returned identical endpoints.
+- **All samples** fits a least-squares line through every reading in the
+  window and takes the change along it. One noisy reading at either end no
+  longer swings the result, but it walks the whole window again (121 samples
+  per history at four hours, each corrected with a `Math.pow`). That is the
+  cost the first method was written to avoid, so pair it with a longer
+  refresh. A logged simulator run matched an independent Python fit of the
+  same samples to within Float rounding (−0.4997 hPa both).
 
 ## Night mode stops work, not just drawing
 

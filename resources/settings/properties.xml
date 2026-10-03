@@ -8,6 +8,8 @@
     <!-- Barometric trend. Ranges are enforced again in Settings.mc. -->
     <property id="TrendRefreshMin" type="number">5</property>
     <property id="TrendWindowHours" type="number">4</property>
+    <!-- 0: first and last reading. 1: a line fitted through every reading. -->
+    <property id="TrendMethod" type="number">0</property>
 
     <!-- The battery ring turns yellow at or below this percentage. -->
     <property id="BatteryLowPct" type="number">40</property>
