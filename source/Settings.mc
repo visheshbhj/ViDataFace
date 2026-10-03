@@ -19,7 +19,7 @@ module Settings {
     var secondZone = 0;
 
     function load() as Void {
-        trendRefreshMin  = number("TrendRefreshMin",  5, 60,  5);
+        trendRefreshMin  = number("TrendRefreshMin",  5, 180, 5);
         trendWindowHours = number("TrendWindowHours", 1,  6,  4);
         batteryLowPct    = number("BatteryLowPct",    5, 95, 40);
         secondZone       = number("SecondZone",       0, SecondZone.ZONES.size() - 1, 0);

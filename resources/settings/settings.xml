@@ -19,7 +19,7 @@
     </setting>
 
     <setting propertyKey="@Properties.TrendRefreshMin" title="@Strings.TrendRefreshTitle">
-        <settingConfig type="numeric" min="5" max="60" />
+        <settingConfig type="numeric" min="5" max="180" />
     </setting>
 
     <setting propertyKey="@Properties.TrendWindowHours" title="@Strings.TrendWindowTitle">

@@ -4,7 +4,7 @@ import Toybox.System;
 import Toybox.Time;
 
 //! Barometric trend, read from the device's own sensor history. The window
-//! (1-6 h, default 4) and how often it is recomputed (5-60 min, default 5) are
+//! (1-6 h, default 4) and how often it is recomputed (5 min-3 h, default 5 min) are
 //! user settings; see Settings.
 //!
 //! Enduro 3 keeps 180 pressure samples at 120 s — six hours — and the same for

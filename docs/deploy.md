@@ -61,7 +61,7 @@ menu is built by [`SettingsMenu`](../source/SettingsMenu.mc):
 | Setting | Choices | Default |
 |---|---|---|
 | Second zone | IST, UTC, London, New York, San Francisco, Dubai, Singapore, Tokyo, Sydney | IST |
-| Trend refresh | 5, 10, 15, 20, 30, 45, 60 min | 5 min |
+| Trend refresh | 5, 10, 15, 20, 30, 45 min, 1 h, 90 min, 2 h, 3 h | 5 min |
 | Trend lookback | 1–6 h | 4 h |
 | Battery low at | 5–50 % in 5s, then 60–90 % in 10s | 40 % |
 | Military time | on / off | off |

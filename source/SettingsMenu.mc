@@ -14,7 +14,7 @@ module SettingsMenu {
     // Property key -> the values offered. Ranges match Settings.load().
     const CHOICES = {
         "SecondZone"       => [0, 1, 2, 3, 4, 5, 6, 7, 8],
-        "TrendRefreshMin"  => [5, 10, 15, 20, 30, 45, 60],
+        "TrendRefreshMin"  => [5, 10, 15, 20, 30, 45, 60, 90, 120, 180],
         "TrendWindowHours" => [1, 2, 3, 4, 5, 6],
         "BatteryLowPct"    => [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 60, 70, 80, 90]
     };
@@ -58,7 +58,11 @@ module SettingsMenu {
             return (v >= 0 && v < ZONE_NAMES.size())
                 ? WatchUi.loadResource(ZONE_NAMES[v]) as String : "--";
         }
-        if (key.equals("TrendRefreshMin"))  { return v.format("%d") + " min"; }
+        if (key.equals("TrendRefreshMin")) {
+            // Whole hours read as hours; 90 stays "90 min" rather than "1.5 h".
+            return (v >= 60 && v % 60 == 0) ? (v / 60).format("%d") + " h"
+                                            : v.format("%d") + " min";
+        }
         if (key.equals("TrendWindowHours")) { return v.format("%d") + " h"; }
         return v.format("%d") + "%";
     }
