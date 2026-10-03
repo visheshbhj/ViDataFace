@@ -14,19 +14,36 @@ import Toybox.UserProfile;
 //! Before: each draw made three Activity.getActivityInfo() calls, three
 //! ActivityMonitor.getInfo(), six getDeviceSettings(), two weather reads and a
 //! SensorHistory scan. Now each is made once per minute and shared.
+//!
+//! The sources other than settings are also LAZY: each is read the first time
+//! something asks for it in a minute, and not at all otherwise. Most fields are
+//! served by complications, so a source is read only when a complication it
+//! backs is missing. With all of them present, only the activity monitor is
+//! read each minute, for night mode's isSleepMode.
 module Frame {
 
     // Refreshed every draw: it is one cheap call and it drives the minute check.
     var clock = null;
 
-    // Refreshed once a minute.
+    // Refreshed once a minute: the clock format is needed on every draw.
     var settings = null;
-    var activity = null;
-    var monitor = null;
-    var stats = null;
-    var conditions = null;
-    var profile = null;
-    var bodyBattery = null;
+
+    // Read on first use in a minute; see the accessors below.
+    var _activity = null;
+    var _monitor = null;
+    var _stats = null;
+    var _conditions = null;
+    var _profile = null;
+    var _bodyBattery = null;
+    // Bit per source above: set once it has been read this minute.
+    var _read = 0;
+
+    const ACTIVITY = 1;
+    const MONITOR = 2;
+    const STATS = 4;
+    const CONDITIONS = 8;
+    const PROFILE = 16;
+    const BODY_BATTERY = 32;
 
     var _minute = -1;
 
@@ -41,23 +58,62 @@ module Frame {
 
         Settings.load();
         settings = System.getDeviceSettings();
-        activity = Activity.getActivityInfo();
-        monitor = ActivityMonitor.getInfo();
-        stats = System.getSystemStats();
-        profile = UserProfile.getProfile();
-        conditions = (Toybox has :Weather)
-            ? Toybox.Weather.getCurrentConditions() : null;
+        _read = 0;
+    }
 
-        // Body battery is a history iterator, not a plain getter, so it is the
-        // most expensive of these to ask for twice.
-        bodyBattery = null;
-        if ((Toybox has :SensorHistory)
-                && (Toybox.SensorHistory has :getBodyBatteryHistory)) {
-            var sample = Toybox.SensorHistory.getBodyBatteryHistory({}).next();
-            if (sample != null && sample.data != null) {
-                bodyBattery = sample.data;
+    //! True the first time a source is asked for this minute, marking it read.
+    function first(bit as Number) as Boolean {
+        if ((_read & bit) != 0) {
+            return false;
+        }
+        _read |= bit;
+        return true;
+    }
+
+    function activity() {
+        if (first(ACTIVITY)) { _activity = Activity.getActivityInfo(); }
+        return _activity;
+    }
+
+    function monitor() {
+        if (first(MONITOR)) { _monitor = ActivityMonitor.getInfo(); }
+        return _monitor;
+    }
+
+    function stats() {
+        if (first(STATS)) { _stats = System.getSystemStats(); }
+        return _stats;
+    }
+
+    function conditions() {
+        if (first(CONDITIONS)) {
+            _conditions = (Toybox has :Weather)
+                ? Toybox.Weather.getCurrentConditions() : null;
+        }
+        return _conditions;
+    }
+
+    function profile() {
+        if (first(PROFILE)) { _profile = UserProfile.getProfile(); }
+        return _profile;
+    }
+
+    //! Body battery is a history iterator, not a plain getter, so it is the
+    //! most expensive of these to ask for twice. Newest-first, so one next()
+    //! is the current value.
+    function bodyBattery() {
+        if (first(BODY_BATTERY)) {
+            _bodyBattery = null;
+            if ((Toybox has :SensorHistory)
+                    && (Toybox.SensorHistory has :getBodyBatteryHistory)) {
+                var sample = Toybox.SensorHistory.getBodyBatteryHistory(
+                    { :order => Toybox.SensorHistory.ORDER_NEWEST_FIRST }).next();
+                if (sample != null && sample.data != null) {
+                    _bodyBattery = sample.data;
+                }
             }
         }
+        return _bodyBattery;
     }
 
     //! The minute this snapshot belongs to, for anything keeping its own cache

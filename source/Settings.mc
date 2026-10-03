@@ -18,11 +18,15 @@ module Settings {
     // Index into SecondZone.ZONES.
     var secondZone = 0;
 
+    // "1430" rather than "14:30" on a 24-hour watch.
+    var militaryTime = false;
+
     function load() as Void {
         trendRefreshMin  = number("TrendRefreshMin",  5, 180, 5);
         trendWindowHours = number("TrendWindowHours", 1,  6,  4);
         batteryLowPct    = number("BatteryLowPct",    5, 95, 40);
         secondZone       = number("SecondZone",       0, SecondZone.ZONES.size() - 1, 0);
+        militaryTime     = Application.Properties.getValue("UseMilitaryFormat") == true;
     }
 
     function number(key as String, lo as Number, hi as Number,

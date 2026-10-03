@@ -1,6 +1,5 @@
 import Toybox.Activity;
 import Toybox.ActivityMonitor;
-import Toybox.Application;
 import Toybox.Lang;
 import Toybox.System;
 import Toybox.Time;
@@ -49,7 +48,7 @@ module DataService {
             }
             return Lang.format("$1$:$2$", [hours, minutes]);
         }
-        if (Application.Properties.getValue("UseMilitaryFormat")) {
+        if (Settings.militaryTime) {
             return Lang.format("$1$$2$", [clock.hour.format("%02d"), minutes]);
         }
         return Lang.format("$1$:$2$", [clock.hour.format("%02d"), minutes]);
@@ -65,15 +64,23 @@ module DataService {
     }
 
     // FORMAT_MEDIUM gives abbreviated, already-localised names ("Fri", "Aug").
-    // Only used when the device has no weekday complication to offer.
+    // Only shown when the device has no weekday complication to offer, but the
+    // caller builds it as a fallback on every draw, so it is cached per minute.
+    var _date = null;
+    var _dateMinute = -1;
+
     function dateText() as String {
-        var now = Time.Gregorian.info(Time.now(), Time.FORMAT_MEDIUM);
-        return Lang.format("$1$ $2$", [now.day_of_week, now.day.format("%02d")]);
+        if (_date == null || _dateMinute != Frame.minute()) {
+            _dateMinute = Frame.minute();
+            var now = Time.Gregorian.info(Time.now(), Time.FORMAT_MEDIUM);
+            _date = Lang.format("$1$ $2$", [now.day_of_week, now.day.format("%02d")]);
+        }
+        return _date;
     }
 
     //! Metres. Format with Layout.altitude().
     function altitude() as Numeric? {
-        var info = Frame.activity;
+        var info = Frame.activity();
         if (info == null || !(info has :altitude) || info.altitude == null) {
             return null;
         }
@@ -82,7 +89,7 @@ module DataService {
 
     //! PASCALS, not hectopascals — Layout.pressure() does the divide.
     function pressure() as Numeric? {
-        var info = Frame.activity;
+        var info = Frame.activity();
         if (info == null || !(info has :ambientPressure) || info.ambientPressure == null) {
             return null;
         }
@@ -91,7 +98,7 @@ module DataService {
 
     //! Degrees C. Format with Layout.temp().
     function temperature() as Numeric? {
-        var conditions = Frame.conditions;
+        var conditions = Frame.conditions();
         if (conditions == null || conditions.temperature == null) {
             return null;
         }
@@ -101,7 +108,7 @@ module DataService {
     //! The raw Toybox.Weather.CONDITION_* value, or null when weather is
     //! unavailable. Kept unmapped: WeatherIcons indexes its art by this number.
     function weatherCondition() as Number? {
-        var conditions = Frame.conditions;
+        var conditions = Frame.conditions();
         if (conditions == null || conditions.condition == null) {
             return null;
         }
@@ -110,17 +117,17 @@ module DataService {
 
     //! Battery charge 0..100, for the rim arc.
     function batteryPercent() as Number {
-        var stats = Frame.stats;
+        var stats = Frame.stats();
         return (stats != null) ? stats.battery.toNumber() : 0;
     }
 
     function steps() as Numeric? {
-        var info = Frame.monitor;
+        var info = Frame.monitor();
         return (info != null && info.steps != null) ? info.steps as Number : null;
     }
 
     function heartRate() as Numeric? {
-        var info = Frame.activity;
+        var info = Frame.activity();
         if (info == null || !(info has :currentHeartRate) || info.currentHeartRate == null) {
             return null;
         }
@@ -128,12 +135,12 @@ module DataService {
     }
 
     function calories() as Numeric? {
-        var info = Frame.monitor;
+        var info = Frame.monitor();
         return (info != null && info.calories != null) ? info.calories as Number : null;
     }
 
     function solarIntensity() as Numeric? {
-        var stats = Frame.stats;
+        var stats = Frame.stats();
         if (!(stats has :solarIntensity) || stats.solarIntensity == null) {
             return null;
         }
@@ -141,7 +148,7 @@ module DataService {
     }
 
     function stress() as Numeric? {
-        var info = Frame.monitor;
+        var info = Frame.monitor();
         if (info == null || !(info has :stressScore) || info.stressScore == null) {
             return null;
         }
@@ -149,6 +156,6 @@ module DataService {
     }
 
     function bodyBattery() as Numeric? {
-        return Frame.bodyBattery;
+        return Frame.bodyBattery();
     }
 }

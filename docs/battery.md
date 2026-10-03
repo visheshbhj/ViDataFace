@@ -38,6 +38,17 @@ so nothing needs asking more often.
 The only per-tick call left is `getClockTime()`, which is what detects the
 minute rolling over.
 
+Apart from `getDeviceSettings()`, which every draw needs for the clock format,
+the sources are **lazy**: `Frame.activity()`, `monitor()`, `stats()`,
+`conditions()`, `profile()` and `bodyBattery()` each read their source the
+first time they are called in a minute, and not at all otherwise. Most fields
+are served by complications, so on a typical minute only the activity monitor
+is read (night mode needs it for `isSleepMode`). The others are read only when
+their complication is missing. In the simulator that includes the weather:
+`COMPLICATION_TYPE_CURRENT_WEATHER` is unavailable there, so the weather icon
+falls back to `conditions()`. A logged run showed exactly those two sources
+read per minute, and nothing else.
+
 Two things to know if you touch it:
 
 - **`Frame.begin()` must run before anything reads a sensor.** `onShow()` calls
@@ -64,10 +75,14 @@ real device; if drawing itself ever needs to get cheaper, render into a
 [`Trend`](../source/Trend.mc) reports a pressure change measured across a window
 of **1–6 hours** (setting, default 4), from a sensor the device samples every
 **two minutes**. Recomputing it on a display cadence was never meaningful; how
-often it does is also a setting, 5 minutes to 3 hours. A longer refresh saves scans,
-and the trend barely moves in between either way. Each recompute scans ~360 history
-samples across two `SensorHistory` iterators, so it is the most expensive thing
-on the face when it does run.
+often it does is also a setting, 5 minutes to 3 hours.
+
+Only the two ends of the window matter, so each history is opened twice, once
+oldest-first and once newest-first, and only the front sample of each is read.
+That is about four samples per recompute. It used to walk every sample in the
+window, up to 180 each for pressure and elevation (121 each at the default four
+hours). A logged run of both versions side by side returned identical
+endpoints for both histories.
 
 ## Night mode stops work, not just drawing
 
@@ -98,16 +113,39 @@ padding — `COMPLICATION_TYPE_CURRENT_WEATHER` **throws** from
 whole face down with an error screen at `onShow`. One unsupported type must not
 cost the other eleven.
 
+## Per-draw work
+
+Everything on a draw is either cached or cheap:
+
+- Settings, including the military-time flag, are read once a minute by
+  [`Settings`](../source/Settings.mc), never from `Properties` on a draw.
+- The fallback date text is cached per minute. The view builds it as a
+  fallback on every draw even when the date complication is present.
+- The labels are drawn from a const array, `Layout.LABEL_KEYS`, rather than
+  allocating `LABELS.keys()` each time.
+- The complication callback looks its field up in a reverse map built once.
+  Heart rate can push many times a minute, and each push used to allocate and
+  scan the key array.
+
 ## What this is not
 
 **These are counted reductions, not measured battery savings.** The call counts
-above are real, but actual current draw can only
-be measured on the watch. Nothing here has been tested against a battery.
+above are real, but actual current draw can only be measured on the watch.
+Nothing here has been tested against a battery.
 
-The largest remaining lever is untouched: the face still accepts every 1 Hz tick
-and returns from it quickly, rather than using `onPartialUpdate` or asking for
-fewer wake-ups. That changes how the face behaves when you raise your wrist, so
-it is a design decision rather than a free win.
+Two larger levers are left, each with a cost:
+
+- **Complication subscriptions.** Twelve are held whenever the face is not in
+  night mode. Each push, heart rate
+  above all, wakes the app to run the callback, even though the face only shows
+  the value at its next draw. Reading them with `getComplication()` once a
+  minute instead would remove those wake-ups, but values would only update once
+  a minute while the wrist is raised.
+- **Vector fonts on every tick.** While the wrist is raised the whole face is
+  repainted each second: about twenty strings in scalable fonts, which cost
+  more to render than bitmap fonts. Drawing the face into a `BufferedBitmap`
+  once per change and copying that each tick would cut it to one blit, at the
+  cost of a full-screen buffer in graphics memory and more code.
 
 ## Changing the cadences
 

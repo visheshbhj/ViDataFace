@@ -125,9 +125,8 @@ class ViDataFaceView extends WatchUi.WatchFace {
         Layout.put(dc, :solar_value,  Layout.pct(raw("SolarLabel")));
         Layout.put(dc, :stress_value, Layout.pct(raw("StressLabel")));
 
-        var captions = Layout.LABELS.keys();
-        for (var i = 0; i < captions.size(); i++) {
-            Layout.label(dc, captions[i]);
+        for (var i = 0; i < Layout.LABEL_KEYS.size(); i++) {
+            Layout.label(dc, Layout.LABEL_KEYS[i]);
         }
     }
 

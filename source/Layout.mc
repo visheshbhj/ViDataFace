@@ -159,6 +159,11 @@ module Layout {
         :stress_value   => { :x => 238, :y => 167, :j => JC, :c => INK_BRIGHT, :f => F_VALUE    }
     };
 
+    // Label keys, in drawing order. A const array, so drawing the labels does
+    // not allocate LABELS.keys() afresh on every draw.
+    const LABEL_KEYS = [:body_label, :cal_label, :hr_label,
+                        :steps_label, :solar_label, :stress_label];
+
     // Label strings — short forms that fit 74 px at stock XTINY.
     const LABELS = {
         :cal_label    => "CAL",

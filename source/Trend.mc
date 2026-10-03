@@ -29,8 +29,9 @@ module Trend {
     const GRADUAL_HPA_PER_H = 0.15;
     const RAPID_HPA_PER_H   = 0.625;
 
-    // Scanning two histories is up to ~360 samples. The reading is a change
-    // measured across hours, so it cannot move meaningfully in a minute.
+    // Each recompute reads only the two ends of the pressure and elevation
+    // histories (see endpoints). The reading is a change measured across
+    // hours, so it cannot move meaningfully in a minute.
     var _marker = null;
     var _slot = -1;
     var _refresh = -1;
@@ -58,8 +59,7 @@ module Trend {
                 || !(Toybox.SensorHistory has :getPressureHistory)) {
             return null;
         }
-        var pressure = endpoints(Toybox.SensorHistory.getPressureHistory(
-            { :period => new Time.Duration(windowSec) }));
+        var pressure = endpoints(:pressure, windowSec);
         if (pressure == null) {
             return null;
         }
@@ -74,8 +74,7 @@ module Trend {
         var lowEl = null;
         var highEl = null;
         if (Toybox.SensorHistory has :getElevationHistory) {
-            var elevation = endpoints(Toybox.SensorHistory.getElevationHistory(
-                { :period => new Time.Duration(windowSec) }));
+            var elevation = endpoints(:elevation, windowSec);
             if (elevation != null) {
                 lowEl = (elevation[0] as Array)[1];
                 highEl = (elevation[1] as Array)[1];
@@ -94,27 +93,46 @@ module Trend {
         return (d > 0) ? :up : :down;
     }
 
-    //! [[oldestSeconds, oldestValue], [newestSeconds, newestValue]] for a
-    //! history iterator, or null if it yielded no usable sample.
-    function endpoints(iterator) as Array? {
-        if (iterator == null) {
+    //! [[oldestSeconds, oldestValue], [newestSeconds, newestValue]] over the
+    //! window, or null if the history has no usable sample.
+    //!
+    //! Only the two ends are needed, so the history is opened twice, once in
+    //! each order, and read from the front. That is a handful of samples rather
+    //! than the whole window: six hours at 120 s is 180 per history, and this
+    //! used to walk all of them, for both pressure and elevation.
+    function endpoints(kind as Symbol, windowSec as Number) as Array? {
+        var oldest = first(history(kind, windowSec, Toybox.SensorHistory.ORDER_OLDEST_FIRST));
+        if (oldest == null) {
             return null;
         }
-        var oldest = null;
-        var newest = null;
-        var s = iterator.next();
-        while (s != null) {
-            if (s.data != null) {
-                var t = s.when.value();
-                if (oldest == null || t < (oldest as Array)[0]) { oldest = [t, s.data]; }
-                if (newest == null || t > (newest as Array)[0]) { newest = [t, s.data]; }
-            }
-            s = iterator.next();
-        }
-        if (oldest == null || newest == null) {
+        var newest = first(history(kind, windowSec, Toybox.SensorHistory.ORDER_NEWEST_FIRST));
+        if (newest == null) {
             return null;
         }
         return [oldest, newest];
+    }
+
+    function history(kind as Symbol, windowSec as Number, order) {
+        var options = { :period => new Time.Duration(windowSec), :order => order };
+        return (kind == :pressure)
+            ? Toybox.SensorHistory.getPressureHistory(options)
+            : Toybox.SensorHistory.getElevationHistory(options);
+    }
+
+    //! [seconds, value] of the first sample with data, or null. Gaps (null
+    //! data) are skipped; there are rarely more than one or two in a row.
+    function first(iterator) as Array? {
+        if (iterator == null) {
+            return null;
+        }
+        var s = iterator.next();
+        while (s != null) {
+            if (s.data != null) {
+                return [s.when.value(), s.data];
+            }
+            s = iterator.next();
+        }
+        return null;
     }
 
     //! Ambient pascals at h metres -> pascals at sea level (ISA). A null

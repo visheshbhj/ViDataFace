@@ -38,6 +38,10 @@ class CompilationService {
     // Field name -> whether subscribeToUpdates() was accepted by the device.
     private var _subscribed as Dictionary<String, Boolean> = {};
     private var _started as Boolean = false;
+    // Complication type -> field name, the reverse of SUBSCRIPTIONS. Built once
+    // so the change callback, which can fire many times a minute (heart rate),
+    // is a lookup rather than a scan that allocates the key array each time.
+    private var _byType as Dictionary<Complications.Type, String> = {};
 
     function initialize() {
     }
@@ -59,6 +63,7 @@ class CompilationService {
             if (type == null) {
                 continue;
             }
+            _byType.put(type, name);
             // Subscribing was assumed to return false for a complication the
             // device does not offer. It does not always: CURRENT_WEATHER throws
             // here, which took the whole face down with an error screen. One bad
@@ -145,13 +150,7 @@ class CompilationService {
     }
 
     private function nameForType(type as Complications.Type) as String? {
-        var names = SUBSCRIPTIONS.keys();
-        for (var i = 0; i < names.size(); i++) {
-            if (SUBSCRIPTIONS.get(names[i]) == type) {
-                return names[i];
-            }
-        }
-        return null;
+        return _byType.get(type);
     }
 
     //! null when the complication has no reading to give: either it isn't

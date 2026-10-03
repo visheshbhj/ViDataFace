@@ -20,8 +20,8 @@ import Toybox.UserProfile;
 //!      a late evening inside the window looks like being in bed. Second place
 //!      is the right place for it.
 //!
-//! Note for whoever edits this: reaching isSleepMode through Frame.monitor, an
-//! untyped var, is why the compiler does not print its deprecation warning
+//! Note for whoever edits this: reaching isSleepMode through Frame.monitor(), an
+//! untyped accessor, is why the compiler does not print its deprecation warning
 //! here. The deprecation is real — accessing it off a typed ActivityMonitor.Info
 //! warns. Do not read the silence as approval.
 //!
@@ -44,7 +44,7 @@ module NightMode {
     }
 
     function compute() as Boolean {
-        var info = Frame.monitor;
+        var info = Frame.monitor();
         if (info != null && (info has :isSleepMode) && info.isSleepMode != null) {
             return info.isSleepMode as Boolean;
         }
@@ -55,7 +55,7 @@ module NightMode {
     //! normally crosses midnight (22:30 -> 06:30), which is why this is not a
     //! plain range test: no instant is both after 22:30 and before 06:30.
     function inSleepWindow() as Boolean {
-        var profile = Frame.profile;
+        var profile = Frame.profile();
         if (profile == null || !(profile has :sleepTime) || !(profile has :wakeTime)
                 || profile.sleepTime == null || profile.wakeTime == null) {
             return false;
